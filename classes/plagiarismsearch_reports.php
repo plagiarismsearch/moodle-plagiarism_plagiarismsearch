@@ -78,11 +78,9 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
                 }
             }
         }
-        
-        $wherecondition = implode(' AND ', $where);
-        
+
         return static::db()->get_record_sql("SELECT * FROM {" . static::table_name() . "} "
-                . "WHERE " . $wherecondition . " ORDER BY created_at DESC LIMIT 1", $params);
+                . "WHERE " . implode(' AND ', $where) . " ORDER BY created_at DESC LIMIT 1", $params);
     }
 
     public static function get_processing_reports($ttl = 300, $limit = 50) {
