@@ -28,7 +28,7 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/plagiarism_form.php')
 global $CFG, $OUTPUT, $USER, $PAGE;
 
 require_login();
-//admin_externalpage_setup('plagiarismplagiarismsearch');
+// admin_externalpage_setup('plagiarismplagiarismsearch');
 
 if ($CFG->version < 2011120100) {
     $context = get_context_instance(CONTEXT_SYSTEM);
@@ -45,7 +45,7 @@ require_once('plagiarism_form.php');
 $mform = new plagiarism_setup_form();
 
 $plagiarismsettings = get_config('plagiarism');
-//$plagiarismsettings = get_config('plagiarism_plagiarismsearch')
+// $plagiarismsettings = get_config('plagiarism_plagiarismsearch')
 
 $mform->set_data($plagiarismsettings);
 
@@ -60,11 +60,11 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
         $data->plagiarismsearch_use = 0;
     }
 
-    $local_only_settings = plagiarismsearch_config::fields();
+    $localonlysettings = plagiarismsearch_config::fields();
 
     $result = true;
 
-    foreach ($local_only_settings as $field) {
+    foreach ($localonlysettings as $field) {
         $value = $data->{$field};
         if (isset($plagiarismsettings->{$field}) && $plagiarismsettings->{$field} == $value) {
             continue; // Setting unchanged

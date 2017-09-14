@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.');    //  It must be included from a Moodle page
+    die('Direct access to this script is forbidden.');    // It must be included from a Moodle page
 }
 
 // define('LOG_SERVER_COMMUNICATION', 1);
@@ -86,17 +86,20 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         if ($report) {
 
-            $check_url = new moodle_url('/plagiarism/plagiarismsearch/status.php', array('cmid' => $cmid, 'id' => $report->id, 'return' => $return));
+            $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', array('cmid' => $cmid, 'id' => $report->id, 'return' => $return));
 
             if (plagiarismsearch_reports::is_checked($report)) {
-                $result .= html_writer::tag('span', 'Plagiarism:&nbsp;' . html_writer::tag('span', round($report->plagiarism, 2) . '%', array('class' => plagiarismsearch_reports::get_color_class($report))), array('title' => get_string('link_title', 'plagiarism_plagiarismsearch')));
+                $result .= html_writer::tag('span', 'Plagiarism:&nbsp;' . html_writer::tag('span', round($report->plagiarism, 2) . '%', array(
+                                    'class' => plagiarismsearch_reports::get_color_class($report))
+                                ), array('title' => get_string('link_title', 'plagiarism_plagiarismsearch')));
                 if ($report->url) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($report->url, get_string('pdf_report', 'plagiarism_plagiarismsearch'), array('target' => '_blank'));
                 }
             } else if (plagiarismsearch_reports::is_processing($report)) {
                 // add check status button
-                $result .= get_string('processing', 'plagiarism_plagiarismsearch') . "\n " . html_writer::link($check_url, get_string('check_status', 'plagiarism_plagiarismsearch'));
+                $result .= get_string('processing', 'plagiarism_plagiarismsearch') . "\n "
+                        . html_writer::link($checkurl, get_string('check_status', 'plagiarism_plagiarismsearch'));
             } else {
                 $result .= $report->log ? $report->log : get_string('unknown_error', 'plagiarism_plagiarismsearch');
             }

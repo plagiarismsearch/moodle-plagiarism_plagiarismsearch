@@ -27,10 +27,10 @@ mtrace("Starting the plagiarismsearch cron");
 
 $msg = "";
 
-$processing_time_interval = 5 * 60; // 5 min
-$error_time_interval = 12 * 60 * 60; // 12 hours
+$processingtimeinterval = 5 * 60; // 5 min
+$errortimeinterval = 12 * 60 * 60; // 12 hours
 // check status processing reports
-if ($reports = plagiarismsearch_reports::get_processing_reports($processing_time_interval) or $report = plagiarismsearch_reports::get_error_reports($error_time_interval)) {
+if ($reports = plagiarismsearch_reports::get_processing_reports($processingtimeinterval) or $report = plagiarismsearch_reports::get_error_reports($errortimeinterval)) {
     $ids = array();
 
     foreach ($reports as $report) {
@@ -39,7 +39,6 @@ if ($reports = plagiarismsearch_reports::get_processing_reports($processing_time
 
     $api = new plagiarismsearch_api_reports($config);
     $page = $api->action_status($ids);
-
 
     if ($page) {
 

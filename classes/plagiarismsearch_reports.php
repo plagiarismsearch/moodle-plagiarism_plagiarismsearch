@@ -78,15 +78,23 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
                 }
             }
         }
-        return static::db()->get_record_sql("SELECT * FROM {" . static::table_name() . "} WHERE " . implode(' AND ', $where) . " ORDER BY created_at DESC LIMIT 1", $params);
+        
+        $wherecondition = implode(' AND ', $where);
+        
+        return static::db()->get_record_sql("SELECT * FROM {" . static::table_name() . "} "
+                . "WHERE " . $wherecondition . " ORDER BY created_at DESC LIMIT 1", $params);
     }
 
     public static function get_processing_reports($ttl = 300, $limit = 50) {
-        return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "} WHERE modified_at < ? AND status IN(" . implode(',', static::get_processing_statuses()) . ") LIMIT " . $limit, array(time() - $ttl));
+        return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "} "
+                . "WHERE modified_at < ? AND status IN(" . implode(',', static::get_processing_statuses()) . ") "
+                . "LIMIT " . $limit, array(time() - $ttl));
     }
 
     public static function get_error_reports($ttl = 43200, $limit = 50) {
-        return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "} WHERE rid > 0 AND modified_at < ? AND status IN(" . implode(',', static::get_error_statuses()) . ") LIMIT " . $limit, array(time() - $ttl));
+        return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "} "
+                . "WHERE rid > 0 AND modified_at < ? AND status IN(" . implode(',', static::get_error_statuses()) . ") "
+                . "LIMIT " . $limit, array(time() - $ttl));
     }
 
     public static function get_color_class($report) {

@@ -95,12 +95,6 @@ class plagiarismsearch_config extends plagiarismsearch_table {
 
         // Check if enabled.
         if (isset(static::$settings[static::USE_NAME]) && static::$settings[static::USE_NAME]) {
-            // Now check to make sure required settings are set!
-            // TODO uncomment
-//            if (empty(static::$settings['plagiarismsearch_api_key'])) {
-//                throw new \coding_exception('PlagiarismSearch Api key not set!');
-//            }
-
             return self::get_settings_item($key);
         } else {
             return false;
@@ -108,7 +102,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     /**
-     * @param      $settings
+     * @param $settings
      * @param null $key
      *
      * @return null

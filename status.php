@@ -27,7 +27,7 @@ $cmid = optional_param('cmid', 0, PARAM_INT);
 $id = optional_param('id', 0, PARAM_INT);
 
 $return = urldecode(required_param('return', PARAM_TEXT));
-//$return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.<?php$PAGE->set_url($return);
+// $return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.<?php$PAGE->set_url($return);
 
 if (!$cmid or ! $id) {
     print_error('no_cmid_or_id', 'plagiarism_plagiarismsearch');

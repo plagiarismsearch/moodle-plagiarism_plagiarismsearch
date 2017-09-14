@@ -1,14 +1,14 @@
-.plagiarismsearch-good {
+.plagiarismsearch-bad {
+    color: #ed0c6e;
     font-weight: bold;
+}
+
+.plagiarismsearch-good {
     color: #4cb201;
+    font-weight: bold;
 }
 
 .plagiarismsearch-warning {
-    font-weight: bold;
     color: #e7a404;
-}
-
-.plagiarismsearch-bad {
     font-weight: bold;
-    color: #ed0c6e;
 }
