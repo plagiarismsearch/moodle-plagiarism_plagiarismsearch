@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -28,10 +27,9 @@ $cmid = optional_param('cmid', 0, PARAM_INT);
 $id = optional_param('id', 0, PARAM_INT);
 
 $return = urldecode(required_param('return', PARAM_TEXT));
-//$return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.php
-$PAGE->set_url($return);
+//$return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.<?php$PAGE->set_url($return);
 
-if (!$cmid or !$id) {
+if (!$cmid or ! $id) {
     print_error('no_cmid_or_id', 'plagiarism_plagiarismsearch');
 }
 
@@ -92,7 +90,7 @@ if ($page) {
     $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
     plagiarismsearch_reports::update($values, $report->id);
 
-    $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->api_error;
+    $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
 }
 
 

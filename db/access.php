@@ -1,7 +1,5 @@
 <?php
-
 $capabilities = array(
-
     // Ability to view links to plagiarism results
     'plagiarism/plagiarismsearch:viewlinks' => array(
         'captype' => 'read',

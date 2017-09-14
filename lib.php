@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of the PlagiarismSearch plugin for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -23,23 +22,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.');    ///  It must be included from a Moodle page
+    die('Direct access to this script is forbidden.');    //  It must be included from a Moodle page
 }
 
 // define('LOG_SERVER_COMMUNICATION', 1);
-//get global class
+// get global class
 global $CFG;
 
 require_once($CFG->dirroot . '/plagiarism/lib.php');
 require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/classes/map.php');
 
-class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin
-{
+class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
+
     protected $_viewlinks = array();
 
     // Check if the user is able to view links (and cache the result)
-    public function has_capability_links($cmid)
-    {
+    public function has_capability_links($cmid) {
         global $CFG;
         if (!isset($this->_viewlinks[$cmid])) {
             if ($CFG->version < 2011120100) {
@@ -53,13 +51,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin
         return !empty($viewlinks[$cmid]);
     }
 
-    public function is_enabled($cmid = null)
-    {
+    public function is_enabled($cmid = null) {
         return (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'use');
     }
 
-    public function get_links($linkarray)
-    {
+    public function get_links($linkarray) {
         global $PAGE;
 
         $cmid = $linkarray['cmid'];
@@ -98,7 +94,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($report->url, get_string('pdf_report', 'plagiarism_plagiarismsearch'), array('target' => '_blank'));
                 }
-            } elseif (plagiarismsearch_reports::is_processing($report)) {
+            } else if (plagiarismsearch_reports::is_processing($report)) {
                 // add check status button
                 $result .= get_string('processing', 'plagiarism_plagiarismsearch') . "\n " . html_writer::link($check_url, get_string('check_status', 'plagiarism_plagiarismsearch'));
             } else {
@@ -106,7 +102,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin
             }
         }
 
-        $urlConfig = array(
+        $urlconfig = array(
             'userid' => $userid,
             'cmid' => $cmid,
             'filehash' => $filehash,
@@ -116,10 +112,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin
         );
 
         if (!plagiarismsearch_reports::is_processing($report)) {
-            $urlConfig['force'] = 1;
+            $urlconfig['force'] = 1;
         }
 
-        $submiturl = new moodle_url('/plagiarism/plagiarismsearch/submit.php', $urlConfig);
+        $submiturl = new moodle_url('/plagiarism/plagiarismsearch/submit.php', $urlconfig);
 
         $result .= " \n";
         if ($report) {
@@ -138,29 +134,28 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin
      * @param object $mform  - Moodle form
      * @param object $context - current context
      */
-    public function get_form_elements_module($mform, $context, $modulename = "")
-    {
+    public function get_form_elements_module($mform, $context, $modulename = "") {
         if ($modulename == 'mod_assign') {
             $cmid = optional_param('update', 0, PARAM_INT);
 
-            $notOrYes = array(0 => get_string('no'), 1 => get_string('yes'));
+            $notoryes = array(0 => get_string('no'), 1 => get_string('yes'));
 
             $mform->addElement('header', 'plagiarismsearchdesc', get_string('plagiarismsearch', 'plagiarism_plagiarismsearch'));
 
-            $mform->addElement('select', 'plagiarismsearch_use', get_string('use', 'plagiarism_plagiarismsearch'), $notOrYes);
+            $mform->addElement('select', 'plagiarismsearch_use', get_string('use', 'plagiarism_plagiarismsearch'), $notoryes);
             $mform->setDefault('plagiarismsearch_use', plagiarismsearch_config::get_config_or_settings($cmid, 'use'));
 
-            $mform->addElement('select', 'plagiarismsearch_filter_chars', get_string('filter_chars', 'plagiarism_plagiarismsearch'), $notOrYes);
+            $mform->addElement('select', 'plagiarismsearch_filter_chars', get_string('filter_chars', 'plagiarism_plagiarismsearch'), $notoryes);
             $mform->setDefault('plagiarismsearch_filter_chars', plagiarismsearch_config::get_config_or_settings($cmid, 'filter_chars'));
 
-            $mform->addElement('select', 'plagiarismsearch_filter_references', get_string('filter_references', 'plagiarism_plagiarismsearch'), $notOrYes);
+            $mform->addElement('select', 'plagiarismsearch_filter_references', get_string('filter_references', 'plagiarism_plagiarismsearch'), $notoryes);
             $mform->setDefault('plagiarismsearch_filter_references', plagiarismsearch_config::get_config_or_settings($cmid, 'filter_references'));
 
-            $mform->addElement('select', 'plagiarismsearch_filter_quotes', get_string('filter_quotes', 'plagiarism_plagiarismsearch'), $notOrYes);
+            $mform->addElement('select', 'plagiarismsearch_filter_quotes', get_string('filter_quotes', 'plagiarism_plagiarismsearch'), $notoryes);
             $mform->setDefault('plagiarismsearch_filter_quotes', plagiarismsearch_config::get_config_or_settings($cmid, 'filter_quotes'));
 
-//            $mform->addElement('select', 'plagiarismsearch_autostart', get_string('autostart', 'plagiarism_plagiarismsearch'), $notOrYes);
-//            $mform->setDefault('plagiarismsearch_autostart', plagiarismsearch_config::get_config_or_settings($cmid,'autostart'));
+            // $mform->addElement('select', 'plagiarismsearch_autostart', get_string('autostart', 'plagiarism_plagiarismsearch'), $notoryes);
+            // $mform->setDefault('plagiarismsearch_autostart', plagiarismsearch_config::get_config_or_settings($cmid,'autostart'));
         }
     }
 
@@ -168,8 +163,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin
      * @param object $data - data from an mform submission.
      */
 
-    public function save_form_elements($data)
-    {
+    public function save_form_elements($data) {
         $cmid = $data->coursemodule;
 
         $fields = plagiarismsearch_config::fields();
@@ -185,13 +179,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin
         }
     }
 
-    public function plagiarism_cron()
-    {
+    public function plagiarism_cron() {
         return cron();
     }
 
-    public function cron()
-    {
+    public function cron() {
         global $CFG;
 
         $running = get_config('plagiarism_plagiarismsearch', 'plagiarismsearch_cronrunning');

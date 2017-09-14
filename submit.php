@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -31,8 +30,7 @@ $cmid = required_param('cmid', PARAM_INT);
 $filehash = required_param('filehash', PARAM_TEXT);
 $force = required_param('force', PARAM_INT);
 $return = urldecode(required_param('return', PARAM_TEXT));
-//$return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.php
-$PAGE->set_url($return);
+// $return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.<?php$PAGE->set_url($return);
 
 require_login();
 
@@ -66,11 +64,6 @@ if ($file->get_userid() != $userid) {
     print_error('wrongfileuser', 'plagiarism_plagiarismsearch');
 }
 
-//$tmpDir = $CFG->dataroot.'/temp/';
-//if(!is_dir($tmpDir) and !mkdir($tmpDir)) {
-//    print_error('temp_folder_not_exists', 'plagiarism_plagiarismsearch');
-//}
-
 $values = array(
     'userid' => $userid,
     'cmid' => $cmid,
@@ -80,7 +73,6 @@ $values = array(
 
 $api = new plagiarismsearch_api_reports($values);
 $page = $api->action_send_file($file, array('force' => $force));
-
 
 $msg = 'Error';
 if ($page) {
@@ -99,7 +91,7 @@ if ($page) {
 } else {
     $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
     $values['log'] = get_string('server_connection_error', 'plagiarism_plagiarismsearch');
-    $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->api_error;
+    $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
 }
 
 plagiarismsearch_reports::add($values);

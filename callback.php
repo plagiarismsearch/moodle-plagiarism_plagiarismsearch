@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -37,7 +36,7 @@ if ($key != plagiarismsearch_config::get_settings('api_key')) {
     die();
 }
 
-if (!$local_report = plagiarismsearch_reports::get_one(array('rid' => $rid))) {
+if (!$localreport = plagiarismsearch_reports::get_one(array('rid' => $rid))) {
     die();
 }
 
@@ -48,7 +47,7 @@ if ($report = json_decode($report)) {
         'url' => $report->file,
     );
 
-    if (plagiarismsearch_reports::update($values, $local_report->id)) {
+    if (plagiarismsearch_reports::update($values, $localreport->id)) {
         die($rid);
     }
 } else {
@@ -59,5 +58,5 @@ if ($report = json_decode($report)) {
         'log' => 'Sync JSON error'
     );
 
-    plagiarismsearch_reports::update($values, $local_report->id);
+    plagiarismsearch_reports::update($values, $localreport->id);
 }

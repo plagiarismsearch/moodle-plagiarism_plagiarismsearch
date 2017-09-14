@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -128,8 +127,8 @@ $string['save'] = 'Save';
 $string['settings_error'] = 'There was an error whilst updating the PlagiarismSearch settings';
 $string['settings_error_server'] = 'PlagiarismSearch settings api error';
 $string['settings_saved'] = 'PlagiarismSearch settings have been successfully saved';
-//$string['settings_cancelled'] = 'PlagiarismSearch settings have been canceled';
-//$string['settings_saved'] = 'PlagiarismSearch settings have been saved successfully';
+// $string['settings_cancelled'] = 'PlagiarismSearch settings have been canceled';
+// $string['settings_saved'] = 'PlagiarismSearch settings have been saved successfully';
 $string['settingsfor'] = 'Update PlagiarismSearch settings for account \'{$a}\'';
 $string['serverconnectionproblem'] = 'Problem connecting to PlagiarismSearch server';
 $string['serverrejected'] = 'The PlagiarismSearch server rejected this file - the file is broken or protected.';

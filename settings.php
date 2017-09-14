@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -96,7 +95,7 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
 echo $OUTPUT->header();
 echo $OUTPUT->box_start('generalbox boxaligncenter', 'intro');
 
-if($result !== null) {
+if ($result !== null) {
     if (empty($result)) {
         if ($error) {
             echo $OUTPUT->notification($error);

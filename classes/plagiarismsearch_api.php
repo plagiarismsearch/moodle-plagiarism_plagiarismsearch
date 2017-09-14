@@ -1,32 +1,48 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.ss
+/**
+ * @package    plagiarism_plagiarismsearch
+ * @author     Alex Crosby developer@plagiarismsearch.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class plagiarismsearch_api {
 
-class plagiarismsearch_api
-{
-    public $api_url = 'https://plagiarismsearch.com/api/v3';
-    public $api_user;
-    public $api_key;
+    public $apiurl = 'https://plagiarismsearch.com/api/v3';
+    public $apiuser;
+    public $apikey;
     /**/
-    public $api_success;
-    public $api_data;
-    public $api_error;
-    public $api_info;
+    public $apisuccess;
+    public $apidata;
+    public $apierror;
+    public $apiinfo;
     /**/
     public $cmid;
     public $userid;
     public $filehash;
     public $filename;
 
-    public function __construct($config = array())
-    {
-        $this->api_url = plagiarismsearch_config::get_settings('api_url');
-        $this->api_user = plagiarismsearch_config::get_settings('api_user');
-        $this->api_key = plagiarismsearch_config::get_settings('api_key');
+    public function __construct($config = array()) {
+        $this->apiurl = plagiarismsearch_config::get_settings('api_url');
+        $this->apiuser = plagiarismsearch_config::get_settings('api_user');
+        $this->apikey = plagiarismsearch_config::get_settings('api_key');
 
         $this->configure($config);
     }
 
-    protected function configure($config = array())
-    {
+    protected function configure($config = array()) {
         if (!empty($config)) {
             if (is_array($config)) {
                 foreach ($config as $key => $value) {
@@ -36,17 +52,16 @@ class plagiarismsearch_api
         }
     }
 
-    public function post($url, $post = array(), $files = array())
-    {
+    public function post($url, $post = array(), $files = array()) {
         $curl = curl_init($url);
 
-        if ($postFields = $this->build_post_files($post, $files) or $postFields = $this->build_post_to_string($post)) {
+        if ($postfields = $this->build_post_files($post, $files) or $postfields = $this->build_post_to_string($post)) {
             curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $postfields);
         }
 
         // HTTP basic authentication
-        curl_setopt($curl, CURLOPT_USERPWD, $this->api_user . ':' . $this->api_key);
+        curl_setopt($curl, CURLOPT_USERPWD, $this->apiuser . ':' . $this->apikey);
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -54,31 +69,28 @@ class plagiarismsearch_api
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_TIMEOUT, 20);
 
-        $this->api_data = curl_exec($curl);
-        $this->api_info = curl_getinfo($curl);
-        $this->api_error = curl_error($curl);
-        $this->api_success = $this->api_info >= 200 and $this->api_info < 300 and ! $this->api_error;
+        $this->apidata = curl_exec($curl);
+        $this->apiinfo = curl_getinfo($curl);
+        $this->apierror = curl_error($curl);
+        $this->apisuccess = $this->apiinfo >= 200 and $this->apiinfo < 300 and ! $this->apierror;
         curl_close($curl);
 
-        if ($this->api_data) {
-            return $this->unpack($this->api_data);
+        if ($this->apidata) {
+            return $this->unpack($this->apidata);
         }
     }
 
-    public function get_response()
-    {
-        if ($this->api_data) {
-            return $this->unpack($this->api_data);
+    public function get_response() {
+        if ($this->apidata) {
+            return $this->unpack($this->apidata);
         }
     }
 
-    private function unpack($data)
-    {
+    private function unpack($data) {
         return json_decode($data, false);
     }
 
-    private function build_post_to_string($post)
-    {
+    private function build_post_to_string($post) {
         if (!empty($post)) {
             if (is_array($post)) {
                 return http_build_query($post, '', '&');
@@ -89,8 +101,7 @@ class plagiarismsearch_api
         return false;
     }
 
-    private function build_post_files($post, $files)
-    {
+    private function build_post_files($post, $files) {
         $result = array();
         if (!empty($post) and is_array($post)) {
             foreach ($post as $key => $value) {
@@ -108,14 +119,13 @@ class plagiarismsearch_api
         return $result;
     }
 
-    private function build_files($files)
-    {
+    private function build_files($files) {
         $result = array();
         if (!empty($files)) {
             foreach ($files as $key => $value) {
                 if (is_string($value)) {
                     $result[$key] = new \CURLFile(realpath($value));
-                } elseif (isset($value['tmp_name'])) {
+                } else if (isset($value['tmp_name'])) {
                     $file = $value['tmp_name'];
                     $name = isset($value['name']) ? $value['name'] : null;
                     $type = isset($value['type']) ? $value['type'] : null;
@@ -127,9 +137,8 @@ class plagiarismsearch_api
         return $result;
     }
 
-    public function ping()
-    {
-        $url = $this->api_url . '/ping';
+    public function ping() {
+        $url = $this->apiurl . '/ping';
 
         return $this->post($url);
     }

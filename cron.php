@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -71,7 +70,7 @@ if ($reports = plagiarismsearch_reports::get_processing_reports($processing_time
         $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
         plagiarismsearch_reports::update($values, $report->id);
 
-        $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->api_error;
+        $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
     }
 } else {
     $msg = "OK! Empty queue";

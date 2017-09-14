@@ -1,11 +1,27 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * @package    plagiarism_plagiarismsearch
+ * @author     Alex Crosby developer@plagiarismsearch.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
-class plagiarismsearch_api_reports extends plagiarismsearch_api
-{
-
-    public function action_create_file($filename, $post = array())
-    {
-        $url = $this->api_url . '/reports/create';
+    public function action_create_file($filename, $post = array()) {
+        $url = $this->apiurl . '/reports/create';
 
         $post['fields'] = array('id', 'status', 'plagiat', 'file');
 
@@ -19,24 +35,22 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api
         return $this->post($url, $post, $files);
     }
 
-    public function action_send_file($file, $post = array())
-    {
+    public function action_send_file($file, $post = array()) {
         /* @var $file \stored_file */
 
-        if ($tmpFile = $this->tmp_file($file->get_filename(), $file->get_content())) {
+        if ($tmpfile = $this->tmp_file($file->get_filename(), $file->get_content())) {
             $post['remote_id'] = $this->generate_remote_id($file);
 
-            $result = $this->action_create_file($tmpFile, $post);
+            $result = $this->action_create_file($tmpfile, $post);
 
-            unlink($tmpFile);
+            unlink($tmpfile);
 
             return $result;
         }
     }
 
-    public function action_status($ids = array())
-    {
-        $url = $this->api_url . '/reports';
+    public function action_status($ids = array()) {
+        $url = $this->apiurl . '/reports';
 
         $post['fields'] = array('id', 'status', 'plagiat', 'file');
         $post['ids'] = $ids;
@@ -44,24 +58,21 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api
         return $this->post($url, $post);
     }
 
-    protected function get_config($name, $default = null)
-    {
+    protected function get_config($name, $default = null) {
         return plagiarismsearch_config::get_config_or_settings($this->cmid, $name, $default);
     }
 
-    protected function tmp_dir()
-    {
+    protected function tmp_dir() {
         global $CFG;
-        if ($tmpDir = $CFG->dataroot . '/temp' and is_writable($tmpDir)) {
-            return $tmpDir;
+        if ($tmpdir = $CFG->dataroot . '/temp' and is_writable($tmpdir)) {
+            return $tmpdir;
         } else {
             return sys_get_temp_dir();
         }
     }
 
-    protected function tmp_file($filename, $content)
-    {
-        if ($tmpDir = $this->tmp_dir() and $filename and $filename = $tmpDir . DIRECTORY_SEPARATOR . $filename and $f = fopen($filename, 'w')) {
+    protected function tmp_file($filename, $content) {
+        if ($tmpdir = $this->tmp_dir() and $filename and $filename = $tmpdir . DIRECTORY_SEPARATOR . $filename and $f = fopen($filename, 'w')) {
             fwrite($f, $content);
             fclose($f);
 
@@ -69,8 +80,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api
         }
     }
 
-    protected function generate_remote_id($file = null)
-    {
+    protected function generate_remote_id($file = null) {
         /* @var $file \stored_file */
         if ($file) {
             return 'c:' . $this->cmid . 'u:' . $file->get_userid() . 'h:' . $file->get_pathnamehash() . 'id:' . $file->get_id();
