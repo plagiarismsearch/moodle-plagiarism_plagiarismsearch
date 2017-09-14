@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/plagiarismsearch/db" VERSION="2017082700" COMMENT="XMLDB file for Moodle blocks/plagiarismsearch"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+    <TABLES>
+        <TABLE NAME="plagiarism_ps_reports" COMMENT="Plagiarismsearch reports table" NEXT="plagiarism_ps_config">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="userid"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="rid" COMMENT="Report id" DEFAULT="0"/>
+                <FIELD NAME="rid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="userid" NEXT="plagiarism" COMMENT="Report id" DEFAULT="0"/>
+                <FIELD NAME="plagiarism" TYPE="number" LENGTH="4" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of plagiarism detected" PREVIOUS="pid" NEXT="status"/>
+                <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="plagiarism" NEXT="url"/>
+                <FIELD NAME="url" TYPE="char" LENGTH="1024" NOTNULL="false" SEQUENCE="false" PREVIOUS="status" NEXT="cmid" DEFAULT=""/>
+                <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="status" NEXT="filehash"/>
+                <FIELD NAME="filehash" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="cmid" NEXT="filename"/>
+                <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="filehash" NEXT="log"/>
+                <FIELD NAME="log" TYPE="text" SEQUENCE="false" PREVIOUS="filehash" NEXT="created_at" DEFAULT=""/>
+                <FIELD NAME="created_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="filehash" NEXT="modified_at"/>
+                <FIELD NAME="modified_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="created_at" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="cmid"/>
+                <KEY NAME="cmid" TYPE="foreign" FIELDS="cmid" REFTABLE="course_modules" REFFIELDS="id" PREVIOUS="primary" NEXT="userid"/>
+                <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" PREVIOUS="cmid"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="cm_user" UNIQUE="false" FIELDS="cmid, userid" NEXT="rid"/>
+                <INDEX NAME="rid" UNIQUE="false" FIELDS="rid" PREVIOUS="cm_user"/>
+            </INDEXES>
+        </TABLE>
+        <TABLE NAME="plagiarism_ps_config" COMMENT="Plagiarismsearch config table" PREVIOUS="plagiarism_ps_reports">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="cm"/>
+                <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="upload"/>
+                <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="cmid" NEXT="value"/>
+                <FIELD NAME="value" TYPE="text" NOTNULL="true" SEQUENCE="false" PREVIOUS="name"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="cmid"/>
+                <KEY NAME="cmid" TYPE="foreign" FIELDS="cmid" REFTABLE="course_modules" REFFIELDS="id" PREVIOUS="primary"/>
+            </KEYS>
+        </TABLE>
+    </TABLES>
+</XMLDB>
