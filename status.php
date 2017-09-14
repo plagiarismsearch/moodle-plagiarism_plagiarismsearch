@@ -31,7 +31,7 @@ $return = urldecode(required_param('return', PARAM_TEXT));
 //$return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.php
 $PAGE->set_url($return);
 
-if (!$cmid && !$id) {
+if (!$cmid or !$id) {
     print_error('no_cmid_or_id', 'plagiarism_plagiarismsearch');
 }
 
@@ -52,15 +52,15 @@ if (!plagiarismsearch_config::get_settings('use')) {
 
 $report = plagiarismsearch_reports::get_one(array('id' => $id));
 
+if (empty($report->rid)) {
+    print_error('report_not_found', 'plagiarism_plagiarismsearch');
+}
+
 $config = array(
     'userid' => $report->userid,
     'cmid' => $report->cmid,
     'filehash' => $report->filehash,
 );
-
-if (empty($report->rid)) {
-    print_error('report_not_found', 'plagiarism_plagiarismsearch');
-}
 
 $api = new plagiarismsearch_api_reports($config);
 $page = $api->action_status(array($report->rid));

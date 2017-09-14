@@ -54,7 +54,7 @@ if ($mform->is_cancelled()) {
     redirect(new moodle_url('/'));
 }
 
-$error = null;
+$error = $result = null;
 
 if (($data = $mform->get_data()) && confirm_sesskey()) {
     if (!isset($data->plagiarismsearch_use)) {
@@ -96,14 +96,16 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
 echo $OUTPUT->header();
 echo $OUTPUT->box_start('generalbox boxaligncenter', 'intro');
 
-if (!$result) {
-    if ($error) {
-        echo $OUTPUT->notification($error);
+if($result !== null) {
+    if (empty($result)) {
+        if ($error) {
+            echo $OUTPUT->notification($error);
+        } else {
+            echo $OUTPUT->notification(get_string('settings_error', 'plagiarism_plagiarismsearch'));
+        }
     } else {
-        echo $OUTPUT->notification(get_string('settings_error', 'plagiarism_plagiarismsearch'));
+        echo $OUTPUT->notification(get_string('settings_error', 'plagiarism_plagiarismsearch'), 'success');
     }
-} else {
-    echo $OUTPUT->notification(get_string('settings_error', 'plagiarism_plagiarismsearch'), 'success');
 }
 
 $mform->display();
