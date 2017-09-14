@@ -16,7 +16,7 @@
                 <FIELD NAME="filehash" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="cmid" NEXT="filename"/>
                 <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="filehash" NEXT="log"/>
                 <FIELD NAME="log" TYPE="text" SEQUENCE="false" PREVIOUS="filehash" NEXT="created_at" DEFAULT=""/>
-                <FIELD NAME="created_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="filehash" NEXT="modified_at"/>
+                <FIELD NAME="created_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="log" NEXT="modified_at"/>
                 <FIELD NAME="modified_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="created_at" />
             </FIELDS>
             <KEYS>
