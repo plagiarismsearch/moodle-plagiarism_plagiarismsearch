@@ -16,7 +16,6 @@ php:
 env:
 
   matrix:
-    - DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_27_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_28_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_29_STABLE
@@ -24,9 +23,26 @@ env:
     - DB=mysqli MOODLE_BRANCH=MOODLE_31_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_32_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
+    - DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
+    - DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
 
 matrix:
   exclude:
+    - env: DB=mysqli MOODLE_BRANCH=MOODLE_32_STABLE
+      php: 5.4
+    - env: DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
+      php: 5.4
+    - env: DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
+      php: 5.4
+    - env: DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
+      php: 5.4
+      
+    - env: DB=mysqli MOODLE_BRANCH=MOODLE_32_STABLE
+      php: 5.5
+    - env: DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
+      php: 5.5
+    - env: DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
+      php: 5.5
     - env: DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
       php: 5.5
 
