@@ -19,6 +19,9 @@
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/lib/formslib.php');
 
 class plagiarism_setup_form extends moodleform {
@@ -27,11 +30,9 @@ class plagiarism_setup_form extends moodleform {
      * Define the form
      */
     public function definition() {
-        // global $CFG;
 
         $mform = $this->_form;
 
-        // $autostartoptions = array(0 => get_string('no'), 1 => get_string('yes'));
         $notoryes = array(0 => get_string('no'), 1 => get_string('yes'));
 
         $mform->addElement('html', get_string('text_plain', 'plagiarism_plagiarismsearch'));

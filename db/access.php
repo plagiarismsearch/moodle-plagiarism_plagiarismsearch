@@ -21,6 +21,9 @@
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 $capabilities = array(
     // Ability to view links to plagiarism results
     'plagiarism/plagiarismsearch:viewlinks' => array(
