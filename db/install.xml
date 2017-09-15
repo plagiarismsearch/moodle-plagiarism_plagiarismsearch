@@ -4,7 +4,7 @@
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
     <TABLES>
-        <TABLE NAME="plagiarism_ps_reports" COMMENT="Plagiarismsearch reports table" NEXT="plagiarism_ps_config">
+        <TABLE NAME="plagiarism_plagiarismsearchr" COMMENT="Plagiarismsearch reports table" NEXT="plagiarism_plagiarismsearchc">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="userid"/>
                 <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="rid" COMMENT="Report id" DEFAULT="0"/>
@@ -15,7 +15,7 @@
                 <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="url" NEXT="filehash"/>
                 <FIELD NAME="filehash" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="cmid" NEXT="filename"/>
                 <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="filehash" NEXT="log"/>
-                <FIELD NAME="log" TYPE="text" SEQUENCE="false" PREVIOUS="filename" NEXT="created_at" DEFAULT=""/>
+                <FIELD NAME="log" TYPE="text" SEQUENCE="false" PREVIOUS="filename" NEXT="created_at"/>
                 <FIELD NAME="created_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="log" NEXT="modified_at"/>
                 <FIELD NAME="modified_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="created_at" />
             </FIELDS>
@@ -29,7 +29,7 @@
                 <INDEX NAME="rid" UNIQUE="false" FIELDS="rid" PREVIOUS="cm_user"/>
             </INDEXES>
         </TABLE>
-        <TABLE NAME="plagiarism_ps_config" COMMENT="Plagiarismsearch config table" PREVIOUS="plagiarism_ps_reports">
+        <TABLE NAME="plagiarism_plagiarismsearchc" COMMENT="Plagiarismsearch config table" PREVIOUS="plagiarism_plagiarismsearchr">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="cmid"/>
                 <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="name"/>

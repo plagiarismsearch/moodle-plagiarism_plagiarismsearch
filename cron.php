@@ -30,7 +30,10 @@ $msg = "";
 $processingtimeinterval = 5 * 60; // 5 min
 $errortimeinterval = 12 * 60 * 60; // 12 hours
 // check status processing reports
-if ($reports = plagiarismsearch_reports::get_processing_reports($processingtimeinterval) or $report = plagiarismsearch_reports::get_error_reports($errortimeinterval)) {
+if (
+        $reports = plagiarismsearch_reports::get_processing_reports($processingtimeinterval) or
+        $report = plagiarismsearch_reports::get_error_reports($errortimeinterval)
+) {
     $ids = array();
 
     foreach ($reports as $report) {
@@ -63,7 +66,8 @@ if ($reports = plagiarismsearch_reports::get_processing_reports($processingtimei
 
             plagiarismsearch_reports::update($values, $report->id);
 
-            $msg = get_string('status_error', 'plagiarism_plagiarismsearch') . (!empty($page->message) ? '. ' . $page->message : '');
+            $msg = get_string('status_error', 'plagiarism_plagiarismsearch') .
+                    (!empty($page->message) ? '. ' . $page->message : '');
         }
     } else {
         $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;

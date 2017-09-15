@@ -72,7 +72,12 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     }
 
     protected function tmp_file($filename, $content) {
-        if ($tmpdir = $this->tmp_dir() and $filename and $filename = $tmpdir . DIRECTORY_SEPARATOR . $filename and $f = fopen($filename, 'w')) {
+        if (
+                $tmpdir = $this->tmp_dir() and
+                $filename and
+                $filename = $tmpdir . DIRECTORY_SEPARATOR . $filename and
+                $f = fopen($filename, 'w')
+        ) {
             fwrite($f, $content);
             fclose($f);
 

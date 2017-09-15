@@ -43,7 +43,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     );
 
     public static function table_name() {
-        return 'plagiarism_ps_reports';
+        return 'plagiarism_plagiarismsearchr';
     }
 
     protected static function before_insert($values) {

@@ -26,7 +26,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     protected static $settings = array();
 
     public static function table_name() {
-        return 'plagiarism_ps_config';
+        return 'plagiarism_plagiarismsearchc';
     }
 
     public static function fields() {

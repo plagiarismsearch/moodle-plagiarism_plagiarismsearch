@@ -86,12 +86,15 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         if ($report) {
 
-            $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', array('cmid' => $cmid, 'id' => $report->id, 'return' => $return));
+            $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', array(
+                'cmid' => $cmid,
+                'id' => $report->id,
+                'return' => $return,
+            ));
 
             if (plagiarismsearch_reports::is_checked($report)) {
-                $result .= html_writer::tag('span', 'Plagiarism:&nbsp;' . html_writer::tag('span', round($report->plagiarism, 2) . '%', array(
-                                    'class' => plagiarismsearch_reports::get_color_class($report))
-                                ), array('title' => get_string('link_title', 'plagiarism_plagiarismsearch')));
+                $result .= html_writer::tag('span', 'Plagiarism:&nbsp;' . html_writer::tag('span', round($report->plagiarism, 2) .
+                                        '%', array('class' => plagiarismsearch_reports::get_color_class($report))), array('title' => get_string('link_title', 'plagiarism_plagiarismsearch')));
                 if ($report->url) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($report->url, get_string('pdf_report', 'plagiarism_plagiarismsearch'), array('target' => '_blank'));
