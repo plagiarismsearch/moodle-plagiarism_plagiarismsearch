@@ -47,7 +47,7 @@ $capabilities = array(
         )
     ),
     // Ability to check status
-    'plagiarism/plagiarismsearch:status' => array(
+    'plagiarism/plagiarismsearch:statuslinks' => array(
         'captype' => 'read',
         'riskbitmask' => RISK_PERSONAL,
         'contextlevel' => CONTEXT_MODULE,

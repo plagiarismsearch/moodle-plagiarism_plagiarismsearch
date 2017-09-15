@@ -45,7 +45,7 @@ $PAGE->set_url($url);
 require_login($cm->course, true, $cm);
 
 $context = context_module::instance($cmid);
-require_capability('plagiarism/plagiarismsearch:status', $context);
+require_capability('plagiarism/plagiarismsearch:statuslinks', $context);
 
 // Load local report by ID
 $report = plagiarismsearch_reports::get_one(array('id' => $id));
