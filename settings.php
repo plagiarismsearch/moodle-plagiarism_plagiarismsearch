@@ -30,7 +30,7 @@ global $CFG, $OUTPUT, $USER, $PAGE;
 require_login();
 // admin_externalpage_setup('plagiarismplagiarismsearch');
 
-$url = new moodle_url(dirname(__FILE__) . '/settings.php');
+$url = new moodle_url('/plagiarism/plagiarismsearch/settings.php');
 $context = context_system::instance();
 $PAGE->set_url($url);
 $PAGE->set_context($context);

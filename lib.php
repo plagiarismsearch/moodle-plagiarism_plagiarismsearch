@@ -51,8 +51,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     }
 
     public function get_links($linkarray) {
-        global $PAGE;
-
         $cmid = $linkarray['cmid'];
 
         if (!$this->is_enabled($cmid)) {
@@ -81,6 +79,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', array(
                 'cmid' => $cmid,
                 'id' => $report->id,
+                'sesskey' => sesskey(),
             ));
 
             if (plagiarismsearch_reports::is_checked($report)) {

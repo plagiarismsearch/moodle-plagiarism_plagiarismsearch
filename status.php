@@ -38,7 +38,7 @@ if (!plagiarismsearch_config::get_settings('use')) {
 
 require_sesskey();
 
-$url = new moodle_url(dirname(__FILE__) . '/status.php');
+$url = new moodle_url('/plagiarism/plagiarismsearch/status.php');
 $cm = get_coursemodule_from_id('', $cmid, 0, false, MUST_EXIST);
 
 $PAGE->set_url($url);
@@ -102,5 +102,4 @@ if ($cm->modname == 'assignment') {
     $redirect = $CFG->wwwroot;
 }
 
-
-redirect($return, $msg);
+redirect($redirect, $msg);

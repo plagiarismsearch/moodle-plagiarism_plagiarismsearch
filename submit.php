@@ -32,7 +32,7 @@ $force = required_param('force', PARAM_INT);
 
 require_sesskey();
 
-$url = new moodle_url(dirname(__FILE__) . '/submit.php');
+$url = new moodle_url('/plagiarism/plagiarismsearch/submit.php');
 $cm = get_coursemodule_from_id('', $cmid, 0, false, MUST_EXIST);
 
 $PAGE->set_url($url);
@@ -105,4 +105,4 @@ if ($cm->modname == 'assignment') {
 }
 
 
-redirect($return, $msg);
+redirect($redirect, $msg);
