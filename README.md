@@ -1,5 +1,8 @@
 # moodle-plagiarism_plagiarismsearch  
 
+[![Build Status](https://api.travis-ci.org/plagiarismsearch/moodle-plagiarism_plagiarismsearch.svg?branch=master)](https://travis-ci.org/plagiarismsearch/moodle-plagiarism_plagiarismsearch)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/plagiarismsearch/moodle-plagiarism_plagiarismsearch/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/plagiarismsearch/moodle-plagiarism_plagiarismsearch/?branch=master)
+
 PlagiarismSearch Plagiarism plugin for Moodle
 
 **Supported Moodle versions:** 2.7 - 3.3  
