@@ -43,6 +43,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     );
 
     public static function table_name() {
+        // Moodle error: 'name is too long. Limit is 28 chars.'
         return 'plagiarism_plagiarismsearchr';
     }
 

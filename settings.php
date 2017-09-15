@@ -82,7 +82,7 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     if ($data->plagiarismsearch_use) {
         $api = new plagiarismsearch_api();
         if (!$page = $api->ping() or ! $page->status) {
-            $error = get_string('settings_error_server', 'plagiarism_plagiarismsearch') . 
+            $error = get_string('settings_error_server', 'plagiarism_plagiarismsearch') .
                     (!empty($page->message) ? ' ' . $page->message : '');
 
             $plagiarismsettings->plagiarismsearch_use = 0;

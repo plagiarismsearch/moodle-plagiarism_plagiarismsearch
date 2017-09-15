@@ -86,7 +86,7 @@ if ($page) {
         $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
         $values['log'] = $page->message;
 
-        $msg = get_string('submit_error', 'plagiarism_plagiarismsearch', $file->get_filename()) . 
+        $msg = get_string('submit_error', 'plagiarism_plagiarismsearch', $file->get_filename()) .
                 (!empty($page->message) ? '. ' . $page->message : '');
     }
 } else {

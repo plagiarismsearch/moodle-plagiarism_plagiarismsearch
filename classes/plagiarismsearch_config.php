@@ -26,6 +26,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     protected static $settings = array();
 
     public static function table_name() {
+        // Moodle error: 'name is too long. Limit is 28 chars.'
         return 'plagiarism_plagiarismsearchc';
     }
 
