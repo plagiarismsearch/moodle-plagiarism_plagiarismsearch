@@ -33,5 +33,29 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW
         )
+    ),
+    // Ability to submit links to plagiarismsearch
+    'plagiarism/plagiarismsearch:submitlinks' => array(
+        'captype' => 'read',
+        'riskbitmask' => RISK_PERSONAL,
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
+        )
+    ),
+    // Ability to check status
+    'plagiarism/plagiarismsearch:status' => array(
+        'captype' => 'read',
+        'riskbitmask' => RISK_PERSONAL,
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW
+        )
     )
 );

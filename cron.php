@@ -21,7 +21,6 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-
 mtrace("\n\n");
 mtrace("Starting the plagiarismsearch cron");
 

@@ -30,16 +30,12 @@ global $CFG, $OUTPUT, $USER, $PAGE;
 require_login();
 // admin_externalpage_setup('plagiarismplagiarismsearch');
 
-if ($CFG->version < 2011120100) {
-    $context = get_context_instance(CONTEXT_SYSTEM);
-} else {
-    $context = context_system::instance();
-}
-
-$PAGE->set_url('/plagiarism/plagiarismsearch/settings.php');
+$url = new moodle_url(dirname(__FILE__) . '/settings.php');
+$context = context_system::instance();
+$PAGE->set_url($url);
 $PAGE->set_context($context);
 
-require_capability('moodle/site:config', $context, $USER->id, true, "nopermissions");
+require_capability('moodle/site:config', $context, $USER->id, true, 'nopermissions');
 
 require_once('plagiarism_form.php');
 $mform = new plagiarism_setup_form();

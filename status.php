@@ -21,33 +21,33 @@
  */
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
+
 global $CFG, $DB;
 
 $cmid = optional_param('cmid', 0, PARAM_INT);
 $id = optional_param('id', 0, PARAM_INT);
 
-$return = urldecode(required_param('return', PARAM_TEXT));
-// $return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.<?php$PAGE->set_url($return);
-
 if (!$cmid or ! $id) {
     print_error('no_cmid_or_id', 'plagiarism_plagiarismsearch');
 }
-
-require_login();
-
-if ($CFG->version < 2011120100) {
-    $context = get_context_instance(CONTEXT_MODULE, $cmid);
-} else {
-    $context = context_module::instance($cmid);
-}
-require_capability('plagiarism/plagiarismsearch:viewlinks', $context);
 
 if (!plagiarismsearch_config::get_settings('use')) {
     // Disabled at the site level
     print_error('disabledsite', 'plagiarism_plagiarismsearch');
 }
 
+require_sesskey();
 
+$url = new moodle_url(dirname(__FILE__) . '/status.php');
+$cm = get_coursemodule_from_id('', $cmid, 0, false, MUST_EXIST);
+
+$PAGE->set_url($url);
+require_login($cm->course, true, $cm);
+
+$context = context_module::instance($cmid);
+require_capability('plagiarism/plagiarismsearch:status', $context);
+
+// Load local report by ID
 $report = plagiarismsearch_reports::get_one(array('id' => $id));
 
 if (empty($report->rid)) {
@@ -63,7 +63,7 @@ $config = array(
 $api = new plagiarismsearch_api_reports($config);
 $page = $api->action_status(array($report->rid));
 
-$msg = 'Error';
+$msg = '';
 if ($page) {
     if ($page->status and ! empty($page->data)) {
 
@@ -93,6 +93,14 @@ if ($page) {
     $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
 }
 
+// Safe back redirect
+if ($cm->modname == 'assignment') {
+    $redirect = new moodle_url('/mod/assignment/submissions.php', array('id' => $cmid));
+} else if ($cm->modname == 'assign') {
+    $redirect = new moodle_url('/mod/assign/view.php', array('id' => $cmid, 'action' => 'grading'));
+} else {
+    $redirect = $CFG->wwwroot;
+}
 
-redirect($return, $msg, 2);
-die();
+
+redirect($return, $msg);

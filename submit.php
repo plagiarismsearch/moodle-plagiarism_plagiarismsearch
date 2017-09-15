@@ -29,20 +29,17 @@ $userid = required_param('userid', PARAM_INT);
 $cmid = required_param('cmid', PARAM_INT);
 $filehash = required_param('filehash', PARAM_TEXT);
 $force = required_param('force', PARAM_INT);
-$return = urldecode(required_param('return', PARAM_TEXT));
-// $return = $return . "&action=grading"; //this can fail !!check at the end of checkstatus.<?php$PAGE->set_url($return);
 
-require_login();
-
-if ($CFG->version < 2011120100) {
-    $context = get_context_instance(CONTEXT_MODULE, $cmid);
-} else {
-    $context = context_module::instance($cmid);
-}
-
-require_capability('plagiarism/plagiarismsearch:viewlinks', $context);
 require_sesskey();
 
+$url = new moodle_url(dirname(__FILE__) . '/submit.php');
+$cm = get_coursemodule_from_id('', $cmid, 0, false, MUST_EXIST);
+
+$PAGE->set_url($url);
+require_login($cm->course, true, $cm);
+
+$context = context_module::instance($cmid);
+require_capability('plagiarism/plagiarismsearch:submitlinks', $context);
 
 if (!plagiarismsearch_config::get_settings('use')) {
     // Disabled at the site level
@@ -74,7 +71,7 @@ $values = array(
 $api = new plagiarismsearch_api_reports($values);
 $page = $api->action_send_file($file, array('force' => $force));
 
-$msg = 'Error';
+$msg = '';
 if ($page) {
     if ($page->status and ! empty($page->data)) {
         $values['rid'] = $page->data->id;
@@ -95,7 +92,17 @@ if ($page) {
     $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
 }
 
+// Log submit result
 plagiarismsearch_reports::add($values);
 
-redirect($return, $msg, 5);
-die();
+// Safe back redirect
+if ($cm->modname == 'assignment') {
+    $redirect = new moodle_url('/mod/assignment/submissions.php', array('id' => $cmid));
+} else if ($cm->modname == 'assign') {
+    $redirect = new moodle_url('/mod/assign/view.php', array('id' => $cmid, 'action' => 'grading'));
+} else {
+    $redirect = $CFG->wwwroot;
+}
+
+
+redirect($return, $msg);

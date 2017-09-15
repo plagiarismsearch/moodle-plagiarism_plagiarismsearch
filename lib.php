@@ -38,13 +38,8 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
     // Check if the user is able to view links (and cache the result)
     public function has_capability_links($cmid) {
-        global $CFG;
         if (!isset($this->_viewlinks[$cmid])) {
-            if ($CFG->version < 2011120100) {
-                $context = get_context_instance(CONTEXT_MODULE, $cmid);
-            } else {
-                $context = context_module::instance($cmid);
-            }
+            $context = context_module::instance($cmid);
             $viewlinks[$cmid] = has_capability('plagiarism/plagiarismsearch:viewlinks', $context);
         }
 
@@ -79,9 +74,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                     'filehash' => $filehash,
         ));
 
-        $pageurl = $PAGE->url;
-        $return = urlencode($PAGE->url);
-
         $result = " \n";
 
         if ($report) {
@@ -89,7 +81,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', array(
                 'cmid' => $cmid,
                 'id' => $report->id,
-                'return' => $return,
             ));
 
             if (plagiarismsearch_reports::is_checked($report)) {
@@ -118,7 +109,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             'userid' => $userid,
             'cmid' => $cmid,
             'filehash' => $filehash,
-            'return' => urlencode($pageurl),
             'sesskey' => sesskey(),
             'force' => 0,
         );
