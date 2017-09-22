@@ -80,7 +80,7 @@ if ($page) {
         }
     } else {
         $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
-        $values['log'] = $page->message;
+        $values['log'] = (!empty($page->message) ? $page->message : '');
 
         plagiarismsearch_reports::update($values, $report->id);
 
