@@ -17,6 +17,7 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
@@ -24,8 +25,8 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
 
 global $CFG, $DB;
 
-$cmid = optional_param('cmid', 0, PARAM_INT);
-$id = optional_param('id', 0, PARAM_INT);
+$cmid = required_param('cmid', PARAM_INT);
+$id = required_param('id', PARAM_INT);
 
 if (!$cmid or ! $id) {
     print_error('no_cmid_or_id', 'plagiarism_plagiarismsearch');
@@ -47,6 +48,10 @@ require_login($cm->course, true, $cm);
 $context = context_module::instance($cmid);
 require_capability('plagiarism/plagiarismsearch:statuslinks', $context);
 
+if (!plagiarism_plugin_plagiarismsearch::has_show_reports_link($cmid)) {
+    print_error('student_error_nopermission', 'plagiarism_plagiarismsearch');
+}
+
 // Load local report by ID
 $report = plagiarismsearch_reports::get_one(array('id' => $id));
 
@@ -58,6 +63,7 @@ $config = array(
     'userid' => $report->userid,
     'cmid' => $report->cmid,
     'filehash' => $report->filehash,
+    'fileid' => $report->fileid,
 );
 
 $api = new plagiarismsearch_api_reports($config);
@@ -94,10 +100,16 @@ if ($page) {
 }
 
 // Safe back redirect
+$isstudent = plagiarism_plugin_plagiarismsearch::is_student($context->id);
 if ($cm->modname == 'assignment') {
     $redirect = new moodle_url('/mod/assignment/submissions.php', array('id' => $cmid));
 } else if ($cm->modname == 'assign') {
-    $redirect = new moodle_url('/mod/assign/view.php', array('id' => $cmid, 'action' => 'grading'));
+    $redirectparams = array('id' => $cmid);
+    if (!$isstudent) {
+        $redirectparams['action'] = 'grading';
+    }
+
+    $redirect = new moodle_url('/mod/assign/view.php', $redirectparams);
 } else {
     $redirect = $CFG->wwwroot;
 }

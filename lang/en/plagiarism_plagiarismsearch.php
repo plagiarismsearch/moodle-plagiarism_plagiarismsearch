@@ -17,15 +17,9 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['allfileschecked'] = 'Status of all documents checked on PlagiarismSearch server';
-$string['always'] = 'always';
-$string['api_language'] = 'Report language';
-$string['assignments'] = 'Assignments';
-$string['autodel'] = 'Auto delete document';
-$string['autodescription'] = 'Documents will be automatically uploaded to PlagiarismSearch when the deadline is';
-$string['autodescriptionsubmitted'] = 'The files were automatically uploaded to PlagiarismSearch at {$a} - switch to \'manual\' mode to resubmit individual assignments';
 $string['autostart'] = 'Autostart plagiarism checks';
 $string['badcredentials'] = 'PlagiarismSearch did not recognise the account details - please confirm the server URL, username ({$a->user}), API key and version number ({$a->version}) are correct';
 $string['checkallstatus'] = 'Update status of all submitted files';
@@ -78,6 +72,23 @@ $string['optout_explanation'] = 'You have chosen to opt-out of plagiarism detect
 $string['plagiarismsearch'] = 'PlagiarismSearch';
 $string['pluginname'] = 'PlagiarismSearch';
 
+$string['auto_check'] = 'Autocheck';
+$string['manual_check'] = 'Manual check';
+$string['add_to_storage'] = 'Add to Storage';
+
+$string['sources_type'] = 'Sources';
+$string['sources_doc_web_storage'] = 'Doc vs Web + Storage';
+$string['sources_doc_web'] = 'Doc vs Web';
+$string['sources_doc_storage'] = 'Doc vs Storage';
+
+$string['student_show_percentage'] = 'Show plagiarism percentage to students';
+$string['student_show_reports'] = 'Show reports to students';
+$string['student_submit'] = 'Students can submit papers';
+$string['student_resubmit'] = 'Students can re-submit papers';
+$string['student_resubmit_numbers'] = 'The number of re-submits';
+$string['student_disclosure'] = 'Student disclosure';
+$string['student_disclosure_default'] = 'All uploaded files will be submitted to a plagiarism detection service';
+$string['student_error_nopermission'] = 'No nopermission';
 
 $string['api_url'] = 'Api url';
 $string['api_key'] = 'Api key';
@@ -116,13 +127,7 @@ PlagiarismSearch.com is a leading plagiarism checking website that will provide 
 Find out about how to register <a href="https://plagiarismsearch.com/account/signup.html">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
 
-$string['psreport'] = 'PS report';
 $string['report'] = 'Report';
-$string['runautomatic'] = 'Start at each deadline';
-$string['runalways'] = "Start immediately";
-$string['runalwaysnotice'] = "Processing can take up to 10 minutes";
-$string['runmanual'] = 'Start manually';
-$string['runduedate'] = 'Start all after due date';
 $string['save'] = 'Save';
 $string['settings_error'] = 'There was an error whilst updating the PlagiarismSearch settings';
 $string['settings_error_server'] = 'PlagiarismSearch settings api error';

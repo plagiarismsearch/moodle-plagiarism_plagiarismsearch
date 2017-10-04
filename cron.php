@@ -17,6 +17,7 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
@@ -39,7 +40,8 @@ if (
         $ids[] = $report->rid;
     }
 
-    $api = new plagiarismsearch_api_reports($config);
+    $config = array();
+    $api = new plagiarismsearch_api_reports();
     $page = $api->action_status($ids);
 
     if ($page) {

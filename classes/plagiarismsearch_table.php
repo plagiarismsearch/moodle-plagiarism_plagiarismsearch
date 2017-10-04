@@ -16,6 +16,7 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class plagiarismsearch_table {
@@ -38,6 +39,11 @@ class plagiarismsearch_table {
 
     public static function get_one($conditions) {
         return static::db()->get_record(static::table_name(), $conditions);
+    }
+
+    public static function count($conditions) {
+        $row = static::db()->get_record(static::table_name(), $conditions, 'COUNT(*) AS count');
+        return isset($row) ? $row->count : null;
     }
 
     public static function insert($values) {
@@ -66,6 +72,31 @@ class plagiarismsearch_table {
         if ($conditions) {
             return static::db()->delete_records(static::table_name(), $conditions);
         }
+    }
+
+    protected static function build_conditions($conditions) {
+        $where = array();
+        $params = array();
+
+        if ($conditions) {
+            foreach ($conditions as $key => $value) {
+                if ($value === null) {
+                    $where[] = $key . ' = NULL';
+                } else if (is_array($value)) {
+                    list($w, $p) = static::db()->get_in_or_equal($value);
+                    $where[] = $key . ' ' . $w;
+                    $params = array_merge($params, $p);
+                } else {
+                    $where[] = $key . ' = ?';
+                    $params[$key] = $value;
+                }
+            }
+        }
+
+        return array(
+            $where ? implode(' AND ', $where) : '',
+            $params,
+        );
     }
 
 }

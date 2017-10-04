@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="plagiarism/plagiarismsearch/db" VERSION="2017091500" COMMENT="XMLDB file for Moodle plagiarism/plagiarismsearch"
+<XMLDB PATH="plagiarism/plagiarismsearch/db" VERSION="2017100400" COMMENT="XMLDB file for Moodle plagiarism/plagiarismsearch"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -14,8 +14,9 @@
                 <FIELD NAME="url" TYPE="char" LENGTH="1024" NOTNULL="false" SEQUENCE="false" PREVIOUS="status" NEXT="cmid" DEFAULT=""/>
                 <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="url" NEXT="filehash"/>
                 <FIELD NAME="filehash" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="cmid" NEXT="filename"/>
-                <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="filehash" NEXT="log"/>
-                <FIELD NAME="log" TYPE="text" SEQUENCE="false" PREVIOUS="filename" NEXT="created_at"/>
+                <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="filehash" NEXT="fileid"/>
+                <FIELD NAME="fileid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="filename" NEXT="log"/>
+                <FIELD NAME="log" TYPE="text" SEQUENCE="false" PREVIOUS="fileid" NEXT="created_at"/>
                 <FIELD NAME="created_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="log" NEXT="modified_at"/>
                 <FIELD NAME="modified_at" TYPE="int" LENGTH="11" SEQUENCE="false" PREVIOUS="created_at" />
             </FIELDS>

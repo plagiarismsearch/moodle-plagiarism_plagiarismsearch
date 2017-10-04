@@ -16,6 +16,7 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class plagiarismsearch_config extends plagiarismsearch_table {
@@ -36,10 +37,18 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             'api_url' => 'plagiarismsearch_api_url',
             'api_user' => 'plagiarismsearch_api_user',
             'api_key' => 'plagiarismsearch_api_key',
+            'auto_check' => 'plagiarismsearch_auto_check',
+            'manual_check' => 'plagiarismsearch_manual_check',
+            'add_to_storage' => 'plagiarismsearch_add_to_storage',
+            'sources_type' => 'plagiarismsearch_sources_type',
             'filter_chars' => 'plagiarismsearch_filter_chars',
             'filter_references' => 'plagiarismsearch_filter_references',
             'filter_quotes' => 'plagiarismsearch_filter_quotes',
-            // 'autostart' => 'plagiarismsearch_autostart',
+            'student_show_reports' => 'plagiarismsearch_student_show_reports',
+            'student_show_percentage' => 'plagiarismsearch_student_show_percentage',
+            'student_submit' => 'plagiarismsearch_student_submit',
+            'student_resubmit' => 'plagiarismsearch_student_resubmit',
+            'student_resubmit_numbers' => 'plagiarismsearch_student_resubmit_numbers',
             'student_disclosure' => 'plagiarismsearch_student_disclosure',
         );
     }

@@ -17,9 +17,9 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/lib/formslib.php');
@@ -33,7 +33,15 @@ class plagiarism_setup_form extends moodleform {
 
         $mform = $this->_form;
 
-        $notoryes = array(0 => get_string('no'), 1 => get_string('yes'));
+        $notoryes = array(
+            0 => get_string('no'),
+            1 => get_string('yes'),
+        );
+        $submittype = array(
+            plagiarismsearch_reports::SUBMIT_WEB_STORAGE => get_string('sources_doc_web_storage', 'plagiarism_plagiarismsearch'),
+            plagiarismsearch_reports::SUBMIT_WEB => get_string('sources_doc_web', 'plagiarism_plagiarismsearch'),
+            plagiarismsearch_reports::SUBMIT_STORAGE => get_string('sources_doc_storage', 'plagiarism_plagiarismsearch'),
+        );
 
         $mform->addElement('html', get_string('text_plain', 'plagiarism_plagiarismsearch'));
         $mform->addElement('checkbox', 'plagiarismsearch_use', get_string('use', 'plagiarism_plagiarismsearch'));
@@ -48,20 +56,44 @@ class plagiarism_setup_form extends moodleform {
         $mform->addElement('text', 'plagiarismsearch_api_key', get_string('api_key', 'plagiarism_plagiarismsearch'), array('size' => '40'));
         $mform->addRule('plagiarismsearch_api_key', null, 'required', null, 'client');
 
-        $mform->addElement('select', 'plagiarismsearch_filter_chars', get_string("filter_chars", "plagiarism_plagiarismsearch"), $notoryes);
+        $mform->addElement('select', 'plagiarismsearch_auto_check', get_string('auto_check', 'plagiarism_plagiarismsearch'), $notoryes);
+        $mform->setDefault('plagiarismsearch_auto_check', 1);
+
+        $mform->addElement('select', 'plagiarismsearch_manual_check', get_string('manual_check', 'plagiarism_plagiarismsearch'), $notoryes);
+        $mform->setDefault('plagiarismsearch_manual_check', 0);
+
+        $mform->addElement('select', 'plagiarismsearch_add_to_storage', get_string('add_to_storage', 'plagiarism_plagiarismsearch'), $notoryes);
+        $mform->setDefault('plagiarismsearch_add_to_storage', 1);
+
+        $mform->addElement('select', 'plagiarismsearch_sources_type', get_string('sources_type', 'plagiarism_plagiarismsearch'), $submittype);
+        $mform->setDefault('plagiarismsearch_sources_type', plagiarismsearch_reports::SUBMIT_WEB_STORAGE);
+
+        $mform->addElement('select', 'plagiarismsearch_filter_chars', get_string('filter_chars', 'plagiarism_plagiarismsearch'), $notoryes);
         $mform->setDefault('plagiarismsearch_filter_chars', 0);
 
-        $mform->addElement('select', 'plagiarismsearch_filter_references', get_string("filter_references", "plagiarism_plagiarismsearch"), $notoryes);
+        $mform->addElement('select', 'plagiarismsearch_filter_references', get_string('filter_references', 'plagiarism_plagiarismsearch'), $notoryes);
         $mform->setDefault('plagiarismsearch_filter_references', 0);
 
-        $mform->addElement('select', 'plagiarismsearch_filter_quotes', get_string("filter_quotes", "plagiarism_plagiarismsearch"), $notoryes);
+        $mform->addElement('select', 'plagiarismsearch_filter_quotes', get_string('filter_quotes', 'plagiarism_plagiarismsearch'), $notoryes);
         $mform->setDefault('plagiarismsearch_filter_quotes', 0);
+        
+        $mform->addElement('select', 'plagiarismsearch_student_show_reports', get_string('student_show_reports', 'plagiarism_plagiarismsearch'), $notoryes);
+        $mform->setDefault('plagiarismsearch_student_show_reports', 1);
 
-        // $mform->addElement('select', 'plagiarismsearch_autostart', get_string("autostart", "plagiarism_plagiarismsearch"), $notoryes);
-        // $mform->disabledIf('plagiarismsearch_autostart', 'plagiarismsearch_use', 'eq', 0);
-        // $mform->addHelpButton('plagiarismsearch_student_disclosure', 'studentdisclosure', 'plagiarism_plagiarismsearch');
-        $mform->setDefault('plagiarismsearch_student_disclosure', get_string('studentdisclosuredefault', 'plagiarism_plagiarismsearch'));
-        $mform->addElement('textarea', 'plagiarismsearch_student_disclosure', get_string('studentdisclosure', 'plagiarism_plagiarismsearch'), 'wrap="virtual" rows="6" cols="50"');
+        $mform->addElement('select', 'plagiarismsearch_student_show_percentage', get_string('student_show_percentage', 'plagiarism_plagiarismsearch'), $notoryes);
+        $mform->setDefault('plagiarismsearch_student_show_percentage', 1);
+        
+        $mform->addElement('select', 'plagiarismsearch_student_submit', get_string('student_submit', 'plagiarism_plagiarismsearch'), $notoryes);
+        $mform->setDefault('plagiarismsearch_student_submit', 0);
+
+        $mform->addElement('select', 'plagiarismsearch_student_resubmit', get_string('student_resubmit', 'plagiarism_plagiarismsearch'), $notoryes);
+        $mform->setDefault('plagiarismsearch_student_resubmit', 0);
+
+        $mform->addElement('text', 'plagiarismsearch_student_resubmit_numbers', get_string('student_resubmit_numbers', 'plagiarism_plagiarismsearch'));
+        $mform->setDefault('plagiarismsearch_student_resubmit_numbers', '');
+
+        $mform->addElement('textarea', 'plagiarismsearch_student_disclosure', get_string('student_disclosure', 'plagiarism_plagiarismsearch'), 'wrap="virtual" rows="6" cols="50"');
+        $mform->setDefault('plagiarismsearch_student_disclosure', get_string('student_disclosure_default', 'plagiarism_plagiarismsearch'));
 
         $this->add_action_buttons(true);
     }

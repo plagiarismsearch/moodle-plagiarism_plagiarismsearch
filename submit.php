@@ -19,6 +19,7 @@
  *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
@@ -28,7 +29,7 @@ global $CFG, $DB;
 $userid = required_param('userid', PARAM_INT);
 $cmid = required_param('cmid', PARAM_INT);
 $filehash = required_param('filehash', PARAM_TEXT);
-$force = required_param('force', PARAM_INT);
+$force = optional_param('force', 0, PARAM_INT);
 
 require_sesskey();
 
@@ -44,6 +45,15 @@ require_capability('plagiarism/plagiarismsearch:submitlinks', $context);
 if (!plagiarismsearch_config::get_settings('use')) {
     // Disabled at the site level
     print_error('disabledsite', 'plagiarism_plagiarismsearch');
+}
+
+// Check student permission
+if ($force) {
+    if (!plagiarism_plugin_plagiarismsearch::has_show_resubmit_link($cmid, $userid, $filehash)) {
+        print_error('student_error_nopermission', 'plagiarism_plagiarismsearch');
+    }
+} else if (!plagiarism_plugin_plagiarismsearch::has_show_submit_link($cmid)) {
+    print_error('student_error_nopermission', 'plagiarism_plagiarismsearch');
 }
 
 // Retrieve the file and check everything is OK
@@ -66,6 +76,7 @@ $values = array(
     'cmid' => $cmid,
     'filehash' => $filehash,
     'filename' => $file->get_filename(),
+    'fileid' => $file->get_id(),
 );
 
 $api = new plagiarismsearch_api_reports($values);
@@ -96,13 +107,19 @@ if ($page) {
 plagiarismsearch_reports::add($values);
 
 // Safe back redirect
+$isstudent = plagiarism_plugin_plagiarismsearch::is_student($context->id);
+
 if ($cm->modname == 'assignment') {
     $redirect = new moodle_url('/mod/assignment/submissions.php', array('id' => $cmid));
 } else if ($cm->modname == 'assign') {
-    $redirect = new moodle_url('/mod/assign/view.php', array('id' => $cmid, 'action' => 'grading'));
+    $redirectparams = array('id' => $cmid);
+    if (!$isstudent) {
+        $redirectparams['action'] = 'grading';
+    }
+
+    $redirect = new moodle_url('/mod/assign/view.php', $redirectparams);
 } else {
     $redirect = $CFG->wwwroot;
 }
-
 
 redirect($redirect, $msg);

@@ -16,6 +16,7 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class plagiarismsearch_api {
@@ -31,6 +32,7 @@ class plagiarismsearch_api {
     /**/
     public $cmid;
     public $userid;
+    public $fileid;
     public $filehash;
     public $filename;
 

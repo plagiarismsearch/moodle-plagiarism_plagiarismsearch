@@ -16,12 +16,15 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class plagiarismsearch_reports extends plagiarismsearch_table {
 
     const STATUS_SERVER_ERROR = -11;
     const STATUS_ERROR = -10;
+    const STATUS_PROCESSING_STORAGE = -4;
+    const STATUS_PROCESSING_STORAGE_CHECK = -3;
     const STATUS_PROCESSING_FILES = -2;
     const STATUS_PROCESSING_FILES_CHECK = -1;
     const STATUS_PROCESSING = 0;
@@ -29,10 +32,16 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     const STATUS_SOURCES = 3;
     const STATUS_POST_CHECKED = 4;
     const STATUS_CHECKED = 2;
+    /**/
+    const SUBMIT_WEB = 1;
+    const SUBMIT_STORAGE = 2;
+    const SUBMIT_WEB_STORAGE = self::SUBMIT_WEB | self::SUBMIT_STORAGE;
 
     public static $statuses = array(
         self::STATUS_SERVER_ERROR => 'server error',
         self::STATUS_ERROR => 'error',
+        self::STATUS_PROCESSING_STORAGE => 'processing',
+        self::STATUS_PROCESSING_STORAGE_CHECK => 'processing',
         self::STATUS_PROCESSING_FILES => 'processing',
         self::STATUS_PROCESSING_FILES_CHECK => 'processing',
         self::STATUS_PROCESSING => 'processing',
@@ -45,6 +54,14 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     public static function table_name() {
         // Moodle error: 'name is too long. Limit is 28 chars.'
         return 'plagiarism_plagiarismsearchr';
+    }
+
+    public static function is_submit_web($type) {
+        return $type & self::SUBMIT_WEB;
+    }
+
+    public static function is_submit_storage($type) {
+        return $type & self::SUBMIT_STORAGE;
     }
 
     protected static function before_insert($values) {
@@ -65,35 +82,46 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         }
     }
 
+    public static function count_valid($conditions) {
+        $statuses = static::get_processing_statuses();
+        $statuses[] = static::STATUS_CHECKED;
+        $conditions['status'] = $statuses;
+
+        list($where, $params) = static::build_conditions($conditions);
+
+        $result = static::db()->get_record_sql("SELECT COUNT(*) AS count FROM {" . static::table_name() . "}"
+                . ($where ? " WHERE " . $where : ''), $params);
+
+        return isset($result) ? $result->count : null;
+    }
+
     public static function get_one_top($conditions) {
-        $where = array();
-        $params = array();
+        list($where, $params) = static::build_conditions($conditions);
 
-        if ($conditions) {
-            foreach ($conditions as $key => $value) {
-                if ($value === null) {
-                    $where[] = $key . ' = NULL';
-                } else {
-                    $where[] = $key . ' = ?';
-                    $params[$key] = $value;
-                }
-            }
-        }
-
-        return static::db()->get_record_sql("SELECT * FROM {" . static::table_name() . "} "
-                . "WHERE " . implode(' AND ', $where) . " ORDER BY created_at DESC LIMIT 1", $params);
+        return static::db()->get_record_sql("SELECT * FROM {" . static::table_name() . "}"
+                        . ($where ? " WHERE " . $where : '')
+                        . " ORDER BY created_at DESC LIMIT 1", $params);
     }
 
     public static function get_processing_reports($ttl = 300, $limit = 50) {
-        return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "} "
-                . "WHERE modified_at < ? AND status IN(" . implode(',', static::get_processing_statuses()) . ") "
-                . "LIMIT " . $limit, array(time() - $ttl));
+        list($statusWhere, $statusParams) = static::db()->get_in_or_equal(static::get_processing_statuses());
+
+        return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
+                        . " WHERE modified_at < ? AND status " . $statusWhere
+                        . " LIMIT " . $limit, array_merge(array(time() - $ttl), $statusParams));
     }
 
     public static function get_error_reports($ttl = 43200, $limit = 50) {
-        return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "} "
-                . "WHERE rid > 0 AND modified_at < ? AND status IN(" . implode(',', static::get_error_statuses()) . ") "
-                . "LIMIT " . $limit, array(time() - $ttl));
+        list($statusWhere, $statusParams) = static::db()->get_in_or_equal(static::get_error_statuses());
+
+        return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
+                        . " WHERE rid > 0 AND modified_at < ? AND status " . $statusWhere
+                        . " LIMIT " . $limit, array_merge(array(time() - $ttl), $statusParams));
+    }
+
+    public static function count($conditions) {
+        $row = static::db()->get_record(static::table_name(), $conditions, 'COUNT(*) AS count');
+        return isset($row) ? $row->count : null;
     }
 
     public static function get_color_class($report) {
@@ -131,6 +159,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function get_processing_statuses() {
         return array(
+            self::STATUS_PROCESSING_STORAGE,
+            self::STATUS_PROCESSING_STORAGE_CHECK,
             self::STATUS_PROCESSING_FILES,
             self::STATUS_PROCESSING_FILES_CHECK,
             self::STATUS_PROCESSING,

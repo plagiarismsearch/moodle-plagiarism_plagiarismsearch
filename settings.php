@@ -17,6 +17,7 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(dirname(__FILE__)) . '/../config.php');
@@ -61,7 +62,7 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     $result = true;
 
     foreach ($localonlysettings as $field) {
-        $value = $data->{$field};
+        $value = isset($data->{$field}) ? $data->{$field} : null;
         if (isset($plagiarismsettings->{$field}) && $plagiarismsettings->{$field} == $value) {
             continue; // Setting unchanged
         }
@@ -72,6 +73,20 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
         }
         // Update the local copy
         $plagiarismsettings->{$field} = $value;
+    }
+
+    if (empty($plagiarismsettings->plagiarismsearch_student_show_reports)) {
+        $plagiarismsettings->plagiarismsearch_student_show_percentage = 0;
+        set_config('plagiarismsearch_student_show_percentage', 0, 'plagiarism');
+
+        $plagiarismsettings->plagiarismsearch_student_student_submit = 0;
+        set_config('plagiarismsearch_student_student_submit', 0, 'plagiarism');
+
+        $plagiarismsettings->plagiarismsearch_student_student_resubmit = 0;
+        set_config('plagiarismsearch_student_student_resubmit', 0, 'plagiarism');
+    }
+    if (empty($plagiarismsettings->plagiarismsearch_student_resubmit_numbers)) {
+        $plagiarismsettings->plagiarismsearch_student_resubmit_numbers = '';
     }
 
 

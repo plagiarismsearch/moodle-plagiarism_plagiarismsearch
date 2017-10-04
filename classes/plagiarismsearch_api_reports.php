@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,6 +17,7 @@
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class plagiarismsearch_api_reports extends plagiarismsearch_api {
@@ -26,9 +28,20 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         $post['fields'] = array('id', 'status', 'plagiat', 'file');
 
         $post['title'] = basename($filename);
+        $post['remote_id'] = $this->generate_remote_id();
+
         $post['filter_chars'] = $this->get_config('filter_chars', 0);
         $post['filter_references'] = $this->get_config('filter_references', 0);
         $post['filter_quotes'] = $this->get_config('filter_quotes', 0);
+
+        $sources = $this->get_config('sources_type', plagiarismsearch_reports::SUBMIT_WEB);
+        if (plagiarismsearch_reports::is_submit_web($sources)) {
+            $post['search_web'] = 1;
+        }
+        if (plagiarismsearch_reports::is_submit_storage($sources)) {
+            $post['search_files_api'] = 1;
+            $post['search_files_api_filter'] = array('file_id' => $this->fileid, 'user_id' => $this->userid);
+        }
 
         $files = array('file' => realpath($filename));
 
@@ -38,8 +51,9 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     public function action_send_file($file, $post = array()) {
         /* @var $file \stored_file */
 
+        $this->set_file_fields($file);
+
         if ($tmpfile = $this->tmp_file($file->get_filename(), $file->get_content())) {
-            $post['remote_id'] = $this->generate_remote_id($file);
 
             $result = $this->action_create_file($tmpfile, $post);
 
@@ -47,6 +61,19 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
             return $result;
         }
+    }
+
+    /**
+     * @param \stored_file $file
+     * @return $this
+     */
+    protected function set_file_fields($file) {
+        /* @var $file \stored_file */
+        $this->userid = $file->get_userid();
+        $this->filehash = $file->get_pathnamehash();
+        $this->fileid = $file->get_id();
+
+        return $this;
     }
 
     public function action_status($ids = array()) {
@@ -60,6 +87,10 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
     protected function get_config($name, $default = null) {
         return plagiarismsearch_config::get_config_or_settings($this->cmid, $name, $default);
+    }
+
+    protected function generate_remote_id() {
+        return 'c:' . $this->cmid . 'u:' . $this->userid . 'id:' . $this->fileid . 'h:' . $this->filehash;
     }
 
     protected function tmp_dir() {
@@ -82,15 +113,6 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
             fclose($f);
 
             return $filename;
-        }
-    }
-
-    protected function generate_remote_id($file = null) {
-        /* @var $file \stored_file */
-        if ($file) {
-            return 'c:' . $this->cmid . 'u:' . $file->get_userid() . 'h:' . $file->get_pathnamehash() . 'id:' . $file->get_id();
-        } else {
-            return 'c:' . $this->cmid . 'u:' . $file->userid . 'h:' . $this->filehash;
         }
     }
 

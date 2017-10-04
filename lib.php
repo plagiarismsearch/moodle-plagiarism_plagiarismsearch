@@ -19,6 +19,7 @@
  *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 if (!defined('MOODLE_INTERNAL')) {
@@ -34,23 +35,95 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/classes/map.php');
 
 class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
-    protected $_viewlinks = array();
+    protected static $_viewlinks = array();
+    protected static $_studentroleid;
+    protected static $_isstudent;
 
-    // Check if the user is able to view links (and cache the result)
-    public function has_capability_links($cmid) {
-        if (!isset($this->_viewlinks[$cmid])) {
+    /**
+     * Check if the user is able to view links (and cache the result)
+     * @param int $cmid
+     * @return bool
+     */
+    public static function has_capability_links($cmid) {
+        if (!isset(static::$_viewlinks[$cmid])) {
             $context = context_module::instance($cmid);
             $viewlinks[$cmid] = has_capability('plagiarism/plagiarismsearch:viewlinks', $context);
+
+            if (static::is_student($context->id)) {
+                $viewlinks[$cmid] = (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports');
+            }
         }
 
         return !empty($viewlinks[$cmid]);
     }
 
-    public function is_enabled($cmid = null) {
+    public static function is_enabled($cmid = null) {
         return (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'use');
     }
 
+    public static function is_student($contextid = null) {
+        if (static::$_isstudent === null) {
+            global $USER;
+            $studentorleid = static::get_student_role_id();
+
+            static::$_isstudent = isset($USER->id) and user_has_role_assignment($USER->id, $studentorleid, $contextid);
+        }
+        return static::$_isstudent;
+    }
+
+    protected static function get_student_role_id() {
+        if (static::$_studentroleid === null) {
+            /* @var $DB \moodle_database */
+            global $DB;
+            $role = $DB->get_record('role', array('shortname' => 'student'));
+
+            static::$_studentroleid = ($role ? $role->id : 5);
+        }
+        return static::$_studentroleid;
+    }
+
+    public static function has_show_reports_link($cmid = null) {
+        return !static::is_student() or (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports');
+    }
+
+    public static function has_show_reports_percentage($cmid = null) {
+        return !static::is_student() or (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_percentage');
+    }
+
+    public static function has_show_submit_link($cmid = null) {
+        $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, 'manual_check');
+        $studentsubmit = static::is_student() or (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_submit');
+
+        return $manualsubmit and $studentsubmit;
+    }
+
+    public static function has_show_resubmit_link($cmid = null, $userid = null, $filehash = null) {
+        $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, 'manual_check');
+        $studentsubmit = static::is_student() or (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit');
+
+        // Check student resubmit numbers
+        if ($studentsubmit and
+                $cmid and
+                $userid and
+                $filehash and
+                $limit = plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit_numbers')
+        ) {
+            $countreports = plagiarismsearch_reports::count_valid(array(
+                        'cmid' => $cmid,
+                        'userid' => $userid,
+                        'filehash' => $filehash,
+            ));
+
+            if ($countreports > $limit) {
+                $studentsubmit = false;
+            }
+        }
+
+        return $manualsubmit and $studentsubmit;
+    }
+
     public function get_links($linkarray) {
+
         $cmid = $linkarray['cmid'];
 
         if (!$this->is_enabled($cmid)) {
@@ -83,12 +156,14 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             ));
 
             if (plagiarismsearch_reports::is_checked($report)) {
-                $result .= html_writer::tag('span', 'Plagiarism:&nbsp;' .
-                                html_writer::tag('span', round($report->plagiarism, 2) . '%', array(
-                                    'class' => plagiarismsearch_reports::get_color_class($report))
-                                ), array('title' => get_string('link_title', 'plagiarism_plagiarismsearch'))
-                );
-                if ($report->url) {
+                if ($this->has_show_reports_percentage($cmid)) {
+                    $result .= html_writer::tag('span', 'Plagiarism:&nbsp;' .
+                                    html_writer::tag('span', round($report->plagiarism, 2) . '%', array(
+                                        'class' => plagiarismsearch_reports::get_color_class($report))
+                                    ), array('title' => get_string('link_title', 'plagiarism_plagiarismsearch'))
+                    );
+                }
+                if ($report->url and $this->has_show_reports_link($cmid)) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($report->url, get_string('pdf_report', 'plagiarism_plagiarismsearch'), array(
                                 'target' => '_blank'
@@ -97,9 +172,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 }
             } else if (plagiarismsearch_reports::is_processing($report)) {
                 // add check status button
-                $result .= get_string('processing', 'plagiarism_plagiarismsearch') . "\n "
-                        . html_writer::link($checkurl, get_string('check_status', 'plagiarism_plagiarismsearch'));
-            } else {
+                if ($this->has_show_reports_link($cmid)) {
+                    $result .= get_string('processing', 'plagiarism_plagiarismsearch') . "\n "
+                            . html_writer::link($checkurl, get_string('check_status', 'plagiarism_plagiarismsearch'));
+                }
+            } else if ($this->has_show_reports_link($cmid)) {
                 $result .= $report->log ? $report->log : get_string('unknown_error', 'plagiarism_plagiarismsearch');
             }
         }
@@ -120,10 +197,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         $result .= " \n";
         if ($report) {
-            if (!plagiarismsearch_reports::is_processing($report)) {
+            if (!plagiarismsearch_reports::is_processing($report) and $this->has_show_resubmit_link($cmid, $userid, $filehash)) {
                 $result .= html_writer::link($submiturl, get_string('resubmit', 'plagiarism_plagiarismsearch'));
             }
-        } else {
+        } else if ($this->has_show_submit_link($cmid)) {
             $result .= html_writer::link($submiturl, get_string('submit', 'plagiarism_plagiarismsearch'));
         }
 
@@ -160,10 +237,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         }
     }
 
-    /* hook to save plagiarism specific settings on a module settings page
+    /**
+     *  hook to save plagiarism specific settings on a module settings page
      * @param object $data - data from an mform submission.
      */
-
     public function save_form_elements($data) {
         $cmid = $data->coursemodule;
 
@@ -178,6 +255,30 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 }
             }
         }
+    }
+
+    /**
+     * Hook to allow a disclosure to be printed notifying users what will happen with their submission.
+     *
+     * @param int $cmid - course module id
+     *
+     * @return string
+     */
+    public function print_disclosure($cmid) {
+        global $OUTPUT;
+
+        $outputhtml = '';
+        $disclosure = plagiarismsearch_config::get_config_or_settings($cmid, 'student_disclosure');
+
+        if ($this->is_enabled($cmid) && !empty($disclosure)) {
+            $outputhtml .= $OUTPUT->box_start('generalbox boxaligncenter', 'intro');
+            $formatoptions = new stdClass;
+            $formatoptions->noclean = true;
+            $outputhtml .= format_text($disclosure, FORMAT_MOODLE, $formatoptions);
+            $outputhtml .= $OUTPUT->box_end();
+        }
+
+        return $outputhtml;
     }
 
     public function plagiarism_cron() {

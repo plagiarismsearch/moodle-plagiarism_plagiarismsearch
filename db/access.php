@@ -19,9 +19,9 @@
  *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
@@ -35,7 +35,7 @@ $capabilities = array(
             'coursecreator' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
-            'student' => CAP_PREVENT
+            'student' => CAP_ALLOW,
         )
     ),
     // Ability to submit links to plagiarismsearch
@@ -47,7 +47,8 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW
+            'teacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
         )
     ),
     // Ability to check status
@@ -59,7 +60,8 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW
+            'teacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
         )
     )
 );
