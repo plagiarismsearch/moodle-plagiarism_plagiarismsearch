@@ -22,8 +22,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(dirname(__FILE__) . '/plagiarismsearch_base.php');
+require_once(dirname(__FILE__) . '/plagiarismsearch_core.php');
 require_once(dirname(__FILE__) . '/plagiarismsearch_table.php');
 require_once(dirname(__FILE__) . '/plagiarismsearch_config.php');
 require_once(dirname(__FILE__) . '/plagiarismsearch_api.php');
 require_once(dirname(__FILE__) . '/plagiarismsearch_api_reports.php');
 require_once(dirname(__FILE__) . '/plagiarismsearch_reports.php');
+require_once(dirname(__FILE__) . '/plagiarismsearch_event_handler.php');

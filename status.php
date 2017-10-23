@@ -59,59 +59,9 @@ if (empty($report->rid)) {
     print_error('report_not_found', 'plagiarism_plagiarismsearch');
 }
 
-$config = array(
-    'userid' => $report->userid,
-    'cmid' => $report->cmid,
-    'filehash' => $report->filehash,
-    'fileid' => $report->fileid,
-);
-
-$api = new plagiarismsearch_api_reports($config);
-$page = $api->action_status(array($report->rid));
-
-$msg = '';
-if ($page) {
-    if ($page->status and ! empty($page->data)) {
-
-        $msg = get_string('status_ok', 'plagiarism_plagiarismsearch');
-
-        foreach ($page->data as $row) {
-            $values['status'] = $row->status;
-            $values['plagiarism'] = $row->plagiat;
-            $values['url'] = (string) $row->file;
-
-            $msg .= "\n #" . $row->id . ' is ' . plagiarismsearch_reports::$statuses[$row->status];
-
-            plagiarismsearch_reports::update($values, $report->id);
-        }
-    } else {
-        $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
-        $values['log'] = (!empty($page->message) ? $page->message : '');
-
-        plagiarismsearch_reports::update($values, $report->id);
-
-        $msg = get_string('status_error', 'plagiarism_plagiarismsearch') . (!empty($page->message) ? '. ' . $page->message : '');
-    }
-} else {
-    $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
-    plagiarismsearch_reports::update($values, $report->id);
-
-    $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
-}
+// Check remote status
+$msg = plagiarismsearch_core::check_status(array($report->id => $report->rid));
 
 // Safe back redirect
-$isstudent = plagiarism_plugin_plagiarismsearch::is_student($context->id);
-if ($cm->modname == 'assignment') {
-    $redirect = new moodle_url('/mod/assignment/submissions.php', array('id' => $cmid));
-} else if ($cm->modname == 'assign') {
-    $redirectparams = array('id' => $cmid);
-    if (!$isstudent) {
-        $redirectparams['action'] = 'grading';
-    }
-
-    $redirect = new moodle_url('/mod/assign/view.php', $redirectparams);
-} else {
-    $redirect = $CFG->wwwroot;
-}
-
+$redirect = plagiarismsearch_core::redirect_url($cm, $context);
 redirect($redirect, $msg);

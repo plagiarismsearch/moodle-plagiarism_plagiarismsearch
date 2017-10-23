@@ -115,7 +115,7 @@ if ($result !== null) {
             echo $OUTPUT->notification(get_string('settings_error', 'plagiarism_plagiarismsearch'));
         }
     } else {
-        echo $OUTPUT->notification(get_string('settings_error', 'plagiarism_plagiarismsearch'), 'success');
+        echo $OUTPUT->notification(get_string('settings_saved', 'plagiarism_plagiarismsearch'), 'success');
     }
 }
 

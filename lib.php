@@ -58,7 +58,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     }
 
     public static function is_enabled($cmid = null) {
-        return (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'use');
+        return plagiarismsearch_config::is_enabled($cmid);
     }
 
     public static function is_student($contextid = null) {
@@ -122,6 +122,15 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return $manualsubmit and $studentsubmit;
     }
 
+    /**
+     * Hook to allow plagiarism specific information to be displayed beside a submission.
+     *
+     * @param $linkarray
+     *
+     * @return string
+     * @internal param array $linkarraycontains all relevant information for the plugin to generate a link.
+     *
+     */
     public function get_links($linkarray) {
 
         $cmid = $linkarray['cmid'];
@@ -134,19 +143,69 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             return;
         }
 
-        /* @var $file \stored_file */
+        if (!empty($linkarray['file'])) {
+            return $this->get_links_file($linkarray);
+        } else if (!empty($linkarray['content'])) {
+            return $this->get_links_content($linkarray);
+        }
+    }
+
+    protected function get_links_file($linkarray) {
+        $cmid = $linkarray['cmid'];
         $userid = $linkarray['userid'];
+        /* @var $file \stored_file */
         $file = $linkarray['file'];
         $filehash = $file->get_pathnamehash();
 
-        $report = plagiarismsearch_reports::get_one_top(array(
-                    'cmid' => $cmid,
-                    'userid' => $userid,
-                    'filehash' => $filehash,
-        ));
+        $report = $this->get_top_report($cmid, $userid, $filehash);
 
         $result = " \n";
+        $result .= $this->render_report_links($cmid, $report);
 
+        $urlconfig = array(
+            'userid' => $userid,
+            'cmid' => $cmid,
+            'filehash' => $filehash,
+            'sesskey' => sesskey(),
+            'force' => 0,
+        );
+
+        if (!empty($report) and ! plagiarismsearch_reports::is_processing($report)) {
+            $urlconfig['force'] = 1;
+        }
+
+        $submiturl = new moodle_url('/plagiarism/plagiarismsearch/submit.php', $urlconfig);
+
+        $result .= " \n";
+        if ($report) {
+            if (!plagiarismsearch_reports::is_processing($report) and $this->has_show_resubmit_link($cmid, $userid, $filehash)) {
+                $result .= html_writer::link($submiturl, get_string('resubmit', 'plagiarism_plagiarismsearch'));
+            }
+        } else if ($this->has_show_submit_link($cmid)) {
+            $result .= html_writer::link($submiturl, get_string('submit', 'plagiarism_plagiarismsearch'));
+        }
+
+        return $result;
+    }
+
+    protected function get_links_content($linkarray) {
+        $cmid = $linkarray['cmid'];
+        $userid = $linkarray['userid'];
+        $hash = plagiarismsearch_core::get_text_hash($linkarray['content']);
+
+        $report = $this->get_top_report($cmid, $userid, $hash);
+        // If a text submission has been made, we can only display links for current attempts so don't show links previous attempts.
+        // This will need to be reworked when linkarray contains submission id.
+
+        $result = " \n";
+        $result .= $this->render_report_links($cmid, $report);
+        $result .= " \n";
+
+        return $result;
+    }
+
+    protected function render_report_links($cmid, $report) {
+        $result = '';
         if ($report) {
 
             $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', array(
@@ -181,34 +240,19 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             }
         }
 
-        $urlconfig = array(
-            'userid' => $userid,
-            'cmid' => $cmid,
-            'filehash' => $filehash,
-            'sesskey' => sesskey(),
-            'force' => 0,
-        );
-
-        if (!plagiarismsearch_reports::is_processing($report)) {
-            $urlconfig['force'] = 1;
-        }
-
-        $submiturl = new moodle_url('/plagiarism/plagiarismsearch/submit.php', $urlconfig);
-
-        $result .= " \n";
-        if ($report) {
-            if (!plagiarismsearch_reports::is_processing($report) and $this->has_show_resubmit_link($cmid, $userid, $filehash)) {
-                $result .= html_writer::link($submiturl, get_string('resubmit', 'plagiarism_plagiarismsearch'));
-            }
-        } else if ($this->has_show_submit_link($cmid)) {
-            $result .= html_writer::link($submiturl, get_string('submit', 'plagiarism_plagiarismsearch'));
-        }
-
         return $result;
     }
 
+    protected function get_top_report($cmid, $userid, $hash) {
+        return plagiarismsearch_reports::get_one_top(array(
+                    'cmid' => $cmid,
+                    'userid' => $userid,
+                    'filehash' => $hash,
+        ));
+    }
+
     /**
-     * hook to add plagiarism specific settings to a module settings page
+     * Hook to add plagiarism specific settings to a module settings page
      * @param object $mform  - Moodle form
      * @param object $context - current context
      */
@@ -231,14 +275,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
             $mform->addElement('select', 'plagiarismsearch_filter_quotes', get_string('filter_quotes', 'plagiarism_plagiarismsearch'), $notoryes);
             $mform->setDefault('plagiarismsearch_filter_quotes', plagiarismsearch_config::get_config_or_settings($cmid, 'filter_quotes'));
-
-            // $mform->addElement('select', 'plagiarismsearch_autostart', get_string('autostart', 'plagiarism_plagiarismsearch'), $notoryes);
-            // $mform->setDefault('plagiarismsearch_autostart', plagiarismsearch_config::get_config_or_settings($cmid,'autostart'));
         }
     }
 
     /**
-     *  hook to save plagiarism specific settings on a module settings page
+     * Hook to save plagiarism specific settings on a module settings page
      * @param object $data - data from an mform submission.
      */
     public function save_form_elements($data) {
@@ -303,6 +344,25 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         set_config('plagiarismsearch_cron_running', 0, 'plagiarism_plagiarismsearch');
 
         return true;
+    }
+
+    public static function log() {
+        global $CFG;
+        $args = func_get_args();
+        if ($args and $f = fopen($CFG->dirroot . '/plagiarism/plagiarismsearch/log.txt', 'a')) {
+            foreach ($args as $arg) {
+                fwrite($f, var_export($arg, true) . "\n------------\n");
+            }
+            fclose($f);
+
+            return true;
+        }
+        return false;
+    }
+
+    public static function event_handler(core\event\base $event) {
+        $handler = new plagiarismsearch_event_handler($event);
+        return $handler->run();
     }
 
 }

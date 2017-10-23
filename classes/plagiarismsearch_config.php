@@ -127,4 +127,12 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return isset(static::$settings[$key]) ? static::$settings[$key] : null;
     }
 
+    public static function is_enabled($cmid = null) {
+        return (bool) static::get_config_or_settings($cmid, 'use');
+    }
+
+    public static function is_enabled_auto($cmid = null) {
+        return (bool) static::get_config_or_settings($cmid, 'use') and static::get_config_or_settings($cmid, 'auto_check');
+    }
+
 }

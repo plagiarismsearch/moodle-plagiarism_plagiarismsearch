@@ -7,8 +7,9 @@
         <TABLE NAME="plagiarism_plagiarismsearchr" COMMENT="Plagiarismsearch reports table" NEXT="plagiarism_plagiarismsearchc">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="userid"/>
-                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="rid" COMMENT="Report id" DEFAULT="0"/>
-                <FIELD NAME="rid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="userid" NEXT="plagiarism" COMMENT="Report id" DEFAULT="0"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="userid" COMMENT="User id" DEFAULT="0"/>
+                <FIELD NAME="senderid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="userid" NEXT="rid" COMMENT="Sender id" DEFAULT="0"/>
+                <FIELD NAME="rid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="senderid" NEXT="plagiarism" COMMENT="Report id" DEFAULT="0"/>
                 <FIELD NAME="plagiarism" TYPE="number" LENGTH="4" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of plagiarism detected" PREVIOUS="rid" NEXT="status"/>
                 <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="plagiarism" NEXT="url"/>
                 <FIELD NAME="url" TYPE="char" LENGTH="1024" NOTNULL="false" SEQUENCE="false" PREVIOUS="status" NEXT="cmid" DEFAULT=""/>

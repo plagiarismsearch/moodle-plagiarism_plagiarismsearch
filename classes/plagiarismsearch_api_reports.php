@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -22,36 +21,48 @@
  */
 class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
-    public function action_create_file($filename, $post = array()) {
+    public function action_create($post = array(), $files = array()) {
         $url = $this->apiurl . '/reports/create';
 
-        $post['fields'] = array('id', 'status', 'plagiat', 'file');
-
-        $post['title'] = basename($filename);
-        $post['remote_id'] = $this->generate_remote_id();
-
-        $post['filter_chars'] = $this->get_config('filter_chars', 0);
-        $post['filter_references'] = $this->get_config('filter_references', 0);
-        $post['filter_quotes'] = $this->get_config('filter_quotes', 0);
-
+        $default = array(
+            'fields' => array('id', 'status', 'plagiat', 'file'),
+            'remote_id' => $this->generate_remote_id(),
+            'add_files_api' => $this->get_config('add_to_storage', 1),
+            'filter_chars' => $this->get_config('filter_chars', 0),
+            'filter_references' => $this->get_config('filter_references', 0),
+            'filter_quotes' => $this->get_config('filter_quotes', 0),
+        );
         $sources = $this->get_config('sources_type', plagiarismsearch_reports::SUBMIT_WEB);
+
         if (plagiarismsearch_reports::is_submit_web($sources)) {
-            $post['search_web'] = 1;
+            $default['search_web'] = 1;
         }
         if (plagiarismsearch_reports::is_submit_storage($sources)) {
-            $post['search_files_api'] = 1;
-            $post['search_files_api_filter'] = array('file_id' => $this->fileid, 'user_id' => $this->userid);
+            $default['search_files_api'] = 1;
+
+            // Not search on user course documents
+            $default['search_files_api_user_group'] = array($this->userid, $this->cmid);
         }
 
-        $files = array('file' => realpath($filename));
-
-        return $this->post($url, $post, $files);
+        return $this->post($url, array_merge($default, $post), $files);
     }
 
+    public function action_create_file($filename, $post = array()) {
+        $post['title'] = basename($filename);
+        $files = array('file' => realpath($filename));
+
+        return $this->action_create($post, $files);
+    }
+
+    /**
+     * @param \stored_file $file
+     * @param array $post
+     * @return stdObject Json response
+     */
     public function action_send_file($file, $post = array()) {
         /* @var $file \stored_file */
 
-        $this->set_file_fields($file);
+        $this->set_file($file);
 
         if ($tmpfile = $this->tmp_file($file->get_filename(), $file->get_content())) {
 
@@ -64,16 +75,18 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     }
 
     /**
-     * @param \stored_file $file
-     * @return $this
+     * @param string $text
+     * @param array $post
+     * @return stdObject Json response
      */
-    protected function set_file_fields($file) {
-        /* @var $file \stored_file */
-        $this->userid = $file->get_userid();
-        $this->filehash = $file->get_pathnamehash();
-        $this->fileid = $file->get_id();
+    public function action_send_text($text, $post = array()) {
+        /* @var $text \stored_file */
 
-        return $this;
+        $this->set_text($text);
+
+        $post['text'] = $text;
+
+        return $this->action_create($post);
     }
 
     public function action_status($ids = array()) {
@@ -90,7 +103,19 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     }
 
     protected function generate_remote_id() {
-        return 'c:' . $this->cmid . 'u:' . $this->userid . 'id:' . $this->fileid . 'h:' . $this->filehash;
+        $result = array(
+            'c:' . $this->cmid,
+            'u:' . $this->userid,
+        );
+
+        if ($file = $this->get_file()) {
+            $result[] = 'f:' . $file->get_id();
+            $result[] = 'h:' . $file->get_pathnamehash();
+        } else if ($this->text) {
+            $result[] = 'h:' . plagiarismsearch_core::get_text_hash($this->text);
+        }
+
+        return implode(',', $result);
     }
 
     protected function tmp_dir() {

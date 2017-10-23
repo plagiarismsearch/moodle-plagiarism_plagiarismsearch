@@ -19,7 +19,7 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class plagiarismsearch_api {
+class plagiarismsearch_api extends plagiarismsearch_base {
 
     public $apiurl = 'https://plagiarismsearch.com/api/v3';
     public $apiuser;
@@ -32,26 +32,23 @@ class plagiarismsearch_api {
     /**/
     public $cmid;
     public $userid;
-    public $fileid;
-    public $filehash;
-    public $filename;
+
+    /**
+     * @var  \stored_file
+     */
+    protected $file;
+
+    /**
+     * @var string
+     */
+    protected $text;
 
     public function __construct($config = array()) {
         $this->apiurl = plagiarismsearch_config::get_settings('api_url');
         $this->apiuser = plagiarismsearch_config::get_settings('api_user');
         $this->apikey = plagiarismsearch_config::get_settings('api_key');
 
-        $this->configure($config);
-    }
-
-    protected function configure($config = array()) {
-        if (!empty($config)) {
-            if (is_array($config)) {
-                foreach ($config as $key => $value) {
-                    $this->{$key} = $value;
-                }
-            }
-        }
+        parent::__construct($config);
     }
 
     public function post($url, $post = array(), $files = array()) {
@@ -143,6 +140,38 @@ class plagiarismsearch_api {
         $url = $this->apiurl . '/ping';
 
         return $this->post($url);
+    }
+
+    /**
+     * @param \stored_file $file
+     * @return $this
+     */
+    public function set_file($file) {
+        $this->file = $file;
+        return $this;
+    }
+
+    /**
+     * @return \stored_file
+     */
+    public function get_file() {
+        return $this->file;
+    }
+
+    /**
+     * @param string $text
+     * @return $this
+     */
+    public function set_text($text) {
+        $this->text = $text;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_text() {
+        return $this->text;
     }
 
 }

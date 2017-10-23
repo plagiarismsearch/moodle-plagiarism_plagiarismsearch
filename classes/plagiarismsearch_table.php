@@ -19,7 +19,7 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class plagiarismsearch_table {
+class plagiarismsearch_table extends plagiarismsearch_base {
 
     /**
      * @return \moodle_database

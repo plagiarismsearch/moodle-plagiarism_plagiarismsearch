@@ -71,55 +71,9 @@ if ($file->get_userid() != $userid) {
     print_error('wrongfileuser', 'plagiarism_plagiarismsearch');
 }
 
-$values = array(
-    'userid' => $userid,
-    'cmid' => $cmid,
-    'filehash' => $filehash,
-    'filename' => $file->get_filename(),
-    'fileid' => $file->get_id(),
-);
-
-$api = new plagiarismsearch_api_reports($values);
-$page = $api->action_send_file($file, array('force' => $force));
-
-$msg = '';
-if ($page) {
-    if ($page->status and ! empty($page->data)) {
-        $values['rid'] = $page->data->id;
-        $values['status'] = $page->data->status;
-        $values['plagiarism'] = $page->data->plagiat;
-        $values['url'] = (string) $page->data->file;
-        $msg = get_string('submit_ok', 'plagiarism_plagiarismsearch', $file->get_filename());
-    } else {
-        $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
-        $values['log'] = (!empty($page->message) ? $page->message : '');
-
-        $msg = get_string('submit_error', 'plagiarism_plagiarismsearch', $file->get_filename()) .
-                (!empty($page->message) ? '. ' . $page->message : '');
-    }
-} else {
-    $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
-    $values['log'] = get_string('server_connection_error', 'plagiarism_plagiarismsearch');
-    $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
-}
-
-// Log submit result
-plagiarismsearch_reports::add($values);
+// Send file
+$msg = plagiarismsearch_core::send_file($file, $cmid, array('force' => $force));
 
 // Safe back redirect
-$isstudent = plagiarism_plugin_plagiarismsearch::is_student($context->id);
-
-if ($cm->modname == 'assignment') {
-    $redirect = new moodle_url('/mod/assignment/submissions.php', array('id' => $cmid));
-} else if ($cm->modname == 'assign') {
-    $redirectparams = array('id' => $cmid);
-    if (!$isstudent) {
-        $redirectparams['action'] = 'grading';
-    }
-
-    $redirect = new moodle_url('/mod/assign/view.php', $redirectparams);
-} else {
-    $redirect = $CFG->wwwroot;
-}
-
+$redirect = plagiarismsearch_core::redirect_url($cm, $context);
 redirect($redirect, $msg);

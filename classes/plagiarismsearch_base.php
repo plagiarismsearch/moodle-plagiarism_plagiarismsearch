@@ -1,5 +1,5 @@
 <?php
-// This file is part of the PlagiarismSearch plugin for Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,25 +13,26 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * events.php.
- *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
+class plagiarismsearch_base {
 
-$observers = array(
-    /**
-     * Event Handlers
-     */
-    array(
-        'eventname' => '*',
-        'includefile' => '/plagiarism/plagiarismsearch/lib.php',
-        'callback' => 'plagiarism_plugin_plagiarismsearch::event_handler',
-    ),
-);
+    public function __construct($config = array()) {
+        $this->configure($config);
+    }
 
+    protected function configure($config = array()) {
+        if (!empty($config)) {
+            if (is_array($config)) {
+                foreach ($config as $key => $value) {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+
+}

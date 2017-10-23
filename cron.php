@@ -23,59 +23,22 @@
 defined('MOODLE_INTERNAL') || die();
 
 mtrace("\n\n");
-mtrace("Starting the plagiarismsearch cron");
-
-$msg = "";
+mtrace("Starting the plagiarismsearch cron\n");
 
 $processingtimeinterval = 5 * 60; // 5 min
 $errortimeinterval = 12 * 60 * 60; // 12 hours
-// check status processing reports
+// Check status processing reports
 if (
         $reports = plagiarismsearch_reports::get_processing_reports($processingtimeinterval) or
-        $report = plagiarismsearch_reports::get_error_reports($errortimeinterval)
+        $reports = plagiarismsearch_reports::get_error_reports($errortimeinterval)
 ) {
     $ids = array();
 
     foreach ($reports as $report) {
-        $ids[] = $report->rid;
+        $ids[$report->id] = $report->rid;
     }
 
-    $config = array();
-    $api = new plagiarismsearch_api_reports();
-    $page = $api->action_status($ids);
-
-    if ($page) {
-
-        if ($page->status) {
-
-            $msg = "OK! " . get_string('status_ok', 'plagiarism_plagiarismsearch');
-
-            if (!empty($page->data)) {
-                foreach ($page->data as $row) {
-                    $values['status'] = $row->status;
-                    $values['plagiarism'] = $row->plagiat;
-                    $values['url'] = (string) $row->file;
-
-                    $msg .= " \n#" . $row->id . ' is ' . plagiarismsearch_reports::$statuses[$row->status];
-
-                    plagiarismsearch_reports::update($values, $report->id);
-                }
-            }
-        } else {
-            $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
-            $values['log'] = $page->message;
-
-            plagiarismsearch_reports::update($values, $report->id);
-
-            $msg = get_string('status_error', 'plagiarism_plagiarismsearch') .
-                    (!empty($page->message) ? '. ' . $page->message : '');
-        }
-    } else {
-        $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
-        plagiarismsearch_reports::update($values, $report->id);
-
-        $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
-    }
+    $msg = plagiarismsearch_core::check_status($ids);
 } else {
     $msg = "OK! Empty queue";
 }
