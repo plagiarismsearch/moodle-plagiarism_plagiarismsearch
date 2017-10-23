@@ -76,13 +76,13 @@ class plagiarism_setup_form extends moodleform {
 
         $mform->addElement('select', 'plagiarismsearch_filter_quotes', get_string('filter_quotes', 'plagiarism_plagiarismsearch'), $notoryes);
         $mform->setDefault('plagiarismsearch_filter_quotes', 0);
-        
+
         $mform->addElement('select', 'plagiarismsearch_student_show_reports', get_string('student_show_reports', 'plagiarism_plagiarismsearch'), $notoryes);
         $mform->setDefault('plagiarismsearch_student_show_reports', 1);
 
         $mform->addElement('select', 'plagiarismsearch_student_show_percentage', get_string('student_show_percentage', 'plagiarism_plagiarismsearch'), $notoryes);
         $mform->setDefault('plagiarismsearch_student_show_percentage', 1);
-        
+
         $mform->addElement('select', 'plagiarismsearch_student_submit', get_string('student_submit', 'plagiarism_plagiarismsearch'), $notoryes);
         $mform->setDefault('plagiarismsearch_student_submit', 0);
 

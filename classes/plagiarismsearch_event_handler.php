@@ -76,8 +76,6 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
                     }
                     break;
             }
-            // var_dump($this->event->component, $this->event->get_data(), $this->event);
-            // die;
         }
     }
 
@@ -122,12 +120,7 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
 
         require_once($CFG->dirroot . '/mod/assign/locallib.php');
 
-        //$submission = unplag_assign::get_user_submission_by_cmid($event->contextinstanceid);
-//        if (!$submission) {
-//            return true;
-//        }
-
-        return ($submission->status !== 'submitted');
+        return true;
     }
 
 }

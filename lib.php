@@ -35,9 +35,9 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/classes/map.php');
 
 class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
-    protected static $_viewlinks = array();
-    protected static $_studentroleid;
-    protected static $_isstudent;
+    protected static $cacheviewlinks = array();
+    protected static $cachestudentroleid;
+    protected static $cacheisstudent;
 
     /**
      * Check if the user is able to view links (and cache the result)
@@ -45,16 +45,16 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      * @return bool
      */
     public static function has_capability_links($cmid) {
-        if (!isset(static::$_viewlinks[$cmid])) {
+        if (!isset(static::$cacheviewlinks[$cmid])) {
             $context = context_module::instance($cmid);
-            $viewlinks[$cmid] = has_capability('plagiarism/plagiarismsearch:viewlinks', $context);
+            static::$cacheviewlinks[$cmid] = has_capability('plagiarism/plagiarismsearch:viewlinks', $context);
 
             if (static::is_student($context->id)) {
-                $viewlinks[$cmid] = (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports');
+                static::$cacheviewlinks[$cmid] = (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports');
             }
         }
 
-        return !empty($viewlinks[$cmid]);
+        return !empty(static::$cacheviewlinks[$cmid]);
     }
 
     public static function is_enabled($cmid = null) {
@@ -62,24 +62,24 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     }
 
     public static function is_student($contextid = null) {
-        if (static::$_isstudent === null) {
+        if (static::$cacheisstudent === null) {
             global $USER;
             $studentorleid = static::get_student_role_id();
 
-            static::$_isstudent = isset($USER->id) and user_has_role_assignment($USER->id, $studentorleid, $contextid);
+            static::$cacheisstudent = isset($USER->id) and user_has_role_assignment($USER->id, $studentorleid, $contextid);
         }
-        return static::$_isstudent;
+        return static::$cacheisstudent;
     }
 
     protected static function get_student_role_id() {
-        if (static::$_studentroleid === null) {
+        if (static::$cachestudentroleid === null) {
             /* @var $DB \moodle_database */
             global $DB;
             $role = $DB->get_record('role', array('shortname' => 'student'));
 
-            static::$_studentroleid = ($role ? $role->id : 5);
+            static::$cachestudentroleid = ($role ? $role->id : 5);
         }
-        return static::$_studentroleid;
+        return static::$cachestudentroleid;
     }
 
     public static function has_show_reports_link($cmid = null) {

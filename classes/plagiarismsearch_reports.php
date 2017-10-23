@@ -35,7 +35,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**/
     const SUBMIT_WEB = 1;
     const SUBMIT_STORAGE = 2;
-    const SUBMIT_WEB_STORAGE = self::SUBMIT_WEB | self::SUBMIT_STORAGE;
+    // self::SUBMIT_WEB | self::SUBMIT_STORAGE;
+    const SUBMIT_WEB_STORAGE = 3;
 
     public static $statuses = array(
         self::STATUS_SERVER_ERROR => 'server error',
@@ -104,19 +105,19 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     }
 
     public static function get_processing_reports($ttl = 300, $limit = 50) {
-        list($statusWhere, $statusParams) = static::db()->get_in_or_equal(static::get_processing_statuses());
+        list($where, $status) = static::db()->get_in_or_equal(static::get_processing_statuses());
 
         return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
-                        . " WHERE modified_at < ? AND status " . $statusWhere
-                        . " LIMIT " . $limit, array_merge(array(time() - $ttl), $statusParams));
+                        . " WHERE modified_at < ? AND status " . $where
+                        . " LIMIT " . $limit, array_merge(array(time() - $ttl), $status));
     }
 
     public static function get_error_reports($ttl = 43200, $limit = 50) {
-        list($statusWhere, $statusParams) = static::db()->get_in_or_equal(static::get_error_statuses());
+        list($where, $status) = static::db()->get_in_or_equal(static::get_error_statuses());
 
         return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
-                        . " WHERE rid > 0 AND modified_at < ? AND status " . $statusWhere
-                        . " LIMIT " . $limit, array_merge(array(time() - $ttl), $statusParams));
+                        . " WHERE rid > 0 AND modified_at < ? AND status " . $where
+                        . " LIMIT " . $limit, array_merge(array(time() - $ttl), $status));
     }
 
     public static function count($conditions) {

@@ -31,6 +31,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         global $USER;
         return (!empty($USER)) ? $USER->id : 0; // 0 - system
     }
+
     /**
      * @param      $cmid
      * @param null $userid
@@ -110,7 +111,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
             'userid' => $userid,
             'senderid' => static::get_sender_id(),
             'text' => $text,
-            'filehash'=> static::get_text_hash($text),
+            'filehash' => static::get_text_hash($text),
         );
 
         $api = new plagiarismsearch_api_reports($values);
@@ -220,7 +221,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         }
         return $redirect;
     }
-    
+
     public static function get_text_hash($text) {
         return md5(strip_tags($text));
     }
