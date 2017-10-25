@@ -63,5 +63,14 @@ $capabilities = array(
             'teacher' => CAP_ALLOW,
             'student' => CAP_ALLOW,
         )
+    ),
+    // Only students
+    'plagiarism/plagiarismsearch:isstudent' => array(
+        'captype' => 'read',
+        'riskbitmask' => RISK_PERSONAL,
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+        )
     )
 );

@@ -52,6 +52,8 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     }
 
     /**
+     * Send file to scanning
+     *
      * @param \stored_file $file
      * @param int $cmid
      * @param array $params
@@ -99,6 +101,8 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     }
 
     /**
+     * Send text to scanning
+     *
      * @param string $text
      * @param int $cmid
      * @param int $userid
@@ -110,8 +114,9 @@ class plagiarismsearch_core extends plagiarismsearch_base {
             'cmid' => $cmid,
             'userid' => $userid,
             'senderid' => static::get_sender_id(),
-            'text' => $text,
+            // Unique text hash
             'filehash' => static::get_text_hash($text),
+            'text' => $text,
         );
 
         $api = new plagiarismsearch_api_reports($values);
@@ -145,6 +150,8 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     }
 
     /**
+     * Check report status
+     *
      * @param array $ids $key => primary id, $value => remote report id
      * @return string Result message
      */
@@ -198,7 +205,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     /**
      * Safe back redirect url
      *
-     * @global type $CFG
+     * @global stdClass $CFG
      * @param stdClass $coursemodule
      * @param context_module $context
      * @return string

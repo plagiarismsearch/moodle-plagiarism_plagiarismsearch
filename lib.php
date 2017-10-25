@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of the PlagiarismSearch plugin for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -49,7 +50,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             $context = context_module::instance($cmid);
             static::$cacheviewlinks[$cmid] = has_capability('plagiarism/plagiarismsearch:viewlinks', $context);
 
-            if (static::is_student($context->id)) {
+            if (static::is_student($cmid)) {
                 static::$cacheviewlinks[$cmid] = (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports');
             }
         }
@@ -61,49 +62,54 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return plagiarismsearch_config::is_enabled($cmid);
     }
 
-    public static function is_student($contextid = null) {
+    public static function is_student($cmid = null) {
         if (static::$cacheisstudent === null) {
-            global $USER;
-            $studentorleid = static::get_student_role_id();
-
-            static::$cacheisstudent = isset($USER->id) and user_has_role_assignment($USER->id, $studentorleid, $contextid);
+            $context = context_module::instance($cmid);
+            static::$cacheisstudent = has_capability('plagiarism/plagiarismsearch:isstudent', $context);
         }
         return static::$cacheisstudent;
     }
 
-    protected static function get_student_role_id() {
-        if (static::$cachestudentroleid === null) {
-            /* @var $DB \moodle_database */
-            global $DB;
-            $role = $DB->get_record('role', array('shortname' => 'student'));
-
-            static::$cachestudentroleid = ($role ? $role->id : 5);
-        }
-        return static::$cachestudentroleid;
-    }
-
     public static function has_show_reports_link($cmid = null) {
-        return !static::is_student() or (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports');
+        if (static::is_student($cmid)) {
+            return (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports');
+        } else {
+            return true;
+        }
     }
 
     public static function has_show_reports_percentage($cmid = null) {
-        return !static::is_student() or (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_percentage');
+        if (static::is_student($cmid)) {
+            return (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_percentage');
+        } else {
+            return true;
+        }
     }
 
     public static function has_show_submit_link($cmid = null) {
         $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, 'manual_check');
-        $studentsubmit = static::is_student() or (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_submit');
-
-        return $manualsubmit and $studentsubmit;
+        if (static::is_student($cmid)) {
+            return $manualsubmit and (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_submit');
+        } else {
+            return $manualsubmit;
+        }
     }
 
     public static function has_show_resubmit_link($cmid = null, $userid = null, $filehash = null) {
         $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, 'manual_check');
-        $studentsubmit = static::is_student() or (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit');
+        $isstudent = static::is_student($cmid);
+
+        if (!$isstudent) {
+            return $manualsubmit;
+        }
+
+        // Is student
+        if (!plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit')) {
+            return false;
+        }
 
         // Check student resubmit numbers
-        if ($studentsubmit and
-                $cmid and
+        if ($cmid and
                 $userid and
                 $filehash and
                 $limit = plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit_numbers')
@@ -115,11 +121,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             ));
 
             if ($countreports > $limit) {
-                $studentsubmit = false;
+                return false;
             }
         }
 
-        return $manualsubmit and $studentsubmit;
+        return $manualsubmit;
     }
 
     /**
@@ -260,12 +266,30 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         if ($modulename == 'mod_assign') {
             $cmid = optional_param('update', 0, PARAM_INT);
 
-            $notoryes = array(0 => get_string('no'), 1 => get_string('yes'));
+
+            $notoryes = array(
+                0 => get_string('no'),
+                1 => get_string('yes'),
+            );
+            $submittype = array(
+                plagiarismsearch_reports::SUBMIT_WEB_STORAGE => get_string('sources_doc_web_storage', 'plagiarism_plagiarismsearch'),
+                plagiarismsearch_reports::SUBMIT_WEB => get_string('sources_doc_web', 'plagiarism_plagiarismsearch'),
+                plagiarismsearch_reports::SUBMIT_STORAGE => get_string('sources_doc_storage', 'plagiarism_plagiarismsearch'),
+            );
 
             $mform->addElement('header', 'plagiarismsearchdesc', get_string('plagiarismsearch', 'plagiarism_plagiarismsearch'));
 
-            $mform->addElement('select', 'plagiarismsearch_use', get_string('use', 'plagiarism_plagiarismsearch'), $notoryes);
-            $mform->setDefault('plagiarismsearch_use', plagiarismsearch_config::get_config_or_settings($cmid, 'use'));
+            $mform->addElement('select', 'plagiarismsearch_auto_check', get_string('auto_check', 'plagiarism_plagiarismsearch'), $notoryes);
+            $mform->setDefault('plagiarismsearch_auto_check', plagiarismsearch_config::get_config_or_settings($cmid, 'auto_check'));
+
+            $mform->addElement('select', 'plagiarismsearch_manual_check', get_string('manual_check', 'plagiarism_plagiarismsearch'), $notoryes);
+            $mform->setDefault('plagiarismsearch_manual_check', plagiarismsearch_config::get_config_or_settings($cmid, 'manual_check'));
+
+            $mform->addElement('select', 'plagiarismsearch_add_to_storage', get_string('add_to_storage', 'plagiarism_plagiarismsearch'), $notoryes);
+            $mform->setDefault('plagiarismsearch_add_to_storage', plagiarismsearch_config::get_config_or_settings($cmid, 'add_to_storage'));
+
+            $mform->addElement('select', 'plagiarismsearch_sources_type', get_string('sources_type', 'plagiarism_plagiarismsearch'), $submittype);
+            $mform->setDefault('plagiarismsearch_sources_type', plagiarismsearch_config::get_config_or_settings($cmid, 'sources_type'));
 
             $mform->addElement('select', 'plagiarismsearch_filter_chars', get_string('filter_chars', 'plagiarism_plagiarismsearch'), $notoryes);
             $mform->setDefault('plagiarismsearch_filter_chars', plagiarismsearch_config::get_config_or_settings($cmid, 'filter_chars'));
@@ -275,6 +299,21 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
             $mform->addElement('select', 'plagiarismsearch_filter_quotes', get_string('filter_quotes', 'plagiarism_plagiarismsearch'), $notoryes);
             $mform->setDefault('plagiarismsearch_filter_quotes', plagiarismsearch_config::get_config_or_settings($cmid, 'filter_quotes'));
+
+            $mform->addElement('select', 'plagiarismsearch_student_show_reports', get_string('student_show_reports', 'plagiarism_plagiarismsearch'), $notoryes);
+            $mform->setDefault('plagiarismsearch_student_show_reports', plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports'));
+
+            $mform->addElement('select', 'plagiarismsearch_student_show_percentage', get_string('student_show_percentage', 'plagiarism_plagiarismsearch'), $notoryes);
+            $mform->setDefault('plagiarismsearch_student_show_percentage', plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_percentage'));
+
+            $mform->addElement('select', 'plagiarismsearch_student_submit', get_string('student_submit', 'plagiarism_plagiarismsearch'), $notoryes);
+            $mform->setDefault('plagiarismsearch_student_submit', plagiarismsearch_config::get_config_or_settings($cmid, 'student_submit'));
+
+            $mform->addElement('select', 'plagiarismsearch_student_resubmit', get_string('student_resubmit', 'plagiarism_plagiarismsearch'), $notoryes);
+            $mform->setDefault('plagiarismsearch_student_resubmit', plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit'));
+
+            $mform->addElement('text', 'plagiarismsearch_student_resubmit_numbers', get_string('student_resubmit_numbers', 'plagiarism_plagiarismsearch'));
+            $mform->setDefault('plagiarismsearch_student_resubmit_numbers', plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit_numbers'));
         }
     }
 
