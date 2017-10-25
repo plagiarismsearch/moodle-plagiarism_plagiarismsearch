@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of the PlagiarismSearch plugin for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -265,7 +264,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     public function get_form_elements_module($mform, $context, $modulename = "") {
         if ($modulename == 'mod_assign') {
             $cmid = optional_param('update', 0, PARAM_INT);
-
 
             $notoryes = array(
                 0 => get_string('no'),
