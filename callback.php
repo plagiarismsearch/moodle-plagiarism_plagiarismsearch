@@ -49,7 +49,7 @@ if ($report = json_decode($report, false)) {
     );
 
     if (plagiarismsearch_reports::update($values, $localreport->id)) {
-        die($rid);
+        echo $localreport->id;
     }
 } else {
     // JSON error
