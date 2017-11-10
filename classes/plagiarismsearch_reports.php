@@ -31,6 +31,11 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     const STATUS_PRE_CHECKED = 1;
     const STATUS_SOURCES = 3;
     const STATUS_POST_CHECKED = 4;
+    const STATUS_RESERVED_5 = 5;
+    const STATUS_RESERVED_6 = 6;
+    const STATUS_RESERVED_7 = 7;
+    const STATUS_RESERVED_8 = 8;
+    const STATUS_RESERVED_9 = 9;
     const STATUS_CHECKED = 2;
     /**/
     const SUBMIT_WEB = 1;
@@ -49,6 +54,11 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         self::STATUS_PRE_CHECKED => 'processing',
         self::STATUS_POST_CHECKED => 'processing',
         self::STATUS_SOURCES => 'processing',
+        self::STATUS_RESERVED_5 => 'processing',
+        self::STATUS_RESERVED_6 => 'processing',
+        self::STATUS_RESERVED_7 => 'processing',
+        self::STATUS_RESERVED_8 => 'processing',
+        self::STATUS_RESERVED_9 => 'processing',
         self::STATUS_CHECKED => 'checked',
     );
 
@@ -168,6 +178,11 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
             self::STATUS_PRE_CHECKED,
             self::STATUS_POST_CHECKED,
             self::STATUS_SOURCES,
+            self::STATUS_RESERVED_5,
+            self::STATUS_RESERVED_6,
+            self::STATUS_RESERVED_7,
+            self::STATUS_RESERVED_8,
+            self::STATUS_RESERVED_9,
         );
     }
 
