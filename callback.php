@@ -41,7 +41,7 @@ if (!$localreport = plagiarismsearch_reports::get_one(array('rid' => $rid))) {
     die();
 }
 
-if ($report = json_decode($report)) {
+if ($report = json_decode($report, false)) {
     $values = array(
         'plagiarism' => $report->plagiat,
         'status' => $report->status,
