@@ -49,12 +49,15 @@ class plagiarism_setup_form extends moodleform {
         $mform->addElement('text', 'plagiarismsearch_api_url', get_string('api_url', 'plagiarism_plagiarismsearch'), array('size' => '40'));
         $mform->addRule('plagiarismsearch_api_url', null, 'required', null, 'client');
         $mform->setDefault('plagiarismsearch_api_url', 'https://plagiarismsearch.com/api/v3');
+        $mform->setType('plagiarismsearch_api_url', PARAM_TEXT);
 
         $mform->addElement('text', 'plagiarismsearch_api_user', get_string('api_user', 'plagiarism_plagiarismsearch'), array('size' => '40'));
         $mform->addRule('plagiarismsearch_api_user', null, 'required', null, 'client');
+        $mform->setType('plagiarismsearch_api_user', PARAM_TEXT);
 
         $mform->addElement('text', 'plagiarismsearch_api_key', get_string('api_key', 'plagiarism_plagiarismsearch'), array('size' => '40'));
         $mform->addRule('plagiarismsearch_api_key', null, 'required', null, 'client');
+        $mform->setType('plagiarismsearch_api_key', PARAM_TEXT);
 
         $mform->addElement('select', 'plagiarismsearch_auto_check', get_string('auto_check', 'plagiarism_plagiarismsearch'), $notoryes);
         $mform->setDefault('plagiarismsearch_auto_check', 1);
@@ -91,6 +94,7 @@ class plagiarism_setup_form extends moodleform {
 
         $mform->addElement('text', 'plagiarismsearch_student_resubmit_numbers', get_string('student_resubmit_numbers', 'plagiarism_plagiarismsearch'));
         $mform->setDefault('plagiarismsearch_student_resubmit_numbers', '');
+        $mform->setType('plagiarismsearch_student_resubmit_numbers', PARAM_TEXT);
 
         $mform->addElement('textarea', 'plagiarismsearch_student_disclosure', get_string('student_disclosure', 'plagiarism_plagiarismsearch'), 'wrap="virtual" rows="6" cols="50"');
         $mform->setDefault('plagiarismsearch_student_disclosure', get_string('student_disclosure_default', 'plagiarism_plagiarismsearch'));

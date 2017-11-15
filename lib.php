@@ -312,6 +312,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
             $mform->addElement('text', 'plagiarismsearch_student_resubmit_numbers', get_string('student_resubmit_numbers', 'plagiarism_plagiarismsearch'));
             $mform->setDefault('plagiarismsearch_student_resubmit_numbers', plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit_numbers'));
+            $mform->setType('plagiarismsearch_student_resubmit_numbers', PARAM_TEXT);
         }
     }
 
