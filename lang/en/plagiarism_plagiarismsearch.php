@@ -85,3 +85,7 @@ $string['text_plain'] = 'PlagiarismSearch.com – advanced online plagiarism che
 PlagiarismSearch.com is a leading plagiarism checking website that will provide you with an accurate report during a short timeframe. <br/>
 Find out about how to register <a href="https://plagiarismsearch.com/account/signup.html">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
+$string['plagiarismsearch:viewlinks'] = 'Ability to view links for plagiarism results';
+$string['plagiarismsearch:submitlinks'] = 'Ability to submit links to PlagiarismSearch.com';
+$string['plagiarismsearch:statuslinks'] = 'Ability to check report status';
+$string['plagiarismsearch:isstudent'] = 'Allow only to students';
