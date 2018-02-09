@@ -21,8 +21,10 @@
  */
 class plagiarismsearch_reports extends plagiarismsearch_table {
 
+    const STATUS_SERVER_CORE_ERROR = -12;
     const STATUS_SERVER_ERROR = -11;
     const STATUS_ERROR = -10;
+    const STATUS_INIT = -9;
     const STATUS_PROCESSING_STORAGE = -4;
     const STATUS_PROCESSING_STORAGE_CHECK = -3;
     const STATUS_PROCESSING_FILES = -2;
@@ -31,7 +33,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     const STATUS_PRE_CHECKED = 1;
     const STATUS_SOURCES = 3;
     const STATUS_POST_CHECKED = 4;
-    const STATUS_RESERVED_5 = 5;
+    const STATUS_SNIPPETS = 5;
     const STATUS_RESERVED_6 = 6;
     const STATUS_RESERVED_7 = 7;
     const STATUS_RESERVED_8 = 8;
@@ -44,8 +46,10 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     const SUBMIT_WEB_STORAGE = 3;
 
     public static $statuses = array(
+        self::STATUS_SERVER_CORE_ERROR => 'server error',
         self::STATUS_SERVER_ERROR => 'server error',
-        self::STATUS_ERROR => 'error',
+        self::STATUS_INIT => 'error',
+        self::STATUS_ERROR => 'init',
         self::STATUS_PROCESSING_STORAGE => 'processing',
         self::STATUS_PROCESSING_STORAGE_CHECK => 'processing',
         self::STATUS_PROCESSING_FILES => 'processing',
@@ -54,7 +58,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         self::STATUS_PRE_CHECKED => 'processing',
         self::STATUS_POST_CHECKED => 'processing',
         self::STATUS_SOURCES => 'processing',
-        self::STATUS_RESERVED_5 => 'processing',
+        self::STATUS_SNIPPETS => 'processing',
         self::STATUS_RESERVED_6 => 'processing',
         self::STATUS_RESERVED_7 => 'processing',
         self::STATUS_RESERVED_8 => 'processing',
@@ -159,6 +163,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function get_error_statuses() {
         return array(
+            self::STATUS_SERVER_CORE_ERROR,
             self::STATUS_SERVER_ERROR,
             self::STATUS_ERROR,
         );
@@ -170,6 +175,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function get_processing_statuses() {
         return array(
+            self::STATUS_INIT,
             self::STATUS_PROCESSING_STORAGE,
             self::STATUS_PROCESSING_STORAGE_CHECK,
             self::STATUS_PROCESSING_FILES,
@@ -178,7 +184,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
             self::STATUS_PRE_CHECKED,
             self::STATUS_POST_CHECKED,
             self::STATUS_SOURCES,
-            self::STATUS_RESERVED_5,
+            self::STATUS_SNIPPETS,
             self::STATUS_RESERVED_6,
             self::STATUS_RESERVED_7,
             self::STATUS_RESERVED_8,
