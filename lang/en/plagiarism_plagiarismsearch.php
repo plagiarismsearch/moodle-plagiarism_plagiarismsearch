@@ -32,10 +32,10 @@ $string['sources_doc_web_storage'] = 'Doc vs Web + Storage';
 $string['sources_doc_web'] = 'Doc vs Web';
 $string['sources_doc_storage'] = 'Doc vs Storage';
 
-$string['student_show_percentage'] = 'Show plagiarism percentage to students';
-$string['student_show_reports'] = 'Show reports to students';
-$string['student_submit'] = 'Students can submit papers';
-$string['student_resubmit'] = 'Students can re-submit papers';
+$string['student_show_percentage'] = 'Allow students view plagiarism percentage';
+$string['student_show_reports'] = 'Allow students download .pdf reports';
+$string['student_submit'] = 'Allow students submit papers';
+$string['student_resubmit'] = 'Allow students re-submit papers';
 $string['student_resubmit_numbers'] = 'The number of re-submits';
 $string['student_disclosure'] = 'Student disclosure';
 $string['student_disclosure_default'] = 'All files uploaded will be submitted to PlagiarismSearch.com detection service.';
