@@ -50,13 +50,13 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             static::$cacheviewlinks[$cmid] = has_capability('plagiarism/plagiarismsearch:viewlinks', $context);
 
             if (static::is_student($cmid)) {
-                if(plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports')) {
+                if (plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports')) {
                     static::$cacheviewlinks[$cmid] = true;
-                } else if(plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_percentage')) {
+                } else if (plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_percentage')) {
                     static::$cacheviewlinks[$cmid] = true;
-                } else if(plagiarismsearch_config::get_config_or_settings($cmid, 'student_submit')) {
+                } else if (plagiarismsearch_config::get_config_or_settings($cmid, 'student_submit')) {
                     static::$cacheviewlinks[$cmid] = true;
-                } else if(plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit')) {
+                } else if (plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit')) {
                     static::$cacheviewlinks[$cmid] = true;
                 } else {
                     static::$cacheviewlinks[$cmid] = false;
@@ -73,7 +73,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
     public static function is_student($cmid = null) {
         if (static::$cacheisstudent === null) {
-            if(is_siteadmin()) {
+            if (is_siteadmin()) {
                 static::$cacheisstudent = false;
             } else {
                 $context = context_module::instance($cmid);
