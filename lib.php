@@ -50,7 +50,17 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             static::$cacheviewlinks[$cmid] = has_capability('plagiarism/plagiarismsearch:viewlinks', $context);
 
             if (static::is_student($cmid)) {
-                static::$cacheviewlinks[$cmid] = (bool) plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports');
+                if(plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports')) {
+                    static::$cacheviewlinks[$cmid] = true;
+                } else if(plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_percentage')) {
+                    static::$cacheviewlinks[$cmid] = true;
+                } else if(plagiarismsearch_config::get_config_or_settings($cmid, 'student_submit')) {
+                    static::$cacheviewlinks[$cmid] = true;
+                } else if(plagiarismsearch_config::get_config_or_settings($cmid, 'student_resubmit')) {
+                    static::$cacheviewlinks[$cmid] = true;
+                } else {
+                    static::$cacheviewlinks[$cmid] = false;
+                }
             }
         }
 
@@ -63,8 +73,12 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
     public static function is_student($cmid = null) {
         if (static::$cacheisstudent === null) {
-            $context = context_module::instance($cmid);
-            static::$cacheisstudent = has_capability('plagiarism/plagiarismsearch:isstudent', $context);
+            if(is_siteadmin()) {
+                static::$cacheisstudent = false;
+            } else {
+                $context = context_module::instance($cmid);
+                static::$cacheisstudent = has_capability('plagiarism/plagiarismsearch:isstudent', $context);
+            }
         }
         return static::$cacheisstudent;
     }
@@ -184,6 +198,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         $result .= " \n";
         if ($report) {
             if (!plagiarismsearch_reports::is_processing($report) and $this->has_show_resubmit_link($cmid, $userid, $filehash)) {
+                $result .= html_writer::empty_tag('br');
                 $result .= html_writer::link($submiturl, get_string('resubmit', 'plagiarism_plagiarismsearch'));
             }
         } else if ($this->has_show_submit_link($cmid)) {
