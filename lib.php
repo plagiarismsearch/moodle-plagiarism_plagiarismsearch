@@ -346,7 +346,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             if (isset($data->{$field})) {
                 $value = $data->{$field};
                 $this->save_form_config($cmid, $name, $value);
-            } else if(in_array($name, array('use'))) {
+            } else if (in_array($name, array('use'))) {
                 // Checkboxes default set 0
                 $this->save_form_config($cmid, $name, 0);
             }
