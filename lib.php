@@ -292,6 +292,9 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
             $mform->addElement('header', 'plagiarismsearchdesc', get_string('plagiarismsearch', 'plagiarism_plagiarismsearch'));
 
+            $mform->addElement('checkbox', 'plagiarismsearch_use', get_string('use', 'plagiarism_plagiarismsearch'));
+            $mform->setDefault('plagiarismsearch_use', plagiarismsearch_config::get_config_or_settings($cmid, 'use'));
+
             $mform->addElement('select', 'plagiarismsearch_auto_check', get_string('auto_check', 'plagiarism_plagiarismsearch'), $notoryes);
             $mform->setDefault('plagiarismsearch_auto_check', plagiarismsearch_config::get_config_or_settings($cmid, 'auto_check'));
 
@@ -342,12 +345,19 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         foreach ($fields as $name => $field) {
             if (isset($data->{$field})) {
                 $value = $data->{$field};
-                if ($config = plagiarismsearch_config::get_one(array('cmid' => $cmid, 'name' => $name))) {
-                    plagiarismsearch_config::update(array('value' => $value), $config->id);
-                } else {
-                    plagiarismsearch_config::insert(array('cmid' => $cmid, 'name' => $name, 'value' => $value));
-                }
+                $this->save_form_config($cmid, $name, $value);
+            } else if(in_array($name, array('use'))) {
+                // Checkboxes default set 0
+                $this->save_form_config($cmid, $name, 0);
             }
+        }
+    }
+
+    protected function save_form_config($cmid, $name, $value) {
+        if ($config = plagiarismsearch_config::get_one(array('cmid' => $cmid, 'name' => $name))) {
+            return plagiarismsearch_config::update(array('value' => $value), $config->id);
+        } else {
+            return plagiarismsearch_config::insert(array('cmid' => $cmid, 'name' => $name, 'value' => $value));
         }
     }
 
