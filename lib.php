@@ -340,7 +340,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public function save_form_elements($data) {
         $cmid = $data->coursemodule;
-
         $fields = plagiarismsearch_config::fields();
         foreach ($fields as $name => $field) {
             if (isset($data->{$field})) {
