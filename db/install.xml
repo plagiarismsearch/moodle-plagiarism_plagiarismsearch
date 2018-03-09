@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="plagiarism/plagiarismsearch/db" VERSION="2018021900" COMMENT="XMLDB file for Moodle plagiarism/plagiarismsearch"
+<XMLDB PATH="plagiarism/plagiarismsearch/db" VERSION="2018030900" COMMENT="XMLDB file for Moodle plagiarism/plagiarismsearch"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
