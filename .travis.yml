@@ -12,6 +12,7 @@ php:
  - 5.6
  - 7.0
  - 7.1
+ - 7.2
 
 env:
 
@@ -24,9 +25,11 @@ env:
     - DB=mysqli MOODLE_BRANCH=MOODLE_32_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
+    - DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
     - DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
     - DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
     - DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
+    - DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
 
 matrix:
   exclude:
@@ -36,11 +39,15 @@ matrix:
       php: 5.4
     - env: DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
       php: 5.4
+    - env: DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
+      php: 5.4
     - env: DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
       php: 5.4
     - env: DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
       php: 5.4
     - env: DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
+      php: 5.4
+    - env: DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
       php: 5.4
       
     - env: DB=mysqli MOODLE_BRANCH=MOODLE_32_STABLE
@@ -49,12 +56,25 @@ matrix:
       php: 5.5
     - env: DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
       php: 5.5
+    - env: DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
+      php: 5.5
     - env: DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
       php: 5.5
     - env: DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
       php: 5.5
     - env: DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
       php: 5.5
+    - env: DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
+      php: 5.5
+      
+    - env: DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
+      php: 5.6
+    - env: DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
+      php: 5.6
+    - env: DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
+      php: 5.6
+    - env: DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
+      php: 5.6
 
 before_install:
   - phpenv config-rm xdebug.ini
