@@ -85,12 +85,12 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
             return null;
         }
 
-        plagiarismsearch_core::send_file($file, $this->cmid());
+        plagiarismsearch_core::send_file($file, $this->cmid(), array('submit' => 'auto'));
     }
 
     protected function handle_online_text() {
         if ($content = $this->get_onlinetext_content()) {
-            plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid());
+            plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid(), array('submit' => 'auto'));
         }
     }
 

@@ -135,4 +135,13 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return (bool) static::get_config_or_settings($cmid, 'use') and static::get_config_or_settings($cmid, 'auto_check');
     }
 
+    public static function get_release() {
+        global $CFG;
+        require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/version.php');
+
+        if (isset($plugin->release)) {
+            return $plugin->release;
+        }
+    }
+
 }

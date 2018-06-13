@@ -31,6 +31,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
             'filter_chars' => $this->get_config('filter_chars', 0),
             'filter_references' => $this->get_config('filter_references', 0),
             'filter_quotes' => $this->get_config('filter_quotes', 0),
+            'callback_url' => new moodle_url('/plagiarism/plagiarismsearch/callback.php'),
+            'moodle' => plagiarismsearch_config::get_release(),
         );
         $sources = $this->get_config('sources_type', plagiarismsearch_reports::SUBMIT_WEB);
 

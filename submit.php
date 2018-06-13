@@ -72,7 +72,7 @@ if ($file->get_userid() != $userid) {
 }
 
 // Send file
-$msg = plagiarismsearch_core::send_file($file, $cmid, array('force' => $force));
+$msg = plagiarismsearch_core::send_file($file, $cmid, array('force' => $force, 'submit' => 'manual'));
 
 // Safe back redirect
 $redirect = plagiarismsearch_core::redirect_url($cm, $context);
