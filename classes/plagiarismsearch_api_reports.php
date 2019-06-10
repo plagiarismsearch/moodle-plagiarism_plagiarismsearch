@@ -106,7 +106,9 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
     protected function generate_remote_id() {
         $result = array(
+            // Cource id
             'c:' . $this->cmid,
+            // User id
             'u:' . $this->userid,
         );
 
