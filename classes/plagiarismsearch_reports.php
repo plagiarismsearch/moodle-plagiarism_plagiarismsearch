@@ -48,8 +48,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     public static $statuses = array(
         self::STATUS_SERVER_CORE_ERROR => 'server error',
         self::STATUS_SERVER_ERROR => 'server error',
-        self::STATUS_INIT => 'error',
-        self::STATUS_ERROR => 'init',
+        self::STATUS_INIT => 'init',
+        self::STATUS_ERROR => 'error',
         self::STATUS_PROCESSING_STORAGE => 'processing',
         self::STATUS_PROCESSING_STORAGE_CHECK => 'processing',
         self::STATUS_PROCESSING_FILES => 'processing',

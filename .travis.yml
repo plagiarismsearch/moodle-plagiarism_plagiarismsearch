@@ -16,54 +16,21 @@ addons:
       - openjdk-8-jre-headless
 
 php:
- - 5.6
- - 7.0
- - 7.1
  - 7.2
+ - 7.3
+ - 7.4
 
 env:
 
   matrix:
-    - DB=mysqli MOODLE_BRANCH=MOODLE_27_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_28_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_29_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_30_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_31_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_32_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_36_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_37_STABLE
-    - DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
-    - DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
-    - DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
-    - DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
-    - DB=pgsql MOODLE_BRANCH=MOODLE_36_STABLE
-    - DB=pgsql MOODLE_BRANCH=MOODLE_37_STABLE
-
-matrix:
-  exclude:      
-    - env: DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
-      php: 5.6
-    - env: DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
-      php: 5.6
-    - env: DB=mysqli MOODLE_BRANCH=MOODLE_36_STABLE
-      php: 5.6
-    - env: DB=mysqli MOODLE_BRANCH=MOODLE_37_STABLE
-      php: 5.6
-    - env: DB=mysqli MOODLE_BRANCH=MOODLE_37_STABLE
-      php: 7.0
-    - env: DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
-      php: 5.6
-    - env: DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
-      php: 5.6
-    - env: DB=pgsql MOODLE_BRANCH=MOODLE_36_STABLE
-      php: 5.6
-    - env: DB=pgsql MOODLE_BRANCH=MOODLE_37_STABLE
-      php: 5.6
-    - env: DB=pgsql MOODLE_BRANCH=MOODLE_37_STABLE
-      php: 7.0
+    - DB=mysqli MOODLE_BRANCH=MOODLE_38_STABLE
+    - DB=mysqli MOODLE_BRANCH=MOODLE_39_STABLE
+    - DB=pgsql MOODLE_BRANCH=MOODLE_39_STABLE
 
 before_install:
   - phpenv config-rm xdebug.ini
