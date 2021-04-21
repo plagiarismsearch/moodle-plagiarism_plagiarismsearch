@@ -5,7 +5,7 @@
 
 PlagiarismSearch Plagiarism plugin for Moodle
 
-**Supported Moodle versions:** 2.7 - 3.9  
+**Supported Moodle versions:** 2.7 - 3.10  
 **Supported PHP versions:** 5.6 - 7.4  
 **Moodle plugins directory:** https://moodle.org/plugins/plagiarism_plagiarismsearch
 
