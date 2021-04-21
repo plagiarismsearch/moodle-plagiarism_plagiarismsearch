@@ -23,5 +23,32 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
+    global $DB;
+
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2021042109) {
+
+        $table = new xmldb_table('plagiarism_plagiarismsearchr');
+
+        $field = new xmldb_field('rfileid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, '0', 'rid');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('rserverurl', XMLDB_TYPE_CHAR, '255', XMLDB_UNSIGNED, null, null, null, 'rfileid');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('rkey', XMLDB_TYPE_CHAR, '64', XMLDB_UNSIGNED, null, null, null, 'rserverurl');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Savepoint reached
+        upgrade_plugin_savepoint(true, 2021042109, 'plagiarism', 'plagiarismsearch');
+    }
+
     return true;
 }

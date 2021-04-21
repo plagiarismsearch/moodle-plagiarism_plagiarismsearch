@@ -26,13 +26,22 @@ class plagiarismsearch_base {
     }
 
     protected function configure($config = array()) {
-        if (!empty($config)) {
-            if (is_array($config)) {
-                foreach ($config as $key => $value) {
-                    $this->{$key} = $value;
-                }
-            }
+        if (empty($config)) {
+            return;
         }
+        if (!is_array($config)) {
+            return;
+        }
+        foreach ($config as $key => $value) {
+            $this->{$key} = $value;
+        }
+    }
+    
+    public static function translate($value, $module = 'plagiarism_plagiarismsearch') {
+        if(empty($value)) {
+            return $value;
+        }
+        return get_string($value, $module);
     }
 
 }

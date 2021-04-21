@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -60,42 +61,40 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      * @return string
      */
     public static function send_file($file, $cmid, $params = array()) {
-        $values = array(
+        $filename = $file->get_filename();
+        $apivalues = array(
             'cmid' => $cmid,
             /**/
             'senderid' => static::get_sender_id(),
             'userid' => $file->get_userid(),
             'fileid' => $file->get_id(),
-            'filename' => $file->get_filename(),
+            'filename' => $filename,
             'filehash' => $file->get_pathnamehash(),
         );
 
-        $api = new plagiarismsearch_api_reports($values);
+        $api = new plagiarismsearch_api_reports($apivalues);
         $page = $api->action_send_file($file, $params);
 
         $msg = '';
         if ($page) {
             if ($page->status and ! empty($page->data)) {
-                $values['rid'] = $page->data->id;
-                $values['status'] = $page->data->status;
-                $values['plagiarism'] = $page->data->plagiat;
-                $values['url'] = (string) $page->data->file;
-                $msg = get_string('submit_ok', 'plagiarism_plagiarismsearch', $file->get_filename());
+                $values = static::fill_report_values($page->data);
+                $msg = get_string('submit_ok', 'plagiarism_plagiarismsearch', $filename);
             } else {
                 $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
                 $values['log'] = (!empty($page->message) ? $page->message : '');
 
-                $msg = get_string('submit_error', 'plagiarism_plagiarismsearch', $file->get_filename()) .
+                $msg = get_string('submit_error', 'plagiarism_plagiarismsearch', $filename) .
                         (!empty($page->message) ? '. ' . $page->message : '');
             }
         } else {
             $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
-            $values['log'] = get_string('server_connection_error', 'plagiarism_plagiarismsearch');
-            $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
+            $values['log'] = static::translate('server_connection_error');
+            $msg = static::translate('server_connection_error') . ' ' . $api->apierror;
         }
 
         // Log submit result
-        plagiarismsearch_reports::add($values);
+        plagiarismsearch_reports::add(array_merge($apivalues, $values));
 
         return $msg;
     }
@@ -125,22 +124,19 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         $msg = '';
         if ($page) {
             if ($page->status and ! empty($page->data)) {
-                $values['rid'] = $page->data->id;
-                $values['status'] = $page->data->status;
-                $values['plagiarism'] = $page->data->plagiat;
-                $values['url'] = (string) $page->data->file;
-                $msg = get_string('submit_onlinetext_ok', 'plagiarism_plagiarismsearch');
+                $values = static::fill_report_values($page->data);
+                $msg = static::translate('submit_onlinetext_ok');
             } else {
                 $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
                 $values['log'] = (!empty($page->message) ? $page->message : '');
 
-                $msg = get_string('submit_onlinetext_error', 'plagiarism_plagiarismsearch') .
+                $msg = static::translate('submit_onlinetext_error') .
                         (!empty($page->message) ? '. ' . $page->message : '');
             }
         } else {
             $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
-            $values['log'] = get_string('server_connection_error', 'plagiarism_plagiarismsearch');
-            $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
+            $values['log'] = static::translate('server_connection_error');
+            $msg = static::translate('server_connection_error') . ' ' . $api->apierror;
         }
 
         // Log submit result
@@ -161,45 +157,86 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         $page = $api->action_status($ids);
 
         $msg = '';
-        if ($page) {
-            if ($page->status and ! empty($page->data)) {
-
-                $msg = get_string('status_ok', 'plagiarism_plagiarismsearch');
-
-                foreach ($page->data as $row) {
-                    $values['status'] = $row->status;
-                    $values['plagiarism'] = $row->plagiat;
-                    $values['url'] = (string) $row->file;
-
-                    $msg .= "\n #" . $row->id . ' is ' . plagiarismsearch_reports::$statuses[$row->status];
-
-                    if ($id = array_search($row->id, $ids)) {
-                        plagiarismsearch_reports::update($values, $id);
-                    }
-                }
-            } else {
-                $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
-                $values['log'] = (!empty($page->message) ? $page->message : '');
-
-                $rids = array_keys($ids);
-                foreach ($rids as $id) {
-                    plagiarismsearch_reports::update($values, $id);
-                }
-
-                $msg = get_string('status_error', 'plagiarism_plagiarismsearch') .
-                        (!empty($page->message) ? '. ' . $page->message : '');
-            }
-        } else {
+        if (!$page) {
             $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
             $rids = array_keys($ids);
             foreach ($rids as $id) {
                 plagiarismsearch_reports::update($values, $id);
             }
 
-            $msg = get_string('server_connection_error', 'plagiarism_plagiarismsearch') . ' ' . $api->apierror;
+            $msg = static::translate('server_connection_error') . ' ' . $api->apierror;
+
+            return $msg;
+        }
+
+        if ($page->status and ! empty($page->data)) {
+
+            $msg = static::translate('status_ok');
+
+            foreach ($page->data as $report) {
+                $values = static::fill_report_values($report);
+
+                $statuslabel = '';
+                if (isset(plagiarismsearch_reports::$statuses[$report->status])) {
+                    $statuslabel = plagiarismsearch_reports::$statuses[$report->status];
+                } else {
+                    $statuslabel = static::translate('unknown_error');
+                }
+
+                $msg .= "\n #" . $report->id . ' ' . static::translate('is_in') . ' '
+                        . $statuslabel . ' ' . static::translate('status');
+
+                if ($id = array_search($report->id, $ids)) {
+                    plagiarismsearch_reports::update($values, $id);
+                }
+            }
+        } else {
+            $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
+            $values['log'] = (!empty($page->message) ? $page->message : '');
+
+            $rids = array_keys($ids);
+            foreach ($rids as $id) {
+                plagiarismsearch_reports::update($values, $id);
+            }
+
+            $msg = static::translate('status_error') .
+                    (!empty($page->message) ? '. ' . $page->message : '');
         }
 
         return $msg;
+    }
+
+    /**
+     * Fill report values
+     *
+     * @param mixed $report
+     * @return array
+     */
+    protected static function fill_report_values($report) {
+        $values = array();
+        if (property_exists($report, 'id')) {
+            $values['rid'] = $report->id;
+        }
+        if (property_exists($report, 'status')) {
+            $values['status'] = $report->status;
+        }
+        if (property_exists($report, 'plagiat')) {
+            $values['plagiarism'] = $report->plagiat;
+        }
+        if (property_exists($report, 'file')) {
+            $values['url'] = (string) $report->file;
+        }
+        if (property_exists($report, 'auth_key')) {
+            $values['rkey'] = $report->auth_key;
+        }
+        if (property_exists($report, 'file_id')) {
+            $values['rfileid'] = $report->file_id;
+        }
+        if (property_exists($report, 'server_url')) {
+            $values['rserverurl'] = $report->server_url;
+        }
+
+        return $values;
     }
 
     /**

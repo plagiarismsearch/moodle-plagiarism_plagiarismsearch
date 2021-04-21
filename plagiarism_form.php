@@ -33,73 +33,131 @@ class plagiarism_setup_form extends moodleform {
 
         $mform = $this->_form;
 
+        $prefix = plagiarismsearch_config::CONFIG_PREFIX;
+
         $notoryes = array(
-            0 => get_string('no'),
-            1 => get_string('yes'),
+            0 => $this->translate('no', null),
+            1 => $this->translate('yes', null),
         );
         $submittype = array(
-            plagiarismsearch_reports::SUBMIT_WEB_STORAGE => get_string('sources_doc_web_storage', 'plagiarism_plagiarismsearch'),
-            plagiarismsearch_reports::SUBMIT_WEB => get_string('sources_doc_web', 'plagiarism_plagiarismsearch'),
-            plagiarismsearch_reports::SUBMIT_STORAGE => get_string('sources_doc_storage', 'plagiarism_plagiarismsearch'),
+            plagiarismsearch_config::SUBMIT_WEB_STORAGE => $this->translate('sources_doc_web_storage'),
+            plagiarismsearch_config::SUBMIT_WEB => $this->translate('sources_doc_web'),
+            plagiarismsearch_config::SUBMIT_STORAGE => $this->translate('sources_doc_storage'),
+        );
+        $reporttypes = array(
+            plagiarismsearch_config::REPORT_NO => $this->translate('report_show_no'),
+            plagiarismsearch_config::REPORT_PDF => $this->translate('report_show_pdf'),
+            plagiarismsearch_config::REPORT_HTML => $this->translate('report_show_html'),
+            plagiarismsearch_config::REPORT_PDF_HTML => $this->translate('report_show_pdf_html'),
+        );
+        $reportlanguages = array(
+            plagiarismsearch_config::LANGUAGE_DEFAULT => $this->translate('report_language_default'),
+            plagiarismsearch_config::LANGUAGE_EN => $this->translate('report_language_en'),
+            plagiarismsearch_config::LANGUAGE_ES => $this->translate('report_language_es'),
+            plagiarismsearch_config::LANGUAGE_PL => $this->translate('report_language_pl'),
+            plagiarismsearch_config::LANGUAGE_RU => $this->translate('report_language_ru'),
+        );
+        $plagiarismfilters = array(
+            plagiarismsearch_config::FILTER_PLAGIARISM_NO => $this->translate('filter_plagiarism_no'),
+            plagiarismsearch_config::FILTER_PLAGIARISM_USER_COURSE => $this->translate('filter_plagiarism_user_course'),
+            plagiarismsearch_config::FILTER_PLAGIARISM_USER => $this->translate('filter_plagiarism_user'),
+            plagiarismsearch_config::FILTER_PLAGIARISM_COURSE => $this->translate('filter_plagiarism_course'),
         );
 
-        $mform->addElement('html', get_string('text_plain', 'plagiarism_plagiarismsearch'));
-        $mform->addElement('checkbox', 'plagiarismsearch_use', get_string('use', 'plagiarism_plagiarismsearch'));
+        $field = plagiarismsearch_config::FIELD_USE;
+        $mform->addElement('html', $this->translate('text_plain'));
+        $mform->addElement('checkbox', $prefix . $field, $this->translate($field));
 
-        $mform->addElement('text', 'plagiarismsearch_api_url', get_string('api_url', 'plagiarism_plagiarismsearch'), array('size' => '40'));
-        $mform->addRule('plagiarismsearch_api_url', null, 'required', null, 'client');
-        $mform->setDefault('plagiarismsearch_api_url', 'https://plagiarismsearch.com/api/v3');
-        $mform->setType('plagiarismsearch_api_url', PARAM_TEXT);
+        $field = plagiarismsearch_config::FIELD_API_URL;
+        $mform->addElement('text', $prefix . $field, $this->translate($field), array('size' => '40'));
+        $mform->addRule($prefix . $field, null, 'required', null, 'client');
+        $mform->setDefault($prefix . $field, 'https://plagiarismsearch.com/api/v3');
+        $mform->setType($prefix . $field, PARAM_TEXT);
 
-        $mform->addElement('text', 'plagiarismsearch_api_user', get_string('api_user', 'plagiarism_plagiarismsearch'), array('size' => '40'));
-        $mform->addRule('plagiarismsearch_api_user', null, 'required', null, 'client');
-        $mform->setType('plagiarismsearch_api_user', PARAM_TEXT);
+        $field = plagiarismsearch_config::FIELD_API_USER;
+        $mform->addElement('text', $prefix . $field, $this->translate($field), array('size' => '40'));
+        $mform->addRule($prefix . $field, null, 'required', null, 'client');
+        $mform->setType($prefix . $field, PARAM_TEXT);
 
-        $mform->addElement('text', 'plagiarismsearch_api_key', get_string('api_key', 'plagiarism_plagiarismsearch'), array('size' => '40'));
-        $mform->addRule('plagiarismsearch_api_key', null, 'required', null, 'client');
-        $mform->setType('plagiarismsearch_api_key', PARAM_TEXT);
+        $field = plagiarismsearch_config::FIELD_API_KEY;
+        $mform->addElement('text', $prefix . $field, $this->translate($field), array('size' => '40'));
+        $mform->addRule($prefix . $field, null, 'required', null, 'client');
+        $mform->setType($prefix . $field, PARAM_TEXT);
 
-        $mform->addElement('select', 'plagiarismsearch_auto_check', get_string('auto_check', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_auto_check', 1);
+        $field = plagiarismsearch_config::FIELD_API_DEBUG;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
 
-        $mform->addElement('select', 'plagiarismsearch_manual_check', get_string('manual_check', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_manual_check', 0);
+        $field = plagiarismsearch_config::FIELD_AUTO_CHECK;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 1);
 
-        $mform->addElement('select', 'plagiarismsearch_add_to_storage', get_string('add_to_storage', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_add_to_storage', 1);
+        $field = plagiarismsearch_config::FIELD_MANUAL_CHECK;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
 
-        $mform->addElement('select', 'plagiarismsearch_sources_type', get_string('sources_type', 'plagiarism_plagiarismsearch'), $submittype);
-        $mform->setDefault('plagiarismsearch_sources_type', plagiarismsearch_reports::SUBMIT_WEB_STORAGE);
+        $field = plagiarismsearch_config::FIELD_ADD_TO_STORAGE;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 1);
 
-        $mform->addElement('select', 'plagiarismsearch_filter_chars', get_string('filter_chars', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_filter_chars', 0);
+        $field = plagiarismsearch_config::FIELD_SOURCES_TYPE;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $submittype);
+        $mform->setDefault($prefix . $field, plagiarismsearch_config::SUBMIT_WEB_STORAGE);
 
-        $mform->addElement('select', 'plagiarismsearch_filter_references', get_string('filter_references', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_filter_references', 0);
+        $field = plagiarismsearch_config::FIELD_FILTER_CHARS;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
 
-        $mform->addElement('select', 'plagiarismsearch_filter_quotes', get_string('filter_quotes', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_filter_quotes', 0);
+        $field = plagiarismsearch_config::FIELD_FILTER_REFERENCES;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
 
-        $mform->addElement('select', 'plagiarismsearch_student_show_reports', get_string('student_show_reports', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_student_show_reports', 1);
+        $field = plagiarismsearch_config::FIELD_FILTER_QUOTES;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
 
-        $mform->addElement('select', 'plagiarismsearch_student_show_percentage', get_string('student_show_percentage', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_student_show_percentage', 1);
+        $field = plagiarismsearch_config::FIELD_FILTER_PLAGIARISM;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $plagiarismfilters);
+        $mform->setDefault($prefix . $field, plagiarismsearch_config::FILTER_PLAGIARISM_USER_COURSE);
 
-        $mform->addElement('select', 'plagiarismsearch_student_submit', get_string('student_submit', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_student_submit', 0);
+        $field = plagiarismsearch_config::FIELD_REPORT_LANGUAGE;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $reportlanguages);
+        $mform->setDefault($prefix . $field, plagiarismsearch_config::REPORT_PDF);
 
-        $mform->addElement('select', 'plagiarismsearch_student_resubmit', get_string('student_resubmit', 'plagiarism_plagiarismsearch'), $notoryes);
-        $mform->setDefault('plagiarismsearch_student_resubmit', 0);
+        $field = plagiarismsearch_config::FIELD_REPORT_TYPE;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $reporttypes);
+        $mform->setDefault($prefix . $field, plagiarismsearch_config::REPORT_PDF);
 
-        $mform->addElement('text', 'plagiarismsearch_student_resubmit_numbers', get_string('student_resubmit_numbers', 'plagiarism_plagiarismsearch'));
-        $mform->setDefault('plagiarismsearch_student_resubmit_numbers', '');
-        $mform->setType('plagiarismsearch_student_resubmit_numbers', PARAM_TEXT);
+        $field = plagiarismsearch_config::FIELD_STUDENT_SHOW_REPORTS;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $reporttypes);
+        $mform->setDefault($prefix . $field, plagiarismsearch_config::REPORT_PDF);
 
-        $mform->addElement('textarea', 'plagiarismsearch_student_disclosure', get_string('student_disclosure', 'plagiarism_plagiarismsearch'), 'wrap="virtual" rows="6" cols="50"');
-        $mform->setDefault('plagiarismsearch_student_disclosure', get_string('student_disclosure_default', 'plagiarism_plagiarismsearch'));
+        $field = plagiarismsearch_config::FIELD_STUDENT_SHOW_PERCENTAGE;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 1);
+
+        $field = plagiarismsearch_config::FIELD_STUDENT_SUBMIT;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
+
+        $field = plagiarismsearch_config::FIELD_STUDENT_RESUBMIT;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
+
+        $field = plagiarismsearch_config::FIELD_STUDENT_RESUBMIT_NUMBERS;
+        $mform->addElement('text', $prefix . $field, $this->translate($field));
+        $mform->setDefault($prefix . $field, '');
+        $mform->setType($prefix . $field, PARAM_TEXT);
+
+        $field = plagiarismsearch_config::FIELD_STUDENT_DISCLOSURE;
+        $mform->addElement('textarea', $prefix . $field, $this->translate($field), 'wrap="virtual" rows="6" cols="50"');
+        $mform->setDefault($prefix . $field, $this->translate('student_disclosure_default'));
 
         $this->add_action_buttons(true);
+    }
+
+    protected function translate($value, $module = 'plagiarism_plagiarismsearch') {
+        return get_string($value, $module);
     }
 
 }

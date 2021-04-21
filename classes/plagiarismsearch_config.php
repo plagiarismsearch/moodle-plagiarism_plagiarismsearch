@@ -21,10 +21,64 @@
  */
 class plagiarismsearch_config extends plagiarismsearch_table {
 
-    const USE_NAME = 'plagiarismsearch_use';
+    const CONFIG_PREFIX = 'plagiarismsearch_';
+    /**/
+    const FIELD_USE = 'use';
+    const FIELD_API_URL = 'api_url';
+    const FIELD_API_USER = 'api_user';
+    const FIELD_API_KEY = 'api_key';
+    const FIELD_API_DEBUG = 'api_debug';
+    const FIELD_AUTO_CHECK = 'auto_check';
+    const FIELD_MANUAL_CHECK = 'manual_check';
+    const FIELD_ADD_TO_STORAGE = 'add_to_storage';
+    const FIELD_SOURCES_TYPE = 'sources_type';
+    const FIELD_REPORT_LANGUAGE = 'report_language';
+    const FIELD_REPORT_TYPE = 'report_type';
+    const FIELD_FILTER_CHARS = 'filter_chars';
+    const FIELD_FILTER_REFERENCES = 'filter_references';
+    const FIELD_FILTER_QUOTES = 'filter_quotes';
+    const FIELD_FILTER_PLAGIARISM = 'filter_plagiarism';
+    const FIELD_STUDENT_SHOW_REPORTS = 'student_show_reports';
+    const FIELD_STUDENT_SHOW_PERCENTAGE = 'student_show_percentage';
+    const FIELD_STUDENT_SUBMIT = 'student_submit';
+    const FIELD_STUDENT_RESUBMIT = 'student_resubmit';
+    const FIELD_STUDENT_RESUBMIT_NUMBERS = 'student_resubmit_numbers';
+    const FIELD_STUDENT_DISCLOSURE = 'student_disclosure';
+    /**/
+    const SUBMIT_WEB = 1;
+    const SUBMIT_STORAGE = 2;
+    // self::SUBMIT_WEB | self::SUBMIT_STORAGE;
+    const SUBMIT_WEB_STORAGE = 3;
+    /**/
+    const REPORT_NO = 0;
+    const REPORT_PDF = 1;
+    const REPORT_HTML = 2;
+    const REPORT_PDF_HTML = 3;
+    /**/
+    const LANGUAGE_DEFAULT = '';
+    const LANGUAGE_EN = 'en';
+    const LANGUAGE_ES = 'es';
+    const LANGUAGE_PL = 'pl';
+    const LANGUAGE_RU = 'ru';
+    /**/
+    const FILTER_PLAGIARISM_NO = 0;
+    const FILTER_PLAGIARISM_USER_COURSE = 1;
+    const FILTER_PLAGIARISM_USER = 2;
+    const FILTER_PLAGIARISM_COURSE = 3;
 
     protected static $config = array();
     protected static $settings = array();
+    protected static $fields = array(
+        self::FIELD_USE,
+        self::FIELD_API_URL, self::FIELD_API_USER, self::FIELD_API_KEY, self::FIELD_API_DEBUG,
+        self::FIELD_AUTO_CHECK, self::FIELD_MANUAL_CHECK,
+        self::FIELD_ADD_TO_STORAGE,
+        self::FIELD_SOURCES_TYPE,
+        self::FIELD_REPORT_LANGUAGE, self::FIELD_REPORT_TYPE,
+        self::FIELD_FILTER_CHARS, self::FIELD_FILTER_PLAGIARISM, self::FIELD_FILTER_QUOTES, self::FIELD_FILTER_REFERENCES,
+        self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
+        self::FIELD_STUDENT_SHOW_PERCENTAGE, self::FIELD_STUDENT_SHOW_REPORTS, self::FIELD_STUDENT_SUBMIT,
+    );
 
     public static function table_name() {
         // Moodle error: 'name is too long. Limit is 28 chars.'
@@ -32,25 +86,11 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     public static function fields() {
-        return array(
-            'use' => 'plagiarismsearch_use',
-            'api_url' => 'plagiarismsearch_api_url',
-            'api_user' => 'plagiarismsearch_api_user',
-            'api_key' => 'plagiarismsearch_api_key',
-            'auto_check' => 'plagiarismsearch_auto_check',
-            'manual_check' => 'plagiarismsearch_manual_check',
-            'add_to_storage' => 'plagiarismsearch_add_to_storage',
-            'sources_type' => 'plagiarismsearch_sources_type',
-            'filter_chars' => 'plagiarismsearch_filter_chars',
-            'filter_references' => 'plagiarismsearch_filter_references',
-            'filter_quotes' => 'plagiarismsearch_filter_quotes',
-            'student_show_reports' => 'plagiarismsearch_student_show_reports',
-            'student_show_percentage' => 'plagiarismsearch_student_show_percentage',
-            'student_submit' => 'plagiarismsearch_student_submit',
-            'student_resubmit' => 'plagiarismsearch_student_resubmit',
-            'student_resubmit_numbers' => 'plagiarismsearch_student_resubmit_numbers',
-            'student_disclosure' => 'plagiarismsearch_student_disclosure',
-        );
+        $result = array();
+        foreach(static::$fields as $field) {
+            $result[$field] = static::CONFIG_PREFIX . $field;
+        }
+        return $result;
     }
 
     public static function get_config_or_settings($cmid, $name, $default = null) {
@@ -74,7 +114,8 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             'name' => $name,
         );
 
-        if ($config = $DB->get_records(static::table_name(), $condition, '', 'cmid,name,value')) {
+        $config = $DB->get_records(static::table_name(), $condition, '', 'cmid,name,value');
+        if ($config) {
             foreach ($config as $row) {
                 static::$config[$row->cmid][$row->name] = $row->value;
             }
@@ -88,7 +129,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     /**
-     * This function should be used to initialise settings and check if plagiarism is enabled.
+     * This function should be used to initialize settings and check if plagiarism is enabled.
      *
      * @param null $key
      *
@@ -104,7 +145,8 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         static::$settings = (array) get_config('plagiarism');
 
         // Check if enabled.
-        if (isset(static::$settings[static::USE_NAME]) && static::$settings[static::USE_NAME]) {
+        $usefield = static::CONFIG_PREFIX . static::FIELD_USE;
+        if (isset(static::$settings[$usefield]) && static::$settings[$usefield]) {
             return self::get_settings_item($key);
         } else {
             return false;
@@ -122,21 +164,32 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             return static::$settings;
         }
 
-        $key = 'plagiarismsearch_' . $key;
+        $key = static::CONFIG_PREFIX . $key;
 
         return isset(static::$settings[$key]) ? static::$settings[$key] : null;
     }
 
     public static function is_enabled($cmid = null) {
-        return (bool) static::get_config_or_settings($cmid, 'use');
+        return (bool) static::get_config_or_settings($cmid, static::FIELD_USE);
     }
 
     public static function is_enabled_auto($cmid = null) {
-        return (bool) static::get_config_or_settings($cmid, 'use') and static::get_config_or_settings($cmid, 'auto_check');
+        return (bool) static::get_config_or_settings($cmid, static::FIELD_USE) and static::get_config_or_settings($cmid, static::FIELD_AUTO_CHECK);
+    }
+
+    public static function is_submit_web($cmid = null) {
+        $value = static::get_config_or_settings($cmid, static::FIELD_SOURCES_TYPE, static::SUBMIT_WEB);
+        return $value & static::SUBMIT_WEB;
+    }
+
+    public static function is_submit_storage($cmid = null) {
+        $value = static::get_config_or_settings($cmid, static::FIELD_SOURCES_TYPE);
+        return $value & static::SUBMIT_STORAGE;
     }
 
     public static function get_release() {
         global $CFG;
+        global $plugin;
         require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/version.php');
 
         if (isset($plugin->release)) {

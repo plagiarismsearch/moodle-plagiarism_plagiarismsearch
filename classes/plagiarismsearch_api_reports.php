@@ -27,23 +27,38 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         $default = array(
             'fields' => array('id', 'status', 'plagiat', 'file'),
             'remote_id' => $this->generate_remote_id(),
-            'add_files_api' => $this->get_config('add_to_storage', 1),
-            'filter_chars' => $this->get_config('filter_chars', 0),
-            'filter_references' => $this->get_config('filter_references', 0),
-            'filter_quotes' => $this->get_config('filter_quotes', 0),
+            'storage' => $this->get_config(plagiarismsearch_config::FIELD_ADD_TO_STORAGE, 1),
+            'filter_chars' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_CHARS, 0),
+            'filter_references' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_REFERENCES, 0),
+            'filter_quotes' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_QUOTES, 0),
             'callback_url' => new moodle_url('/plagiarism/plagiarismsearch/callback.php'),
             'moodle' => plagiarismsearch_config::get_release(),
+            'storage_course_id' => $this->cmid,
+            'storage_user_id' => $this->userid,
         );
-        $sources = $this->get_config('sources_type', plagiarismsearch_reports::SUBMIT_WEB);
 
-        if (plagiarismsearch_reports::is_submit_web($sources)) {
+        if ($file = $this->get_file()) {
+            $default['storage_file_id'] = $file->get_id();
+            $default['storage_author'] = $file->get_author();
+        }
+
+        if (plagiarismsearch_config::is_submit_web($this->cmid)) {
             $default['search_web'] = 1;
         }
-        if (plagiarismsearch_reports::is_submit_storage($sources)) {
-            $default['search_files_api'] = 1;
+        if (plagiarismsearch_config::is_submit_storage($this->cmid)) {
+            $default['search_storage'] = 1;
 
-            // Not search on user course documents
-            $default['search_files_api_user_group'] = array($this->userid, $this->cmid);
+            $filterplagiarism = $this->get_config(plagiarismsearch_config::FIELD_FILTER_PLAGIARISM, 0);
+            if ($filterplagiarism == plagiarismsearch_config::FILTER_PLAGIARISM_USER_COURSE) {
+                $default['search_storage_user_group'] = array($this->userid, $this->cmid);
+            } else if ($filterplagiarism == plagiarismsearch_config::FILTER_PLAGIARISM_USER) {
+                $default['search_storage_filter[user_id]'] = $this->userid;
+            } else if ($filterplagiarism == plagiarismsearch_config::FILTER_PLAGIARISM_COURSE) {
+                $default['search_storage_filter[group_id]'] = $this->cmid;
+            } else if ($filterplagiarism !== plagiarismsearch_config::FILTER_PLAGIARISM_NO and $filterplagiarism !== '0') {
+                // Don't search on user course documents
+                $default['search_storage_user_group'] = array($this->userid, $this->cmid);
+            }
         }
 
         return $this->post($url, array_merge($default, $post), $files);
@@ -106,7 +121,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
     protected function generate_remote_id() {
         $result = array(
-            // Cource id
+            // Course id
             'c:' . $this->cmid,
             // User id
             'u:' . $this->userid,

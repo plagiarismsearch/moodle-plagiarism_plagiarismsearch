@@ -24,6 +24,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     public $apiurl = 'https://plagiarismsearch.com/api/v3';
     public $apiuser;
     public $apikey;
+    public $apidebug;
     /**/
     public $apisuccess;
     public $apidata;
@@ -47,6 +48,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
         $this->apiurl = plagiarismsearch_config::get_settings('api_url');
         $this->apiuser = plagiarismsearch_config::get_settings('api_user');
         $this->apikey = plagiarismsearch_config::get_settings('api_key');
+        $this->apidebug = plagiarismsearch_config::get_settings('api_debug');
 
         parent::__construct($config);
     }
@@ -64,14 +66,20 @@ class plagiarismsearch_api extends plagiarismsearch_base {
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 20);
+
+        if($this->apidebug) {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        }
+
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 7);
 
         $this->apidata = curl_exec($curl);
         $this->apiinfo = curl_getinfo($curl);
         $this->apierror = curl_error($curl);
         $this->apisuccess = $this->apiinfo >= 200 and $this->apiinfo < 300 and ! $this->apierror;
+
         curl_close($curl);
 
         if ($this->apidata) {
@@ -97,7 +105,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
                 return $post;
             }
         }
-        return false;
+        return '';
     }
 
     private function build_post_files($post, $files) {
@@ -120,17 +128,20 @@ class plagiarismsearch_api extends plagiarismsearch_base {
 
     private function build_files($files) {
         $result = array();
-        if (!empty($files)) {
-            foreach ($files as $key => $value) {
-                if (is_string($value)) {
-                    $result[$key] = new \CURLFile(realpath($value));
-                } else if (isset($value['tmp_name'])) {
-                    $file = $value['tmp_name'];
-                    $name = isset($value['name']) ? $value['name'] : null;
-                    $type = isset($value['type']) ? $value['type'] : null;
 
-                    $result[$key] = new \CURLFile($file, $type, $name);
-                }
+        if (empty($files)) {
+            return $result;
+        }
+
+        foreach ($files as $key => $value) {
+            if (is_string($value)) {
+                $result[$key] = new \CURLFile(realpath($value));
+            } else if (isset($value['tmp_name'])) {
+                $file = $value['tmp_name'];
+                $name = isset($value['name']) ? $value['name'] : null;
+                $type = isset($value['type']) ? $value['type'] : null;
+
+                $result[$key] = new \CURLFile($file, $type, $name);
             }
         }
         return $result;

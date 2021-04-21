@@ -21,10 +21,15 @@
  */
 class plagiarismsearch_reports extends plagiarismsearch_table {
 
+    const STATUS_NOT_PAID = -13;
     const STATUS_SERVER_CORE_ERROR = -12;
     const STATUS_SERVER_ERROR = -11;
     const STATUS_ERROR = -10;
     const STATUS_INIT = -9;
+    const STATUS_RESERVED__8 = -8;
+    const STATUS_RESERVED__7 = -7;
+    const STATUS_RESERVED__6 = -6;
+    const STATUS_RESERVED__5 = -5;
     const STATUS_PROCESSING_STORAGE = -4;
     const STATUS_PROCESSING_STORAGE_CHECK = -3;
     const STATUS_PROCESSING_FILES = -2;
@@ -39,17 +44,17 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     const STATUS_RESERVED_8 = 8;
     const STATUS_RESERVED_9 = 9;
     const STATUS_CHECKED = 2;
-    /**/
-    const SUBMIT_WEB = 1;
-    const SUBMIT_STORAGE = 2;
-    // self::SUBMIT_WEB | self::SUBMIT_STORAGE;
-    const SUBMIT_WEB_STORAGE = 3;
 
     public static $statuses = array(
+        self::STATUS_NOT_PAID => 'not paid',
         self::STATUS_SERVER_CORE_ERROR => 'server error',
-        self::STATUS_SERVER_ERROR => 'server error',
-        self::STATUS_INIT => 'init',
+        self::STATUS_SERVER_ERROR => 'failed',
         self::STATUS_ERROR => 'error',
+        self::STATUS_INIT => 'init',
+        self::STATUS_RESERVED__8 => 'init',
+        self::STATUS_RESERVED__7 => 'init',
+        self::STATUS_RESERVED__6 => 'init',
+        self::STATUS_RESERVED__5 => 'init',
         self::STATUS_PROCESSING_STORAGE => 'processing',
         self::STATUS_PROCESSING_STORAGE_CHECK => 'processing',
         self::STATUS_PROCESSING_FILES => 'processing',
@@ -69,14 +74,6 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     public static function table_name() {
         // Moodle error: 'name is too long. Limit is 28 chars.'
         return 'plagiarism_plagiarismsearchr';
-    }
-
-    public static function is_submit_web($type) {
-        return $type & self::SUBMIT_WEB;
-    }
-
-    public static function is_submit_storage($type) {
-        return $type & self::SUBMIT_STORAGE;
     }
 
     protected static function before_insert($values) {
@@ -163,6 +160,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function get_error_statuses() {
         return array(
+            self::STATUS_NOT_PAID,
             self::STATUS_SERVER_CORE_ERROR,
             self::STATUS_SERVER_ERROR,
             self::STATUS_ERROR,
@@ -176,6 +174,10 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     public static function get_processing_statuses() {
         return array(
             self::STATUS_INIT,
+            self::STATUS_RESERVED__8,
+            self::STATUS_RESERVED__7,
+            self::STATUS_RESERVED__6,
+            self::STATUS_RESERVED__5,
             self::STATUS_PROCESSING_STORAGE,
             self::STATUS_PROCESSING_STORAGE_CHECK,
             self::STATUS_PROCESSING_FILES,
@@ -198,6 +200,47 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function is_checked($report) {
         return $report and $report->status == self::STATUS_CHECKED;
+    }
+
+    public static function build_pdf_link($report, $cmid = null) {
+        if (!$report) {
+            return;
+        }
+
+        if (empty($report->rkey)) {
+            return $report->url;
+        }
+
+        $language = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
+
+        return static::build_link($report, $language, '/download');
+    }
+
+    public static function build_html_link($report, $cmid = null) {
+        if (!$report) {
+            return;
+        }
+
+        $language = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
+
+        return static::build_link($report, $language, '');
+    }
+
+    protected static function build_link($report, $language, $suffix = '') {
+        if (!empty($report->rserverurl)) {
+            $baseurl = $report->rserverurl;
+        } else {
+            $baseurl = 'https://plagiarismsearch.com';
+        }
+        if (empty($language)) {
+            $route = '/reports';
+        } elseif ($language == plagiarismsearch_config::LANGUAGE_EN) {
+            $route = '/r';
+        } else {
+            $route = '/' . $language . '/r';
+        }
+
+        return $baseurl . $route . $suffix . '/' . $report->rid . '.html?key=' . $report->rkey;
     }
 
 }

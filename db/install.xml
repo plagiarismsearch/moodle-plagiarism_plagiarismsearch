@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="plagiarism/plagiarismsearch/db" VERSION="2018030900" COMMENT="XMLDB file for Moodle plagiarism/plagiarismsearch"
+<XMLDB PATH="plagiarism/plagiarismsearch/db" VERSION="2021042108" COMMENT="XMLDB file for Moodle plagiarism/plagiarismsearch"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -9,8 +9,11 @@
                 <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="userid"/>
                 <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="userid" COMMENT="User id" DEFAULT="0"/>
                 <FIELD NAME="senderid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="userid" NEXT="rid" COMMENT="Sender id" DEFAULT="0"/>
-                <FIELD NAME="rid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="senderid" NEXT="plagiarism" COMMENT="Report id" DEFAULT="0"/>
-                <FIELD NAME="plagiarism" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of plagiarism detected" PREVIOUS="rid" NEXT="status"/>
+                <FIELD NAME="rid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="senderid" NEXT="rfileid" COMMENT="Report id" DEFAULT="0"/>
+                <FIELD NAME="rfileid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="rid" NEXT="rserverurl" COMMENT="Report file id" DEFAULT="0"/>
+                <FIELD NAME="rserverurl" TYPE="char" LENGTH="255" PREVIOUS="rfileid" NEXT="rkey" COMMENT="Report server domain"/>
+                <FIELD NAME="rkey" TYPE="char" LENGTH="64" PREVIOUS="rserverurl" NEXT="plagiarism" COMMENT="Report key"/>
+                <FIELD NAME="plagiarism" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of plagiarism detected" PREVIOUS="rkey" NEXT="status"/>
                 <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="plagiarism" NEXT="url"/>
                 <FIELD NAME="url" TYPE="char" LENGTH="1024" NOTNULL="false" SEQUENCE="false" PREVIOUS="status" NEXT="cmid" DEFAULT=""/>
                 <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="url" NEXT="filehash"/>
