@@ -100,9 +100,13 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         $conditions['status'] = $statuses;
 
         list($where, $params) = static::build_conditions($conditions);
+        
+        if(!$where) {
+            return;
+        }
 
         $result = static::db()->get_record_sql("SELECT COUNT(*) AS count FROM {" . static::table_name() . "}"
-                . ($where ? " WHERE " . $where : ''), $params);
+                . " WHERE rid > 0 AND " . $where, $params);
 
         return isset($result) ? $result->count : null;
     }

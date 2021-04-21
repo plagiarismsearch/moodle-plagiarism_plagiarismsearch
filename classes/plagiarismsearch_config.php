@@ -196,5 +196,41 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             return $plugin->release;
         }
     }
+    
+    public static function get_submit_types() {
+        return array(
+            static::SUBMIT_WEB_STORAGE => static::translate('sources_doc_web_storage'),
+            static::SUBMIT_WEB => static::translate('sources_doc_web'),
+            static::SUBMIT_STORAGE => static::translate('sources_doc_storage'),
+        );
+    }
+
+    public static function get_report_types() {
+        return array(
+            static::REPORT_NO => static::translate('report_show_no'),
+            static::REPORT_PDF => static::translate('report_show_pdf'),
+            static::REPORT_HTML => static::translate('report_show_html'),
+            static::REPORT_PDF_HTML => static::translate('report_show_pdf_html'),
+        );
+    }
+
+    public static function get_report_languages() {
+        return array(
+            static::LANGUAGE_DEFAULT => static::translate('report_language_default'),
+            static::LANGUAGE_EN => static::translate('report_language_en'),
+            static::LANGUAGE_ES => static::translate('report_language_es'),
+            static::LANGUAGE_PL => static::translate('report_language_pl'),
+            static::LANGUAGE_RU => static::translate('report_language_ru'),
+        );
+    }
+
+    public static function get_plagiarism_filters() {
+        return array(
+            static::FILTER_PLAGIARISM_NO => static::translate('filter_plagiarism_no'),
+            static::FILTER_PLAGIARISM_USER_COURSE => static::translate('filter_plagiarism_user_course'),
+            static::FILTER_PLAGIARISM_USER => static::translate('filter_plagiarism_user'),
+            static::FILTER_PLAGIARISM_COURSE => static::translate('filter_plagiarism_course'),
+        );
+    }
 
 }

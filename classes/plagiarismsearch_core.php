@@ -157,7 +157,9 @@ class plagiarismsearch_core extends plagiarismsearch_base {
 
         $msg = '';
         if (!$page) {
-            $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
+            $values = array(
+                'status' => plagiarismsearch_reports::STATUS_SERVER_ERROR,
+            );
             $rids = array_keys($ids);
             foreach ($rids as $id) {
                 plagiarismsearch_reports::update($values, $id);

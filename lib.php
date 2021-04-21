@@ -205,7 +205,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             'force' => 0,
         );
 
-        if (!empty($report) and ! plagiarismsearch_reports::is_processing($report)) {
+        if (!empty($report) and !plagiarismsearch_reports::is_processing($report)) {
             $urlconfig['force'] = 1;
         }
 
@@ -317,35 +317,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         $cmid = optional_param('update', 0, PARAM_INT);
 
         $prefix = plagiarismsearch_config::CONFIG_PREFIX;
-
         $notoryes = array(
             0 => $this->translate('no', null),
             1 => $this->translate('yes', null),
         );
-        $submittype = array(
-            plagiarismsearch_config::SUBMIT_WEB_STORAGE => $this->translate('sources_doc_web_storage'),
-            plagiarismsearch_config::SUBMIT_WEB => $this->translate('sources_doc_web'),
-            plagiarismsearch_config::SUBMIT_STORAGE => $this->translate('sources_doc_storage'),
-        );
-        $reporttypes = array(
-            plagiarismsearch_config::REPORT_NO => $this->translate('report_show_no'),
-            plagiarismsearch_config::REPORT_PDF => $this->translate('report_show_pdf'),
-            plagiarismsearch_config::REPORT_HTML => $this->translate('report_show_html'),
-            plagiarismsearch_config::REPORT_PDF_HTML => $this->translate('report_show_pdf_html'),
-        );
-        $reportlanguages = array(
-            plagiarismsearch_config::LANGUAGE_DEFAULT => $this->translate('report_language_default'),
-            plagiarismsearch_config::LANGUAGE_EN => $this->translate('report_language_en'),
-            plagiarismsearch_config::LANGUAGE_ES => $this->translate('report_language_es'),
-            plagiarismsearch_config::LANGUAGE_PL => $this->translate('report_language_pl'),
-            plagiarismsearch_config::LANGUAGE_RU => $this->translate('report_language_ru'),
-        );
-        $plagiarismfilters = array(
-            plagiarismsearch_config::FILTER_PLAGIARISM_NO => $this->translate('filter_plagiarism_no'),
-            plagiarismsearch_config::FILTER_PLAGIARISM_USER_COURSE => $this->translate('filter_plagiarism_user_course'),
-            plagiarismsearch_config::FILTER_PLAGIARISM_USER => $this->translate('filter_plagiarism_user'),
-            plagiarismsearch_config::FILTER_PLAGIARISM_COURSE => $this->translate('filter_plagiarism_course'),
-        );
+        $reporttypes = plagiarismsearch_config::get_report_types();
 
         $mform->addElement('header', 'plagiarismsearchdesc', $this->translate('plagiarismsearch'));
 
@@ -366,7 +342,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
 
         $field = plagiarismsearch_config::FIELD_SOURCES_TYPE;
-        $mform->addElement('select', $prefix . $field, $this->translate($field), $submittype);
+        $mform->addElement('select', $prefix . $field, $this->translate($field), plagiarismsearch_config::get_submit_types());
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
 
         $field = plagiarismsearch_config::FIELD_FILTER_CHARS;
@@ -382,11 +358,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
 
         $field = plagiarismsearch_config::FIELD_FILTER_PLAGIARISM;
-        $mform->addElement('select', $prefix . $field, $this->translate($field), $plagiarismfilters);
+        $mform->addElement('select', $prefix . $field, $this->translate($field), plagiarismsearch_config::get_plagiarism_filters());
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
 
         $field = plagiarismsearch_config::FIELD_REPORT_LANGUAGE;
-        $mform->addElement('select', $prefix . $field, $this->translate($field), $reportlanguages);
+        $mform->addElement('select', $prefix . $field, $this->translate($field), plagiarismsearch_config::get_report_languages());
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
 
         $field = plagiarismsearch_config::FIELD_REPORT_TYPE;

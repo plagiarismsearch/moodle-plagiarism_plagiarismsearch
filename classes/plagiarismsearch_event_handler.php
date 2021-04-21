@@ -62,20 +62,21 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
             return;
         }
 
-        if ($this->is_upload()) {
+        if (!$this->is_upload()) {
+            return;
+        }
 
-            switch ($this->event->component) {
-                case 'assignsubmission_onlinetext':
-                    $this->handle_online_text();
-                    break;
-                case 'assignsubmission_file':
-                    if (!empty($this->event->other['pathnamehashes'])) {
-                        foreach ($this->event->other['pathnamehashes'] as $pathnamehash) {
-                            $this->handle_uploaded_file($pathnamehash);
-                        }
+        switch ($this->event->component) {
+            case 'assignsubmission_onlinetext':
+                $this->handle_online_text();
+                break;
+            case 'assignsubmission_file':
+                if (!empty($this->event->other['pathnamehashes'])) {
+                    foreach ($this->event->other['pathnamehashes'] as $pathnamehash) {
+                        $this->handle_uploaded_file($pathnamehash);
                     }
-                    break;
-            }
+                }
+                break;
         }
     }
 
