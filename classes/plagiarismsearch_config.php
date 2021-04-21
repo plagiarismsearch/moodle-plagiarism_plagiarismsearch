@@ -87,7 +87,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
 
     public static function fields() {
         $result = array();
-        foreach(static::$fields as $field) {
+        foreach (static::$fields as $field) {
             $result[$field] = static::CONFIG_PREFIX . $field;
         }
         return $result;

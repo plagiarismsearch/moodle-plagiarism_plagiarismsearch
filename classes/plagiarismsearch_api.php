@@ -67,7 +67,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
-        if($this->apidebug) {
+        if ($this->apidebug) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         }

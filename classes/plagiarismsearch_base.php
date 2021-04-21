@@ -36,9 +36,9 @@ class plagiarismsearch_base {
             $this->{$key} = $value;
         }
     }
-    
+
     public static function translate($value, $module = 'plagiarism_plagiarismsearch') {
-        if(empty($value)) {
+        if (empty($value)) {
             return $value;
         }
         return get_string($value, $module);

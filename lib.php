@@ -300,7 +300,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                     'filehash' => $hash,
         ));
     }
-    
+
     protected function get_form_element_default_value($cmid, $field) {
         return plagiarismsearch_config::get_config_or_settings($cmid, $field);
     }
@@ -347,8 +347,8 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             plagiarismsearch_config::FILTER_PLAGIARISM_COURSE => $this->translate('filter_plagiarism_course'),
         );
 
-        $mform->addElement('header', 'plagiarismsearchdesc', $this->translate('plagiarismsearch'));        
-        
+        $mform->addElement('header', 'plagiarismsearchdesc', $this->translate('plagiarismsearch'));
+
         $field = plagiarismsearch_config::FIELD_USE;
         $mform->addElement('checkbox', $prefix . $field, $this->translate($field));
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));

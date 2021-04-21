@@ -234,7 +234,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         }
         if (empty($language)) {
             $route = '/reports';
-        } elseif ($language == plagiarismsearch_config::LANGUAGE_EN) {
+        } else if ($language == plagiarismsearch_config::LANGUAGE_EN) {
             $route = '/r';
         } else {
             $route = '/' . $language . '/r';
