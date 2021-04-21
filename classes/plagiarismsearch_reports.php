@@ -100,8 +100,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         $conditions['status'] = $statuses;
 
         list($where, $params) = static::build_conditions($conditions);
-        
-        if(!$where) {
+
+        if (!$where) {
             return;
         }
 

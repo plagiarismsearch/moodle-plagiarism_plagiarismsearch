@@ -196,7 +196,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             return $plugin->release;
         }
     }
-    
+
     public static function get_submit_types() {
         return array(
             static::SUBMIT_WEB_STORAGE => static::translate('sources_doc_web_storage'),

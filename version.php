@@ -25,4 +25,4 @@ $plugin->requires = 2014051200; // Requires Moodle 2.7.
 $plugin->cron = 60;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'plagiarism_plagiarismsearch';
-$plugin->release = '1.1.12';
+$plugin->release = '1.1.13';
