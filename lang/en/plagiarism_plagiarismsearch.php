@@ -59,13 +59,13 @@ $string['api_key'] = 'Api key';
 $string['api_user'] = 'Api user';
 $string['api_debug'] = 'Api debug';
 $string['api_version'] = 'Api version';
-$string['filter_chars'] = 'Only latin characters';
+$string['filter_chars'] = 'Only Latin characters';
 $string['filter_references'] = 'Exclude references';
 $string['filter_quotes'] = 'Exclude in-text citations';
 
 $string['filter_plagiarism'] = 'Exclude self-plagiarism';
 $string['filter_plagiarism_no'] = 'No (not recommended)';
-$string['filter_plagiarism_user_course'] = 'Exclude user plagiarism in the same course';
+$string['filter_plagiarism_user_course'] = 'Exclude user plagiarism within the same course';
 $string['filter_plagiarism_user'] = 'Exclude user plagiarism';
 $string['filter_plagiarism_course'] = 'Exclude course plagiarism (not recommended)';
 
@@ -82,21 +82,21 @@ $string['temp_folder_not_exists'] = 'Temp folder does not exist';
 $string['server_connection_error'] = 'Problem connecting to PlagiarismSearch server';
 $string['submit_ok'] = 'Document \'{$a}\' submitted to PlagiarismSearch';
 $string['submit_error'] = 'Document \'{$a}\' not submitted';
-$string['submit_onlinetext_ok'] = 'Online text submitted to PlagiarismSearch';
-$string['submit_onlinetext_error'] = 'Online text not submitted';
+$string['submit_onlinetext_ok'] = 'Online text was submitted to PlagiarismSearch';
+$string['submit_onlinetext_error'] = 'Online text was not submitted';
 $string['status_ok'] = 'Document';
 $string['status_error'] = 'Error. Document';
 $string['status'] = 'status';
 $string['is_in'] = 'is in';
 $string['plagiarism'] = 'Plagiarism';
 $string['empty_parameter'] = 'Empty \'{$a}\' parameter';
-$string['report_not_found'] = 'Report not found';
+$string['report_not_found'] = 'Report was not found';
 $string['no_cmid_or_id'] = 'No cmid or id';
 
 $string['report'] = 'Report';
 $string['save'] = 'Save';
 $string['settings_error'] = 'There was an error while updating the PlagiarismSearch settings';
-$string['settings_error_server'] = 'PlagiarismSearch settings api error';
+$string['settings_error_server'] = 'PlagiarismSearch settings Api error';
 $string['settings_saved'] = 'PlagiarismSearch settings have been successfully saved';
 // $string['settings_cancelled'] = 'PlagiarismSearch settings have been canceled';
 // $string['settings_saved'] = 'PlagiarismSearch settings have been saved successfully';
@@ -108,9 +108,9 @@ $string['red'] = 'Plagiarism level red starts at';
 
 $string['text_plain'] = 'PlagiarismSearch.com – advanced online plagiarism checker. <br/>
 PlagiarismSearch.com is a leading plagiarism checking website that will provide you with an accurate report during a short timeframe. <br/>
-Find out about how to register <a href="https://plagiarismsearch.com/account/signup.html">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
+Find out how to register <a href="https://plagiarismsearch.com/account/signup.html">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
 $string['plagiarismsearch:viewlinks'] = 'Ability to view links for plagiarism results';
 $string['plagiarismsearch:submitlinks'] = 'Ability to submit links to PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Ability to check report status';
-$string['plagiarismsearch:isstudent'] = 'Allow only to students';
+$string['plagiarismsearch:isstudent'] = 'Allow students only';

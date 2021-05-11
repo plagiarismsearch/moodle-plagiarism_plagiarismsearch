@@ -22,60 +22,93 @@
  */
 $string['plagiarismsearch'] = 'PlagiarismSearch';
 $string['pluginname'] = 'Plugin de plagio de PlagiarismSearch';
-$string['auto_check'] = 'Autocheck';
-$string['manual_check'] = 'Manual check';
+
+$string['auto_check'] = 'Revisión automática';
+$string['manual_check'] = 'Revisión manual';
 $string['add_to_storage'] = 'Add to depósito institucional';
-$string['sources_type'] = 'Sources';
+
+$string['sources_type'] = 'Fuentes';
 $string['sources_doc_web_storage'] = 'Doc vs Web + Depósito';
 $string['sources_doc_web'] = 'Doc vs Web';
 $string['sources_doc_storage'] = 'Doc vs Depósito';
+$string['report_type'] = 'Tipo del archivo de informe';
+$string['report_show_no'] = 'No mostrar';
+$string['report_show_pdf'] = 'Solamente el informe PDF';
+$string['report_show_html'] = 'Solamente el informe HTML';
+$string['report_show_pdf_html'] = 'Informes PDF y HTML';
+
+$string['report_language'] = 'Informar el idioma';
+$string['report_language_default'] = 'Preestablecido (Inglés)';
+$string['report_language_en'] = 'Inglés';
+$string['report_language_es'] = 'Español';
+$string['report_language_pl'] = 'Polaco';
+$string['report_language_ru'] = 'Ruso';
+
 $string['student_show_percentage'] = 'Mostrar los informes de originalidad a los estudiantes';
 $string['student_show_reports'] = '¿Permitir los estudiantes download .pdf reports';
 $string['student_submit'] = '¿Permitir los estudiantes submit papers';
 $string['student_resubmit'] = '¿Permitir los estudiantes volver a entregar papers';
 $string['student_resubmit_numbers'] = 'The number of Volver a entregar';
 $string['student_disclosure'] = 'Revelación de estudiantes';
-$string['student_disclosure_default'] = 'All files uploaded will be submitted to PlagiarismSearch.com detection service.';
-$string['student_error_nopermission'] = 'No nopermission';
+$string['student_disclosure_default'] = 'Todos los archivos cargados se enviarán al servicio de verificación PlagiarismSearch.com.';
+$string['student_error_nopermission'] = 'No permitido';
+
 $string['api_url'] = 'URL de la API';
-$string['api_key'] = 'Api key';
-$string['api_user'] = 'Api user';
-$string['api_version'] = 'Api version';
-$string['filter_chars'] = 'Only latin characters';
+$string['api_key'] = 'Api clave';
+$string['api_user'] = 'Api usuario';
+$string['api_debug'] = 'Api ajuste';
+$string['api_version'] = 'Api versión';
+$string['filter_chars'] = 'Solamente los símbolos latinos';
 $string['filter_references'] = 'Excluir bibliografía';
 $string['filter_quotes'] = 'Excluir citas bibliográficas';
+
+$string['filter_plagiarism'] = 'Excluir el autoplagio';
+$string['filter_plagiarism_no'] = 'No (no recomendado)';
+$string['filter_plagiarism_user_course'] = 'Excluir el plagio del usuario dentro del marco de un curso';
+$string['filter_plagiarism_user'] = 'Excluir el plagio del usuario';
+$string['filter_plagiarism_course'] = 'Excluir el plagio del curso (no recomendado)';
+
 $string['submit'] = 'Enviar a entregar a PlagiarismSearch';
 $string['resubmit'] = 'Volver a entregar de PlagiarismSearch';
 $string['processing'] = 'Procesamiento en curso';
 $string['unknown_error'] = 'Se ha producido un error desconocido';
-$string['pdf_report'] = 'Download .pdf informe';
-$string['link_title'] = 'PlagiarismSearch.com – advanced online plagiarism checker';
-$string['check_status'] = 'Check status';
-$string['temp_folder_not_exists'] = 'Temp folder does not exist';
-$string['server_connection_error'] = 'Problem connecting to PlagiarismSearch server';
-$string['submit_ok'] = 'Document \'{$a}\' submitted to PlagiarismSearch';
-$string['submit_error'] = 'Document \'{$a}\' not submitted';
-$string['submit_onlinetext_ok'] = 'Online text submitted to PlagiarismSearch';
-$string['submit_onlinetext_error'] = 'Online text not submitted';
-$string['status_ok'] = 'Document status';
-$string['status_error'] = 'Error document status';
-$string['empty_parameter'] = 'Empty \'{$a}\' parameter';
-$string['report_not_found'] = 'Informe not found';
-$string['no_cmid_or_id'] = 'No cmid or id';
+
+$string['pdf_report'] = 'Download PDF informe';
+$string['html_report'] = 'Ver el informe HTML';
+$string['link_title'] = 'PlagiarismSearch.com – revision extendida online de plagio';
+$string['check_status'] = 'Revisar el estatus';
+$string['temp_folder_not_exists'] = 'Carpeta temporal no existe';
+$string['server_connection_error'] = 'Problema con la conexión al servidor PlagiarismSearch';
+$string['submit_ok'] = 'Documento \'{$a}\' ha sido enviado a PlagiarismSearch';
+$string['submit_error'] = 'Documento \'{$a}\' no ha sido enviado';
+$string['submit_onlinetext_ok'] = 'Texto online ha sido enviado a PlagiarismSearch';
+$string['submit_onlinetext_error'] = 'Texto online no ha sido enviado';
+$string['status_ok'] = 'Documento';
+$string['status_error'] = 'Error. Documento';
+$string['status'] = 'estatus';
+$string['is_in'] = 'está en';
+$string['plagiarism'] = 'Plagio';
+$string['empty_parameter'] = 'Vacío \'{$a}\' parámetro';
+$string['report_not_found'] = 'El informe no ha sido encontrado';
+$string['no_cmid_or_id'] = 'No hay cmid o id';
+
 $string['report'] = 'Informe';
 $string['save'] = 'Guardar';
-$string['settings_error'] = 'There was an error whilst updating the PlagiarismSearch settings';
-$string['settings_error_server'] = 'PlagiarismSearch settings api error';
+$string['settings_error'] = 'Ha ocurrido un error en el proceso de actualización de PlagiarismSearch';
+$string['settings_error_server'] = 'Error de Api ajustes de PlagiarismSearch';
 $string['settings_saved'] = 'Opciones de PlagiarismSearch guardada';
-// $string['settings_cancelled'] = 'PlagiarismSearch settings have been canceled';
+// $string['settings_cancelled'] = 'Ajustes de PlagiarismSearch han sido cancelados';
 // $string['settings_saved'] = 'Opciones de PlagiarismSearch guardada';
-$string['submit'] = 'Submit to PlagiarismSearch';
+$string['submit'] = 'Enviar a PlagiarismSearch';
 $string['use'] = 'Habilitar PlagiarismSearch';
-$string['yellow'] = 'Plagiarism level yellow starts at';
-$string['red'] = 'Plagiarism level red starts at';
-$string['text_plain'] = 'PlagiarismSearch.com – advanced online  plagiarism checker. <br/> PlagiarismSearch.com is a leading plagiarism checking website that  will provide you with an accurate report during a short timeframe. <br/> Find out about how to register <a href="https://plagiarismsearch.com/account/signup.html">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
+$string['yellow'] = 'Nivel amarillo del plagio comienza desde';
+$string['red'] = 'Nivel rojo del plagio comienza desde';
 
-$string['plagiarismsearch:viewlinks'] = 'Ability to view links for plagiarism results';
-$string['plagiarismsearch:submitlinks'] = 'Ability to submit links to PlagiarismSearch.com';
-$string['plagiarismsearch:statuslinks'] = 'Ability to check report status';
-$string['plagiarismsearch:isstudent'] = 'Allow only los estudiantes';
+$string['text_plain'] = 'PlagiarismSearch.com – revision extendida online de plagio. <br/>
+PlagiarismSearch.com es un sitio web líder en revisión de plagio que le proporcionará a Usted un informe preciso en un periodo corto de tiempo. <br/>
+Conozca el proceso de registro <a href="https://plagiarismsearch.com/account/signup.html">here</a> y solicítenos la versión gratuita de prueba <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
+
+$string['plagiarismsearch:viewlinks'] = 'Posibilidad de ver enlaces basados ​​en resultados de plagio';
+$string['plagiarismsearch:submitlinks'] = 'Posibilidades de enviar enlaces a PlagiarismSearch.com';
+$string['plagiarismsearch:statuslinks'] = 'Posibilidad de revisar el estatus del informe';
+$string['plagiarismsearch:isstudent'] = 'Permitir solamente a los estudiantes';
