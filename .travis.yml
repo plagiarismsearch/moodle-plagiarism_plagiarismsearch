@@ -1,6 +1,8 @@
 language: php
 
-sudo: required
+os: linux
+
+dist: xenial
     
 services:
   - mysql
@@ -22,7 +24,7 @@ php:
 
 env:
 
-  matrix:
+  jobs:
     - DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
@@ -52,8 +54,7 @@ script:
   - moodle-plugin-ci validate
   - moodle-plugin-ci savepoints
   - moodle-plugin-ci grunt
-  - moodle-plugin-ci phpdoc
+#  - moodle-plugin-ci phpdoc
   - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat
-
-  
+ 
