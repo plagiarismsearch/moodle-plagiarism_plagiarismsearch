@@ -28,6 +28,7 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
 $rid = optional_param('id', null, PARAM_INT);
 $key = optional_param('api_key', null, PARAM_TEXT);
 $reportdata = optional_param('report', null, PARAM_TEXT);
+$debug = optional_param('debug', null, PARAM_INT);
 
 if (empty($rid) or empty($key) or empty($reportdata)) {
     die();
@@ -64,4 +65,8 @@ if ($report) {
     );
 
     plagiarismsearch_reports::update($values, $localreport->id);
+}
+
+if ($debug) {
+    echo json_encode(array('jsonerror' => json_last_error(), 'localreport' => $localreport, 'report' => $report, 'reportdata' => $reportdata));
 }
