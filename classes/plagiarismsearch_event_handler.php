@@ -112,7 +112,7 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         ));
     }
 
-    protected function is_submition_draft() {
+    protected function is_submission_draft() {
         global $CFG;
 
         if ($this->event->objecttable != 'assign_submission') {
