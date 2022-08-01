@@ -80,11 +80,14 @@ class plagiarismsearch_core extends plagiarismsearch_base {
                 $values = static::fill_report_values($page->data);
                 $msg = get_string('submit_ok', 'plagiarism_plagiarismsearch', $filename);
             } else {
+
+                $apierror = get_string('api_error', 'plagiarism_plagiarismsearch');
+                $errormessage = (!empty($page->message) ? $page->message : '');
                 $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
-                $values['log'] = (!empty($page->message) ? $page->message : '');
+                $values['log'] = $apierror . ($errormessage ? ': ' . $errormessage : '');
 
                 $msg = get_string('submit_error', 'plagiarism_plagiarismsearch', $filename) .
-                        (!empty($page->message) ? '. ' . $page->message : '');
+                    $errormessage;
             }
         } else {
             $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;

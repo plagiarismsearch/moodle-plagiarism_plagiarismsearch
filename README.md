@@ -5,15 +5,15 @@
 
 PlagiarismSearch Plagiarism plugin for Moodle
 
-**Supported Moodle versions:** 2.7 - 3.10  
-**Supported PHP versions:** 5.6 - 7.4  
+**Supported Moodle versions:** 2.7 - 4.0  
+**Supported PHP versions:** 7.3 - 8.0  
 **Moodle plugins directory:** https://moodle.org/plugins/plagiarism_plagiarismsearch
 
 Author: Alex Crosby <developer@plagiarismsearch.com>  
 Copyright: PlagiarismSearch.com, https://plagiarismsearch.com  
 
  > PlagiarismSearch is an advanced plagiarism detection service that operates since 2008. 
-PlagiarismSeach is a commercial product owned by Plagiarismsearch.com.
+PlagiarismSearch is a commercial product owned by Plagiarismsearch.com.
 
 
 QUICK INSTALL  

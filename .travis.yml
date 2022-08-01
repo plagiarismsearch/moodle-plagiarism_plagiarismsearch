@@ -18,22 +18,18 @@ addons:
       - openjdk-8-jre-headless
 
 php:
- - 7.2
  - 7.3
  - 7.4
+ - 8.0
 
 env:
 
   jobs:
-    - DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_36_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_37_STABLE
-    - DB=mysqli MOODLE_BRANCH=MOODLE_38_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_39_STABLE
     - DB=mysqli MOODLE_BRANCH=MOODLE_310_STABLE
-    - DB=pgsql MOODLE_BRANCH=MOODLE_310_STABLE
+    - DB=mysqli MOODLE_BRANCH=MOODLE_311_STABLE
+    - DB=mysqli MOODLE_BRANCH=MOODLE_40_STABLE
+    - DB=pgsql MOODLE_BRANCH=MOODLE_40_STABLE
 
 before_install:
   - phpenv config-rm xdebug.ini

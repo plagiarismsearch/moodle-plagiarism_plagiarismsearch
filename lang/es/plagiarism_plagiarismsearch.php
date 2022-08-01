@@ -54,10 +54,10 @@ $string['student_disclosure_default'] = 'Todos los archivos cargados se enviará
 $string['student_error_nopermission'] = 'No permitido';
 
 $string['api_url'] = 'URL de la API';
-$string['api_key'] = 'Api clave';
-$string['api_user'] = 'Api usuario';
-$string['api_debug'] = 'Api ajuste';
-$string['api_version'] = 'Api versión';
+$string['api_key'] = 'API clave';
+$string['api_user'] = 'API usuario';
+$string['api_debug'] = 'API ajuste';
+$string['api_version'] = 'API versión';
 $string['filter_chars'] = 'Solamente los símbolos latinos';
 $string['filter_references'] = 'Excluir bibliografía';
 $string['filter_quotes'] = 'Excluir citas bibliográficas';
@@ -91,11 +91,12 @@ $string['plagiarism'] = 'Plagio';
 $string['empty_parameter'] = 'Vacío \'{$a}\' parámetro';
 $string['report_not_found'] = 'El informe no ha sido encontrado';
 $string['no_cmid_or_id'] = 'No hay cmid o id';
+$string['api_error'] = 'Error de PlagiarismSearch API';
 
 $string['report'] = 'Informe';
 $string['save'] = 'Guardar';
 $string['settings_error'] = 'Ha ocurrido un error en el proceso de actualización de PlagiarismSearch';
-$string['settings_error_server'] = 'Error de Api ajustes de PlagiarismSearch';
+$string['settings_error_server'] = 'Error de API ajustes de PlagiarismSearch';
 $string['settings_saved'] = 'Opciones de PlagiarismSearch guardada';
 // $string['settings_cancelled'] = 'Ajustes de PlagiarismSearch han sido cancelados';
 // $string['settings_saved'] = 'Opciones de PlagiarismSearch guardada';
@@ -108,7 +109,7 @@ $string['text_plain'] = 'PlagiarismSearch.com – revision extendida online de p
 PlagiarismSearch.com es un sitio web líder en revisión de plagio que le proporcionará a Usted un informe preciso en un periodo corto de tiempo. <br/>
 Conozca el proceso de registro <a href="https://plagiarismsearch.com/account/signup.html">here</a> y solicítenos la versión gratuita de prueba <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
-$string['plagiarismsearch:viewlinks'] = 'Posibilidad de ver enlaces basados ​​en resultados de plagio';
+$string['plagiarismsearch:viewlinks'] = 'Posibilidad de ver enlaces basados en resultados de plagio';
 $string['plagiarismsearch:submitlinks'] = 'Posibilidades de enviar enlaces a PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Posibilidad de revisar el estatus del informe';
 $string['plagiarismsearch:isstudent'] = 'Permitir solamente a los estudiantes';
