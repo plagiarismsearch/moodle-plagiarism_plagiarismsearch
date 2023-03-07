@@ -22,9 +22,8 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.');    // It must be included from a Moodle page
-}
+
+defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
@@ -115,7 +114,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     public static function has_show_submit_link($cmid = null) {
         $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_MANUAL_CHECK);
         if (static::is_student($cmid)) {
-            return $manualsubmit && (bool) plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_SUBMIT);
+            return $manualsubmit && plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_SUBMIT);
         } else {
             return $manualsubmit;
         }
@@ -140,7 +139,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         }
 
         $limit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_RESUBMIT_NUMBERS);
-        if($limit) {
+        if ($limit) {
             $countreports = plagiarismsearch_reports::count_valid(array(
                         'cmid' => $cmid,
                         'userid' => $userid,
@@ -273,7 +272,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 }
             }
         } else if (plagiarismsearch_reports::is_processing($report)) {
-            // add check status button
+            // Add check status button.
             if ($this->has_show_reports_link($cmid)) {
                 $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', array(
                     'cmid' => $cmid,
@@ -405,7 +404,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 $value = $data->{$field};
                 $this->save_form_config($cmid, $name, $value);
             } else if (in_array($name, array(plagiarismsearch_config::FIELD_USE))) {
-                // Checkboxes default set 0
+                // Checkboxes default set 0.
                 $this->save_form_config($cmid, $name, 0);
             }
         }
@@ -461,7 +460,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             mtrace("Plagiarismsearch cron still running");
             return true; // Already running.
         }
-        $running = time() + 2 * 60 * 60; // Timeout after 2
+        $running = time() + 2 * 60 * 60; // Timeout after 2.
 
         set_config('plagiarismsearch_cron_running', $running, 'plagiarism_plagiarismsearch');
 
@@ -475,11 +474,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     public static function log() {
         global $CFG;
         $args = func_get_args();
-        if(!$args) {
+        if (!$args) {
             return false;
         }
         $f = fopen($CFG->dirroot . '/plagiarism/plagiarismsearch/log.txt', 'a');
-        if(!$f) {
+        if (!$f) {
             return false;
         }
         foreach ($args as $arg) {

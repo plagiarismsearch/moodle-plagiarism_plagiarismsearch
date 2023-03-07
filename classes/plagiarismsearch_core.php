@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.ss
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -115,7 +115,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
             'cmid' => $cmid,
             'userid' => $userid,
             'senderid' => static::get_sender_id(),
-            // Unique text hash
+            // Unique text hash.
             'filehash' => static::get_text_hash($text),
             'text' => $text,
         );

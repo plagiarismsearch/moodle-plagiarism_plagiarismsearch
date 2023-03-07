@@ -49,7 +49,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**/
     const SUBMIT_WEB = 1;
     const SUBMIT_STORAGE = 2;
-    // self::SUBMIT_WEB | self::SUBMIT_STORAGE;
+    // SUBMIT_WEB_STORAGE = self::SUBMIT_WEB | self::SUBMIT_STORAGE.
     const SUBMIT_WEB_STORAGE = 3;
     /**/
     const REPORT_NO = 0;
@@ -84,7 +84,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     );
 
     public static function table_name() {
-        // Moodle error: 'name is too long. Limit is 28 chars.'
+        // Moodle error: 'name is too long. Limit is 28 chars.'.
         return 'plagiarism_plagiarismsearchc';
     }
 
@@ -176,7 +176,8 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     public static function is_enabled_auto($cmid = null) {
-        return (bool) static::get_config_or_settings($cmid, static::FIELD_USE) and static::get_config_or_settings($cmid, static::FIELD_AUTO_CHECK);
+        return (bool) static::get_config_or_settings($cmid, static::FIELD_USE) &&
+            static::get_config_or_settings($cmid, static::FIELD_AUTO_CHECK);
     }
 
     public static function is_submit_web($cmid = null) {
@@ -191,12 +192,12 @@ class plagiarismsearch_config extends plagiarismsearch_table {
 
     public static function get_valid_parsed_text_url_as_array($cmid = null) {
         $enabled = static::get_config_or_settings($cmid, static::FIELD_PARSE_TEXT_URLS);
-        if(empty($enabled)) {
+        if (empty($enabled)) {
             return [];
         }
 
         $urls = static::get_config_or_settings($cmid, static::FIELD_VALID_PARSED_TEXT_URLS);
-        if(empty($urls)) {
+        if (empty($urls)) {
             return [];
         }
         return explode("\n", trim($urls));

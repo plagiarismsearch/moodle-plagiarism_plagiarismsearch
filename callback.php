@@ -59,7 +59,7 @@ if ($report) {
         echo $localreport->id;
     }
 } else {
-    // JSON error
+    // JSON error.
 
     $values = array(
         'status' => plagiarismsearch_reports::STATUS_ERROR,
@@ -70,5 +70,10 @@ if ($report) {
 }
 
 if ($debug) {
-    echo json_encode(array('jsonerror' => json_last_error(), 'localreport' => $localreport, 'report' => $report, 'reportdata' => $reportdata));
+    echo json_encode(array(
+        'jsonerror' => json_last_error(),
+        'localreport' => $localreport,
+        'report' => $report,
+        'reportdata' => $reportdata
+    ));
 }

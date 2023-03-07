@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.ss
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -56,7 +56,8 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     public function post($url, $post = array(), $files = array()) {
         $curl = curl_init($url);
 
-        if ($postfields = $this->build_post_files($post, $files) or $postfields = $this->build_post_to_string($post)) {
+        $postfields = $this->build_post_fields($post, $files);
+        if ($postfields) {
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postfields);
         }
@@ -95,6 +96,14 @@ class plagiarismsearch_api extends plagiarismsearch_base {
 
     private function unpack($data) {
         return json_decode($data, false);
+    }
+
+    private function build_post_fields($post, $files = array()) {
+        $postfields = $this->build_post_files($post, $files);
+        if (!$postfields) {
+            $postfields = $this->build_post_to_string($post);
+        }
+        return $postfields;
     }
 
     private function build_post_to_string($post) {

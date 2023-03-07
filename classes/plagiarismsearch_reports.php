@@ -89,7 +89,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     public static function add($values) {
         if (isset($values['rid'])) {
             $report = static::get_one(array('rid' => $values['rid']));
-            if($report) {
+            if ($report) {
                 return static::update(array_merge((array)$report, $values), $report->id);
             }
         }

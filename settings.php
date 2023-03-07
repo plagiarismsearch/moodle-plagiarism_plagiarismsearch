@@ -62,7 +62,7 @@ if ($data && confirm_sesskey()) {
     foreach ($localonlysettings as $field) {
         $value = isset($data->{$field}) ? $data->{$field} : null;
         if (isset($plagiarismsettings->{$field}) && $plagiarismsettings->{$field} == $value) {
-            continue; // Setting unchanged
+            continue; // Setting unchanged.
         }
 
         // Save the setting.

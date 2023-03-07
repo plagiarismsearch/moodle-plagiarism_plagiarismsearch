@@ -63,7 +63,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         }
 
         $parsedurls = plagiarismsearch_config::get_valid_parsed_text_url_as_array($this->cmid);
-        if($parsedurls) {
+        if ($parsedurls) {
             $default['parsed_text_url'] = $parsedurls;
         }
 
@@ -152,13 +152,13 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
     protected function tmp_file($filename, $content) {
         $tmpdir = $this->tmp_dir();
-        if(!$tmpdir || !$filename) {
+        if (!$tmpdir || !$filename) {
             return null;
         }
 
         $fullname = $tmpdir . DIRECTORY_SEPARATOR . $filename;
         $f = fopen($fullname, 'w');
-        if(!$f) {
+        if (!$f) {
             return null;
         }
         fwrite($f, $content);

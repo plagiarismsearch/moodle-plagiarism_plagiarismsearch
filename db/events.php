@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $observers = array(
-    // Event Handlers
+    // Event Handlers.
     array(
         'eventname' => '*',
         'includefile' => '/plagiarism/plagiarismsearch/lib.php',

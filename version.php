@@ -19,7 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 if (!isset($plugin)) {
     $plugin = new \stdClass();
 }
-$plugin->version = 2023030701; // YYYYMMDDVV.
+$plugin->version = 2023030702; // YYYYMMDDVV.
 $plugin->requires = 2014051200; // Requires Moodle 2.7.
 $plugin->cron = 60;
 $plugin->maturity = MATURITY_STABLE;

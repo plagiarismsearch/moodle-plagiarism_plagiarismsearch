@@ -46,7 +46,7 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Savepoint reached
+        // Savepoint reached.
         upgrade_plugin_savepoint(true, 2021042109, 'plagiarism', 'plagiarismsearch');
     }
 

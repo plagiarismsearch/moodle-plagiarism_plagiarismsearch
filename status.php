@@ -32,7 +32,7 @@ if (!$cmid || !$id) {
 }
 
 if (!plagiarismsearch_config::get_settings('use')) {
-    // Disabled at the site level
+    // Disabled at the site level.
     throw new \moodle_exception('disabledsite', 'plagiarism_plagiarismsearch');
 }
 

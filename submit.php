@@ -57,12 +57,13 @@ if ($force) {
 }
 
 // Retrieve the file and check everything is OK.
-/* @var $file \stored_file */
 $fs = get_file_storage();
-if (!$file = $fs->get_file_by_hash($filehash)) {
+$file = $fs->get_file_by_hash($filehash);
+if (!$file) {
     throw new \moodle_exception('invalidfilehash', 'plagiarism_plagiarismsearch');
 }
 
+/* @var $file \stored_file */
 if ($file->get_contextid() != $context->id) {
     throw new \moodle_exception('wrongfilecontext', 'plagiarism_plagiarismsearch');
 }
