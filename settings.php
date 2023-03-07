@@ -49,7 +49,8 @@ if ($mform->is_cancelled()) {
 
 $error = $result = null;
 
-if (($data = $mform->get_data()) && confirm_sesskey()) {
+$data = $mform->get_data();
+if ($data && confirm_sesskey()) {
     if (!isset($data->plagiarismsearch_use)) {
         $data->plagiarismsearch_use = 0;
     }

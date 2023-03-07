@@ -203,7 +203,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             'force' => 0,
         );
 
-        if (!empty($report) and !plagiarismsearch_reports::is_processing($report)) {
+        if (!empty($report) && !plagiarismsearch_reports::is_processing($report)) {
             $urlconfig['force'] = 1;
         }
 
@@ -211,7 +211,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         $result .= " \n";
         if ($report) {
-            if (!plagiarismsearch_reports::is_processing($report) and $this->has_show_resubmit_link($cmid, $userid, $filehash)) {
+            if (!plagiarismsearch_reports::is_processing($report) && $this->has_show_resubmit_link($cmid, $userid, $filehash)) {
                 $result .= html_writer::empty_tag('br');
                 $result .= html_writer::link($submiturl, $this->translate('resubmit'));
             }
@@ -389,7 +389,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         $field = plagiarismsearch_config::FIELD_PARSE_TEXT_URLS;
         $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
-        $mform->setDefault($prefix . $field, 0);
+        $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
     }
 
     /**
