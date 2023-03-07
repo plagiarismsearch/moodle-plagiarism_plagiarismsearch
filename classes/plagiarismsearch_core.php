@@ -76,7 +76,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
 
         $msg = '';
         if ($page) {
-            if ($page->status and ! empty($page->data)) {
+            if ($page->status && !empty($page->data)) {
                 $values = static::fill_report_values($page->data);
                 $msg = get_string('submit_ok', 'plagiarism_plagiarismsearch', $filename);
             } else {
@@ -95,7 +95,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
             $msg = static::translate('server_connection_error') . ' ' . $api->apierror;
         }
 
-        // Log submit result
+        // Log submit result.
         plagiarismsearch_reports::add(array_merge($apivalues, $values));
 
         return $msg;
@@ -125,7 +125,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
 
         $msg = '';
         if ($page) {
-            if ($page->status and ! empty($page->data)) {
+            if ($page->status && !empty($page->data)) {
                 $values = static::fill_report_values($page->data);
                 $msg = static::translate('submit_onlinetext_ok');
             } else {
@@ -141,7 +141,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
             $msg = static::translate('server_connection_error') . ' ' . $api->apierror;
         }
 
-        // Log submit result
+        // Log submit result.
         plagiarismsearch_reports::add(array_merge($apivalues, $values));
 
         return $msg;
@@ -173,7 +173,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
             return $msg;
         }
 
-        if ($page->status and ! empty($page->data)) {
+        if ($page->status && !empty($page->data)) {
 
             $msg = static::translate('status_ok');
 
@@ -190,7 +190,8 @@ class plagiarismsearch_core extends plagiarismsearch_base {
                 $msg .= "\n #" . $report->id . ' ' . static::translate('is_in') . ' '
                         . $statuslabel . ' ' . static::translate('status');
 
-                if ($id = array_search($report->id, $ids)) {
+                $id = array_search($report->id, $ids);
+                if ($id) {
                     plagiarismsearch_reports::update($values, $id);
                 }
             }

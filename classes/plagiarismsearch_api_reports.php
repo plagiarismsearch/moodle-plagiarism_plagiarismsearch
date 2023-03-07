@@ -56,8 +56,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
                 $default['search_storage_filter[user_id]'] = $this->userid;
             } else if ($filterplagiarism == plagiarismsearch_config::FILTER_PLAGIARISM_COURSE) {
                 $default['search_storage_filter[group_id]'] = $this->cmid;
-            } else if ($filterplagiarism !== plagiarismsearch_config::FILTER_PLAGIARISM_NO and $filterplagiarism !== '0') {
-                // Don't search on user course documents
+            } else if ($filterplagiarism !== plagiarismsearch_config::FILTER_PLAGIARISM_NO && $filterplagiarism !== '0') {
+                // Don't search on user course documents.
                 $default['search_storage_user_group'] = array($this->userid, $this->cmid);
             }
         }
@@ -83,11 +83,10 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
      * @return stdObject Json response
      */
     public function action_send_file($file, $post = array()) {
-        /* @var $file \stored_file */
-
         $this->set_file($file);
 
-        if ($tmpfile = $this->tmp_file($file->get_filename(), $file->get_content())) {
+        $tmpfile = $this->tmp_file($file->get_filename(), $file->get_content());
+        if ($tmpfile) {
 
             $result = $this->action_create_file($tmpfile, $post);
 
@@ -103,8 +102,6 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
      * @return stdObject Json response
      */
     public function action_send_text($text, $post = array()) {
-        /* @var $text \stored_file */
-
         $this->set_text($text);
 
         $post['text'] = $text;
@@ -127,9 +124,9 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
     protected function generate_remote_id() {
         $result = array(
-            // Course id
+            // Course id.
             'c:' . $this->cmid,
-            // User id
+            // User id.
             'u:' . $this->userid,
         );
 
@@ -145,7 +142,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
     protected function tmp_dir() {
         global $CFG;
-        if ($tmpdir = $CFG->dataroot . '/temp' and is_writable($tmpdir)) {
+        $tmpdir = $CFG->dataroot . '/temp';
+        if ($tmpdir && is_writable($tmpdir)) {
             return $tmpdir;
         } else {
             return sys_get_temp_dir();
@@ -153,17 +151,20 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     }
 
     protected function tmp_file($filename, $content) {
-        if (
-                $tmpdir = $this->tmp_dir() and
-                $filename and
-                $filename = $tmpdir . DIRECTORY_SEPARATOR . $filename and
-                $f = fopen($filename, 'w')
-        ) {
-            fwrite($f, $content);
-            fclose($f);
-
-            return $filename;
+        $tmpdir = $this->tmp_dir();
+        if(!$tmpdir || !$filename) {
+            return null;
         }
+
+        $fullname = $tmpdir . DIRECTORY_SEPARATOR . $filename;
+        $f = fopen($fullname, 'w');
+        if(!$f) {
+            return null;
+        }
+        fwrite($f, $content);
+        fclose($f);
+
+        return $fullname;
     }
 
 }

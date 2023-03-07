@@ -31,7 +31,7 @@ $key = optional_param('api_key', null, PARAM_TEXT);
 $reportdata = optional_param('report', null, PARAM_TEXT);
 $debug = optional_param('debug', null, PARAM_INT);
 
-if (empty($rid) or empty($key) or empty($reportdata)) {
+if (empty($rid) || empty($key) || empty($reportdata)) {
     die();
 }
 

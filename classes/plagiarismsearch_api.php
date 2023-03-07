@@ -61,7 +61,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postfields);
         }
 
-        // HTTP basic authentication
+        // HTTP basic authentication.
         curl_setopt($curl, CURLOPT_USERPWD, $this->apiuser . ':' . $this->apikey);
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -78,7 +78,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
         $this->apidata = curl_exec($curl);
         $this->apiinfo = curl_getinfo($curl);
         $this->apierror = curl_error($curl);
-        $this->apisuccess = $this->apiinfo >= 200 and $this->apiinfo < 300 and !$this->apierror;
+        $this->apisuccess = $this->apiinfo >= 200 && $this->apiinfo < 300 && !$this->apierror;
 
         curl_close($curl);
 
@@ -110,7 +110,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
 
     private function build_post_files($post, $files) {
         $result = array();
-        if (!empty($post) and is_array($post)) {
+        if (!empty($post) && is_array($post)) {
             foreach ($post as $key => $value) {
                 if (is_array($value)) {
                     $result[$key] = http_build_query($value, '', '&');
@@ -119,7 +119,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
                 }
             }
         }
-        if (!empty($files) and is_array($files)) {
+        if (!empty($files) && is_array($files)) {
             $result = array_merge($result, $this->build_files($files));
         }
 

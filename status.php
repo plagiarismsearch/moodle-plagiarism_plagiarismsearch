@@ -27,7 +27,7 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
 $cmid = required_param('cmid', PARAM_INT);
 $id = required_param('id', PARAM_INT);
 
-if (!$cmid or !$id) {
+if (!$cmid || !$id) {
     throw new \moodle_exception('no_cmid_or_id', 'plagiarism_plagiarismsearch');
 }
 
@@ -51,16 +51,16 @@ if (!plagiarism_plugin_plagiarismsearch::has_show_reports_link($cmid)) {
     throw new \moodle_exception('student_error_nopermission', 'plagiarism_plagiarismsearch');
 }
 
-// Load local report by ID
+// Load local report by id.
 $report = plagiarismsearch_reports::get_one(array('id' => $id));
 
 if (empty($report->rid)) {
     throw new \moodle_exception('report_not_found', 'plagiarism_plagiarismsearch');
 }
 
-// Check remote status
+// Check remote status.
 $msg = plagiarismsearch_core::check_status(array($report->id => $report->rid));
 
-// Safe back redirect
+// Safe back redirect.
 $redirect = plagiarismsearch_core::redirect_url($cm, $context);
 redirect($redirect, $msg);

@@ -191,12 +191,12 @@ class plagiarismsearch_config extends plagiarismsearch_table {
 
     public static function get_valid_parsed_text_url_as_array($cmid = null) {
         $enabled = static::get_config_or_settings($cmid, static::FIELD_PARSE_TEXT_URLS);
-        if(empty($enabled)) {
+        if(empty($enabled))  {
             return [];
         }
 
         $urls = static::get_config_or_settings($cmid, static::FIELD_VALID_PARSED_TEXT_URLS);
-        if(empty($urls)) {
+        if(empty($urls))  {
             return [];
         }
         return explode("\n", trim($urls));

@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.ss
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -103,7 +103,7 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
     }
 
     protected function is_valid() {
-        return $this->is_allowed_component() and plagiarismsearch_config::is_enabled_auto($this->cmid());
+        return $this->is_allowed_component() && plagiarismsearch_config::is_enabled_auto($this->cmid());
     }
 
     protected function is_allowed_component() {

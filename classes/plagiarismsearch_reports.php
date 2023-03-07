@@ -72,7 +72,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     );
 
     public static function table_name() {
-        // Moodle error: 'name is too long. Limit is 28 chars.'
+        // Moodle error: 'name is too long. Limit is 28 chars.'!
         return 'plagiarism_plagiarismsearchr';
     }
 
@@ -87,11 +87,13 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     }
 
     public static function add($values) {
-        if (isset($values['rid']) and $report = static::get_one(array('rid' => $values['rid']))) {
-            return static::update(array_merge((array) $report, $values), $report->id);
-        } else {
-            return static::insert($values);
+        if (isset($values['rid'])) {
+            $report = static::get_one(array('rid' => $values['rid']));
+            if($report) {
+                return static::update(array_merge((array)$report, $values), $report->id);
+            }
         }
+        return static::insert($values);
     }
 
     public static function count_valid($conditions) {
@@ -144,12 +146,12 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         if ($report) {
             $yellow = plagiarismsearch_config::get_settings('yellow_percent');
             if (!$yellow) {
-                $yellow = 2; // 2%
+                $yellow = 2; // 2%.
             }
             $red = plagiarismsearch_config::get_settings('red_percent');
 
             if (!$red) {
-                $red = 7; // 7%
+                $red = 7; // 7%.
             }
 
             if ($report->plagiarism >= $red) {
@@ -172,7 +174,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     }
 
     public static function is_error($report) {
-        return $report and in_array($report->status, static::get_error_statuses());
+        return $report && in_array($report->status, static::get_error_statuses());
     }
 
     public static function get_processing_statuses() {
@@ -199,11 +201,11 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     }
 
     public static function is_processing($report) {
-        return $report and in_array($report->status, static::get_processing_statuses());
+        return $report && in_array($report->status, static::get_processing_statuses());
     }
 
     public static function is_checked($report) {
-        return $report and $report->status == self::STATUS_CHECKED;
+        return $report && $report->status == self::STATUS_CHECKED;
     }
 
     public static function build_pdf_link($report, $cmid = null) {

@@ -27,11 +27,13 @@ mtrace("Starting the plagiarismsearch cron\n");
 
 $processingtimeinterval = 5 * 60; // 5 min
 $errortimeinterval = 12 * 60 * 60; // 12 hours
-// Check status processing reports
-if (
-        $reports = plagiarismsearch_reports::get_processing_reports($processingtimeinterval) or
-        $reports = plagiarismsearch_reports::get_error_reports($errortimeinterval)
-) {
+// Check status processing reports.
+$reports = plagiarismsearch_reports::get_processing_reports($processingtimeinterval);
+if (!$reports) {
+    $reports = plagiarismsearch_reports::get_error_reports($errortimeinterval);
+}
+
+if ($reports) {
     $ids = array();
 
     foreach ($reports as $report) {

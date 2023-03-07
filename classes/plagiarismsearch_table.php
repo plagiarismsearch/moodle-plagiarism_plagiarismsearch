@@ -47,7 +47,8 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     }
 
     public static function insert($values) {
-        if ($values = static::before_insert($values)) {
+        $values = static::before_insert($values);
+        if ($values) {
             return static::db()->insert_record(static::table_name(), $values);
         }
     }
@@ -57,7 +58,11 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     }
 
     public static function update($values, $conditions = null) {
-        if ($conditions and $values = static::before_update($values)) {
+        if (!$conditions) {
+            return;
+        }
+        $values = static::before_update($values);
+        if ($values) {
             $values['id'] = $conditions;
 
             return static::db()->update_record(static::table_name(), $values);

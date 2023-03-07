@@ -28,7 +28,6 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
 require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/plagiarism_form.php');
 
 require_login();
-// admin_externalpage_setup('plagiarismplagiarismsearch');
 
 $url = new moodle_url('/plagiarism/plagiarismsearch/settings.php');
 $context = context_system::instance();
@@ -41,7 +40,6 @@ require_once('plagiarism_form.php');
 $mform = new plagiarism_setup_form();
 
 $plagiarismsettings = get_config('plagiarism');
-// $plagiarismsettings = get_config('plagiarism_plagiarismsearch')
 
 $mform->set_data($plagiarismsettings);
 
@@ -66,11 +64,11 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
             continue; // Setting unchanged
         }
 
-        // Save the setting
+        // Save the setting.
         if (!set_config($field, $value, 'plagiarism')) {
             $result = false;
         }
-        // Update the local copy
+        // Update the local copy.
         $plagiarismsettings->{$field} = $value;
     }
 
@@ -91,7 +89,8 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
 
     if ($data->plagiarismsearch_use) {
         $api = new plagiarismsearch_api();
-        if (!$page = $api->ping() or ! $page->status) {
+        $page = $api->ping();
+        if (!$page || !$page->status) {
             $error = get_string('settings_error_server', 'plagiarism_plagiarismsearch') .
                     (!empty($page->message) ? ' ' . $page->message : '');
 

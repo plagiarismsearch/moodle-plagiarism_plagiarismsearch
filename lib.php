@@ -26,8 +26,6 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');    // It must be included from a Moodle page
 }
 
-// define('LOG_SERVER_COMMUNICATION', 1);
-// get global class
 global $CFG;
 
 require_once($CFG->dirroot . '/plagiarism/lib.php');
@@ -84,7 +82,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     }
 
 
-
     protected static function get_reports_link_type($cmid = null) {
         if (static::is_student($cmid)) {
             return plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_SHOW_REPORTS);
@@ -118,7 +115,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     public static function has_show_submit_link($cmid = null) {
         $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_MANUAL_CHECK);
         if (static::is_student($cmid)) {
-            return $manualsubmit and (bool) plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_SUBMIT);
+            return $manualsubmit && (bool) plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_SUBMIT);
         } else {
             return $manualsubmit;
         }
@@ -132,17 +129,18 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             return $manualsubmit;
         }
 
-        // Is student
+        // Is student?
         if (!plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_RESUBMIT)) {
             return false;
         }
 
-        // Check student resubmit numbers
-        if ($cmid and
-                $userid and
-                $filehash and
-                $limit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_RESUBMIT_NUMBERS)
-        ) {
+        // Check student resubmit numbers.
+        if (!$cmid || !$userid || !$filehash) {
+            return $manualsubmit;
+        }
+
+        $limit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_RESUBMIT_NUMBERS);
+        if($limit) {
             $countreports = plagiarismsearch_reports::count_valid(array(
                         'cmid' => $cmid,
                         'userid' => $userid,
@@ -418,7 +416,8 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     }
 
     protected function save_form_config($cmid, $name, $value) {
-        if ($config = plagiarismsearch_config::get_one(array('cmid' => $cmid, 'name' => $name))) {
+        $config = plagiarismsearch_config::get_one(array('cmid' => $cmid, 'name' => $name));
+        if ($config) {
             return plagiarismsearch_config::update(array('value' => $value), $config->id);
         } else {
             return plagiarismsearch_config::insert(array('cmid' => $cmid, 'name' => $name, 'value' => $value));
@@ -476,15 +475,19 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     public static function log() {
         global $CFG;
         $args = func_get_args();
-        if ($args and $f = fopen($CFG->dirroot . '/plagiarism/plagiarismsearch/log.txt', 'a')) {
-            foreach ($args as $arg) {
-                fwrite($f, var_export($arg, true) . "\n------------\n");
-            }
-            fclose($f);
-
-            return true;
+        if(!$args) {
+            return false;
         }
-        return false;
+        $f = fopen($CFG->dirroot . '/plagiarism/plagiarismsearch/log.txt', 'a');
+        if(!$f) {
+            return false;
+        }
+        foreach ($args as $arg) {
+            fwrite($f, var_export($arg, true) . "\n------------\n");
+        }
+        fclose($f);
+
+        return true;
     }
 
     public static function event_handler(core\event\base $event) {

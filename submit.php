@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * submit a file to plagiarismsearch for analysis
+ * Submit a file to plagiarismsearch for analysis
  *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -43,11 +43,11 @@ $context = context_module::instance($cmid);
 require_capability('plagiarism/plagiarismsearch:submitlinks', $context);
 
 if (!plagiarismsearch_config::get_settings('use')) {
-    // Disabled at the site level
+    // Disabled at the site level.
     throw new \moodle_exception('disabledsite', 'plagiarism_plagiarismsearch');
 }
 
-// Check student permission
+// Check student permission.
 if ($force) {
     if (!plagiarism_plugin_plagiarismsearch::has_show_resubmit_link($cmid, $userid, $filehash)) {
         throw new \moodle_exception('student_error_nopermission', 'plagiarism_plagiarismsearch');
@@ -56,7 +56,7 @@ if ($force) {
     throw new \moodle_exception('student_error_nopermission', 'plagiarism_plagiarismsearch');
 }
 
-// Retrieve the file and check everything is OK
+// Retrieve the file and check everything is OK.
 /* @var $file \stored_file */
 $fs = get_file_storage();
 if (!$file = $fs->get_file_by_hash($filehash)) {
@@ -71,9 +71,9 @@ if ($file->get_userid() != $userid) {
     throw new \moodle_exception('wrongfileuser', 'plagiarism_plagiarismsearch');
 }
 
-// Send file
+// Send file.
 $msg = plagiarismsearch_core::send_file($file, $cmid, array('force' => $force, 'submit' => 'manual'));
 
-// Safe back redirect
+// Safe back redirect.
 $redirect = plagiarismsearch_core::redirect_url($cm, $context);
 redirect($redirect, $msg);
