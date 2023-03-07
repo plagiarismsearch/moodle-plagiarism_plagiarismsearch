@@ -78,7 +78,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
         $this->apidata = curl_exec($curl);
         $this->apiinfo = curl_getinfo($curl);
         $this->apierror = curl_error($curl);
-        $this->apisuccess = $this->apiinfo >= 200 and $this->apiinfo < 300 and ! $this->apierror;
+        $this->apisuccess = $this->apiinfo >= 200 and $this->apiinfo < 300 and !$this->apierror;
 
         curl_close($curl);
 

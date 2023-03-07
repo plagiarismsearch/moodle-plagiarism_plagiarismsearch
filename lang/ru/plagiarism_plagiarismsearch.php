@@ -69,6 +69,9 @@ $string['filter_plagiarism_user_course'] = 'Исключить плагиат п
 $string['filter_plagiarism_user'] = 'Исключить плагиат пользователя';
 $string['filter_plagiarism_course'] = 'Исключить плагиат курса (не рекомендуется)';
 
+$string['parse_text_url'] = 'Разрешить парсинг URL в тексте';
+$string['valid_parsed_text_url'] = 'Список допустимых URL для парсинга';
+
 $string['submit'] = 'Проверить на PlagiarismSearch';
 $string['resubmit'] = 'Проверить повторно на PlagiarismSearch';
 $string['processing'] = 'В процессе';

@@ -44,6 +44,8 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     const FIELD_STUDENT_RESUBMIT = 'student_resubmit';
     const FIELD_STUDENT_RESUBMIT_NUMBERS = 'student_resubmit_numbers';
     const FIELD_STUDENT_DISCLOSURE = 'student_disclosure';
+    const FIELD_PARSE_TEXT_URLS = 'parse_text_url';
+    const FIELD_VALID_PARSED_TEXT_URLS = 'valid_parsed_text_url';
     /**/
     const SUBMIT_WEB = 1;
     const SUBMIT_STORAGE = 2;
@@ -78,6 +80,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         self::FIELD_FILTER_CHARS, self::FIELD_FILTER_PLAGIARISM, self::FIELD_FILTER_QUOTES, self::FIELD_FILTER_REFERENCES,
         self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
         self::FIELD_STUDENT_SHOW_PERCENTAGE, self::FIELD_STUDENT_SHOW_REPORTS, self::FIELD_STUDENT_SUBMIT,
+        self::FIELD_PARSE_TEXT_URLS, self::FIELD_VALID_PARSED_TEXT_URLS
     );
 
     public static function table_name() {
@@ -99,7 +102,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             $value = static::get_settings($name);
         }
 
-        return ($value == null) ? $default : $value;
+        return ($value === null) ? $default : $value;
     }
 
     public static function get_config($cmid, $name, $default = false) {
@@ -154,10 +157,9 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     /**
-     * @param $settings
      * @param null $key
      *
-     * @return null
+     * @return mixed|null
      */
     private static function get_settings_item($key = null) {
         if (is_null($key)) {
@@ -185,6 +187,19 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     public static function is_submit_storage($cmid = null) {
         $value = static::get_config_or_settings($cmid, static::FIELD_SOURCES_TYPE);
         return $value & static::SUBMIT_STORAGE;
+    }
+
+    public static function get_valid_parsed_text_url_as_array($cmid = null) {
+        $enabled = static::get_config_or_settings($cmid, static::FIELD_PARSE_TEXT_URLS);
+        if(empty($enabled)) {
+            return [];
+        }
+
+        $urls = static::get_config_or_settings($cmid, static::FIELD_VALID_PARSED_TEXT_URLS);
+        if(empty($urls)) {
+            return [];
+        }
+        return explode("\n", trim($urls));
     }
 
     public static function get_release() {
@@ -231,6 +246,10 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             static::FILTER_PLAGIARISM_USER => static::translate('filter_plagiarism_user'),
             static::FILTER_PLAGIARISM_COURSE => static::translate('filter_plagiarism_course'),
         );
+    }
+
+    public static function get_default_valid_parsed_text_urls() {
+        return "docs.google.com/\ndrive.google.com/";
     }
 
 }

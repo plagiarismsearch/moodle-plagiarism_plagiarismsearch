@@ -388,6 +388,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         $field = plagiarismsearch_config::FIELD_STUDENT_RESUBMIT_NUMBERS;
         $mform->addElement('text', $prefix . $field, $this->translate($field));
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
+
+        $field = plagiarismsearch_config::FIELD_PARSE_TEXT_URLS;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
     }
 
     /**

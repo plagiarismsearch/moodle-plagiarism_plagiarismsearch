@@ -69,6 +69,9 @@ $string['filter_plagiarism_user_course'] = 'Wyfiltruj plagiat użytkownika w ram
 $string['filter_plagiarism_user'] = 'Wyfiltruj plagiat użytkownika';
 $string['filter_plagiarism_course'] = 'Wyfiltruj plagiat kursu (niepolecane)';
 
+$string['parse_text_url'] = 'Zezwalaj na parsowanie adresów URL w tekście';
+$string['valid_parsed_text_url'] = 'Lista prawidłowych adresów URL do analizy';
+
 $string['submit'] = 'Sprawdź na PlagiarismSearch';
 $string['resubmit'] = 'Sprawdź jeszcze raz na PlagiarismSearch';
 $string['processing'] = 'Opracowanie';

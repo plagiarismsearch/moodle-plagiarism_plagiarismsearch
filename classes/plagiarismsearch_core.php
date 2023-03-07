@@ -111,7 +111,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      * @return string
      */
     public static function send_text($text, $cmid, $userid, $params = array()) {
-        $values = array(
+        $apivalues = array(
             'cmid' => $cmid,
             'userid' => $userid,
             'senderid' => static::get_sender_id(),
@@ -120,7 +120,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
             'text' => $text,
         );
 
-        $api = new plagiarismsearch_api_reports($values);
+        $api = new plagiarismsearch_api_reports($apivalues);
         $page = $api->action_send_text($text, $params);
 
         $msg = '';
@@ -142,7 +142,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         }
 
         // Log submit result
-        plagiarismsearch_reports::add($values);
+        plagiarismsearch_reports::add(array_merge($apivalues, $values));
 
         return $msg;
     }

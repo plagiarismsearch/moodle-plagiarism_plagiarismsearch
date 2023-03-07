@@ -37,6 +37,12 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
     }
 
     public function cmid() {
+        $data = $this->event->get_data();
+
+        if (!empty($data['courseid'])) {
+            return $data['courseid'];
+        }
+
         return $this->event->get_context()->instanceid;
     }
 
@@ -90,7 +96,8 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
     }
 
     protected function handle_online_text() {
-        if ($content = $this->get_onlinetext_content()) {
+        $content = $this->get_onlinetext_content();
+        if ($content) {
             plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid(), array('submit' => 'auto'));
         }
     }

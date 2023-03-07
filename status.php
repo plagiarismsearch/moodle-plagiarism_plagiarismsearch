@@ -21,20 +21,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
+global $CFG, $DB, $PAGE;
 require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
-
-global $CFG, $DB;
 
 $cmid = required_param('cmid', PARAM_INT);
 $id = required_param('id', PARAM_INT);
 
-if (!$cmid or ! $id) {
-    print_error('no_cmid_or_id', 'plagiarism_plagiarismsearch');
+if (!$cmid or !$id) {
+    throw new \moodle_exception('no_cmid_or_id', 'plagiarism_plagiarismsearch');
 }
 
 if (!plagiarismsearch_config::get_settings('use')) {
     // Disabled at the site level
-    print_error('disabledsite', 'plagiarism_plagiarismsearch');
+    throw new \moodle_exception('disabledsite', 'plagiarism_plagiarismsearch');
 }
 
 require_sesskey();
@@ -49,14 +48,14 @@ $context = context_module::instance($cmid);
 require_capability('plagiarism/plagiarismsearch:statuslinks', $context);
 
 if (!plagiarism_plugin_plagiarismsearch::has_show_reports_link($cmid)) {
-    print_error('student_error_nopermission', 'plagiarism_plagiarismsearch');
+    throw new \moodle_exception('student_error_nopermission', 'plagiarism_plagiarismsearch');
 }
 
 // Load local report by ID
 $report = plagiarismsearch_reports::get_one(array('id' => $id));
 
 if (empty($report->rid)) {
-    print_error('report_not_found', 'plagiarism_plagiarismsearch');
+    throw new \moodle_exception('report_not_found', 'plagiarism_plagiarismsearch');
 }
 
 // Check remote status

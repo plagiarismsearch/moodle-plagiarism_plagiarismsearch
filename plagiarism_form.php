@@ -22,6 +22,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
 require_once($CFG->dirroot . '/lib/formslib.php');
 
 class plagiarism_setup_form extends moodleform {
@@ -128,6 +129,14 @@ class plagiarism_setup_form extends moodleform {
         $field = plagiarismsearch_config::FIELD_STUDENT_DISCLOSURE;
         $mform->addElement('textarea', $prefix . $field, $this->translate($field), 'wrap="virtual" rows="6" cols="50"');
         $mform->setDefault($prefix . $field, $this->translate('student_disclosure_default'));
+
+        $field = plagiarismsearch_config::FIELD_PARSE_TEXT_URLS;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
+
+        $field = plagiarismsearch_config::FIELD_VALID_PARSED_TEXT_URLS;
+        $mform->addElement('textarea', $prefix . $field, $this->translate($field), 'wrap="virtual" rows="3" cols="50"');
+        $mform->setDefault($prefix . $field, plagiarismsearch_config::get_default_valid_parsed_text_urls());
 
         $this->add_action_buttons(true);
     }

@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
+global $CFG;
 require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
 
 $rid = optional_param('id', null, PARAM_INT);
@@ -34,11 +35,12 @@ if (empty($rid) or empty($key) or empty($reportdata)) {
     die();
 }
 
-if ($key != plagiarismsearch_config::get_settings('api_key')) {
+if ($key !== plagiarismsearch_config::get_settings('api_key')) {
     die();
 }
 
-if (!$localreport = plagiarismsearch_reports::get_one(array('rid' => $rid))) {
+$localreport = plagiarismsearch_reports::get_one(array('rid' => $rid));
+if (!$localreport) {
     die();
 }
 

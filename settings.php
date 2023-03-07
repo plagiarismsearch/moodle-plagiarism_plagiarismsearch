@@ -21,12 +21,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(dirname(__FILE__)) . '/../config.php');
+global $CFG, $OUTPUT, $USER, $PAGE;
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/plagiarismlib.php');
 require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
 require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/plagiarism_form.php');
-
-global $CFG, $OUTPUT, $USER, $PAGE;
 
 require_login();
 // admin_externalpage_setup('plagiarismplagiarismsearch');

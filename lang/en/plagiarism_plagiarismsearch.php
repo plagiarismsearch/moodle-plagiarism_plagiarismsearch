@@ -69,6 +69,9 @@ $string['filter_plagiarism_user_course'] = 'Exclude user plagiarism within the s
 $string['filter_plagiarism_user'] = 'Exclude user plagiarism';
 $string['filter_plagiarism_course'] = 'Exclude course plagiarism (not recommended)';
 
+$string['parse_text_url'] = 'Allow URL parsing in text';
+$string['valid_parsed_text_url'] = 'Valid URLs list for parsing';
+
 $string['submit'] = 'Submit to PlagiarismSearch';
 $string['resubmit'] = 'Resubmit to PlagiarismSearch';
 $string['processing'] = 'In progress';

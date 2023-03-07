@@ -37,7 +37,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
             'storage_user_id' => $this->userid,
         );
 
-        if ($file = $this->get_file()) {
+        $file = $this->get_file();
+        if ($file) {
             $default['storage_file_id'] = $file->get_id();
             $default['storage_author'] = $file->get_author();
         }
@@ -59,6 +60,11 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
                 // Don't search on user course documents
                 $default['search_storage_user_group'] = array($this->userid, $this->cmid);
             }
+        }
+
+        $parsedurls = plagiarismsearch_config::get_valid_parsed_text_url_as_array($this->cmid);
+        if($parsedurls) {
+            $default['parsed_text_url'] = $parsedurls;
         }
 
         return $this->post($url, array_merge($default, $post), $files);

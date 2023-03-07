@@ -68,6 +68,9 @@ $string['filter_plagiarism_user_course'] = 'Excluir el plagio del usuario dentro
 $string['filter_plagiarism_user'] = 'Excluir el plagio del usuario';
 $string['filter_plagiarism_course'] = 'Excluir el plagio del curso (no recomendado)';
 
+$string['parse_text_url'] = 'Permitir análisis de URL en texto';
+$string['valid_parsed_text_url'] = 'Lista de URL válidas para analizar';
+
 $string['submit'] = 'Enviar a entregar a PlagiarismSearch';
 $string['resubmit'] = 'Volver a entregar de PlagiarismSearch';
 $string['processing'] = 'Procesamiento en curso';
