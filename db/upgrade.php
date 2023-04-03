@@ -50,5 +50,17 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021042109, 'plagiarism', 'plagiarismsearch');
     }
 
+    if ($oldversion < 2023033001) {
+        // Fix name is too long. Limit is 28 characters.
+        $report = new xmldb_table('plagiarism_plagiarismsearchr');
+        $dbman->rename_table($report, 'plagiarism_ps_reports');
+
+        $config = new xmldb_table('plagiarism_plagiarismsearchc');
+        $dbman->rename_table($config, 'plagiarism_ps_config');
+
+        // Savepoint reached.
+        upgrade_plugin_savepoint(true, 2023033001, 'plagiarism', 'plagiarismsearch');
+    }
+
     return true;
 }
