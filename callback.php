@@ -44,10 +44,10 @@ if (!$localreport) {
     die();
 }
 
-$report = json_decode($reportdata, false);
+$report = plagiarismsearch_base::jsondecode($reportdata, false);
 if ($report) {
     $values = array(
-        'plagiarism' => $report->plagiat,
+        'plagiarism' => $report->plagiarism,
         'status' => $report->status,
         'url' => $report->file,
         'rfileid' => $report->file_id,

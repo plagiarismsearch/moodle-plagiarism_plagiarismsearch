@@ -30,6 +30,11 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         'assignsubmission_file',
         'assignsubmission_onlinetext',
     );
+    protected $allowedevents = array(
+        '\assignsubmission_file\event\submission_updated',
+        '\assignsubmission_file\event\assessable_uploaded',
+        '\assignsubmission_onlinetext\event\assessable_uploaded',
+    );
 
     public function __construct(core\event\base $event, $config = array()) {
         $this->event = $event;
@@ -39,11 +44,17 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
     public function cmid() {
         $data = $this->event->get_data();
 
+        return empty($data['contextinstanceid']) ? $data['contextinstanceid'] : $this->event->get_context()->instanceid;
+    }
+
+    public function courceid() {
+        $data = $this->event->get_data();
+
         if (!empty($data['courseid'])) {
             return $data['courseid'];
         }
 
-        return $this->event->get_context()->instanceid;
+        return $this->cmid();
     }
 
     public function userid() {
@@ -92,13 +103,13 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
             return null;
         }
 
-        plagiarismsearch_core::send_file($file, $this->cmid(), array('submit' => 'auto'));
+        plagiarismsearch_core::send_file($file, $this->cmid(), array('submit' => 'auto', 'storage_subject_id' => $this->courceid()));
     }
 
     protected function handle_online_text() {
         $content = $this->get_onlinetext_content();
         if ($content) {
-            plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid(), array('submit' => 'auto'));
+            plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid(), array('submit' => 'auto', 'storage_subject_id' => $this->courceid()));
         }
     }
 
@@ -112,11 +123,7 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
 
     protected function is_upload() {
         $eventdata = $this->event->get_data();
-        return in_array($eventdata['eventname'], array(
-            '\assignsubmission_file\event\submission_updated',
-            '\assignsubmission_file\event\assessable_uploaded',
-            '\assignsubmission_onlinetext\event\assessable_uploaded',
-        ));
+        return in_array($eventdata['eventname'], $this->allowedevents);
     }
 
     protected function is_submission_draft() {

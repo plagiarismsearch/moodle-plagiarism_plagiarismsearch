@@ -42,7 +42,7 @@ require_login($cm->course, true, $cm);
 $context = context_module::instance($cmid);
 require_capability('plagiarism/plagiarismsearch:submitlinks', $context);
 
-if (!plagiarismsearch_config::get_settings('use')) {
+if (!plagiarismsearch_config::is_enabled()) {
     // Disabled at the site level.
     throw new \moodle_exception('disabledsite', 'plagiarism_plagiarismsearch');
 }
@@ -73,7 +73,7 @@ if ($file->get_userid() != $userid) {
 }
 
 // Send file.
-$msg = plagiarismsearch_core::send_file($file, $cmid, array('force' => $force, 'submit' => 'manual'));
+$msg = plagiarismsearch_core::send_file($file, $cmid, array('force' => $force, 'submit' => 'manual', 'storage_subject_id' => $cm->course));
 
 // Safe back redirect.
 $redirect = plagiarismsearch_core::redirect_url($cm, $context);

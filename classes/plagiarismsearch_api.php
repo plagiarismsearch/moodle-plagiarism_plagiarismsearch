@@ -33,6 +33,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**/
     public $cmid;
     public $userid;
+    public $courseid;
 
     /**
      * @var  \stored_file
@@ -95,7 +96,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     }
 
     private function unpack($data) {
-        return json_decode($data, false);
+        return plagiarismsearch_base::jsondecode($data, false);
     }
 
     private function build_post_fields($post, $files = array()) {

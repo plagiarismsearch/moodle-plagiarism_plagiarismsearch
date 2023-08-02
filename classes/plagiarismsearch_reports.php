@@ -246,7 +246,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
             $route = '/' . $language . '/r';
         }
 
-        return $baseurl . $route . $suffix . '/' . $report->rid . '.html?key=' . $report->rkey;
+        return $baseurl . $route . $suffix . '/' . $report->rid . '?key=' . $report->rkey;
     }
 
 }

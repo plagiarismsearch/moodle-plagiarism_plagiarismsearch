@@ -27,10 +27,10 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         $default = array(
             'fields' => array('id', 'status', 'plagiat', 'file'),
             'remote_id' => $this->generate_remote_id(),
-            'storage' => $this->get_config(plagiarismsearch_config::FIELD_ADD_TO_STORAGE, 1),
-            'filter_chars' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_CHARS, 0),
-            'filter_references' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_REFERENCES, 0),
-            'filter_quotes' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_QUOTES, 0),
+            'is_add_storage' => $this->get_config(plagiarismsearch_config::FIELD_ADD_TO_STORAGE, 1),
+            'is_search_filter_chars' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_CHARS, 0),
+            'is_search_filter_references' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_REFERENCES, 0),
+            'is_search_filter_quotes' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_QUOTES, 0),
             'callback_url' => new moodle_url('/plagiarism/plagiarismsearch/callback.php'),
             'moodle' => plagiarismsearch_config::get_release(),
             'storage_course_id' => $this->cmid,
@@ -44,10 +44,10 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         }
 
         if (plagiarismsearch_config::is_submit_web($this->cmid)) {
-            $default['search_web'] = 1;
+            $default['is_search_web'] = 1;
         }
         if (plagiarismsearch_config::is_submit_storage($this->cmid)) {
-            $default['search_storage'] = 1;
+            $default['is_search_storage'] = 1;
 
             $filterplagiarism = $this->get_config(plagiarismsearch_config::FIELD_FILTER_PLAGIARISM, 0);
             if ($filterplagiarism == plagiarismsearch_config::FILTER_PLAGIARISM_USER_COURSE) {
@@ -124,7 +124,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
     protected function generate_remote_id() {
         $result = array(
-            // Course id.
+            // Context id.
             'c:' . $this->cmid,
             // User id.
             'u:' . $this->userid,

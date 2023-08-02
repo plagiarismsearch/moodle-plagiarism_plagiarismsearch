@@ -44,4 +44,28 @@ class plagiarismsearch_base {
         return get_string($value, $module);
     }
 
+    public static function jsondecode($json, $associative = null) {
+        $result = json_decode($json, $associative);
+        $error = json_last_error();
+        if ($error == JSON_ERROR_UTF8) {
+            $result = json_decode(static::utf8ize($json), $associative);
+        }
+        return $result;
+    }
+
+    public static function utf8ize($mixed) {
+        if (is_array($mixed)) {
+            foreach ($mixed as $key => $value) {
+                $mixed[$key] = static::utf8ize($value);
+            }
+        } elseif (is_object($mixed)) {
+            foreach ($mixed as $key => $value) {
+                $mixed->{$key} = static::utf8ize($value);
+            }
+        } elseif (is_string($mixed)) {
+            return utf8_encode($mixed);
+        }
+        return $mixed;
+    }
+
 }

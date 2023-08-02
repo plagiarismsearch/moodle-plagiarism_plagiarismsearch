@@ -23,7 +23,7 @@
 $string['plagiarismsearch'] = 'PlagiarismSearch';
 $string['pluginname'] = 'PlagiarismSearch';
 
-$string['auto_check'] = 'Autocheck';
+$string['auto_check'] = 'Auto check';
 $string['manual_check'] = 'Manual check';
 $string['add_to_storage'] = 'Add to Storage';
 
@@ -112,7 +112,7 @@ $string['red'] = 'Plagiarism level red starts at';
 
 $string['text_plain'] = 'PlagiarismSearch.com – advanced online plagiarism checker. <br/>
 PlagiarismSearch.com is a leading plagiarism checking website that will provide you with an accurate report during a short timeframe. <br/>
-Find out how to register <a href="https://plagiarismsearch.com/account/signup.html">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
+Find out how to register <a href="https://plagiarismsearch.com/account/signup">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
 $string['plagiarismsearch:viewlinks'] = 'Ability to view links for plagiarism results';
 $string['plagiarismsearch:submitlinks'] = 'Ability to submit links to PlagiarismSearch.com';
