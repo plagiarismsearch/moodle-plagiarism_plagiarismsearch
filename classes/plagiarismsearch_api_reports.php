@@ -32,7 +32,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
             'is_search_filter_references' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_REFERENCES, 0),
             'is_search_filter_quotes' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_QUOTES, 0),
             'callback_url' => new moodle_url('/plagiarism/plagiarismsearch/callback.php'),
-            'moodle' => plagiarismsearch_config::get_release(),
+            'moodle' => plagiarismsearch_config::get_plugin_release(),
+            'moodle_release' => plagiarismsearch_config::get_release(),
             'storage_course_id' => $this->cmid,
             'storage_user_id' => $this->userid,
         );

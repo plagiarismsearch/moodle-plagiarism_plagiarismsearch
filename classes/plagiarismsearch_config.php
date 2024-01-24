@@ -214,6 +214,14 @@ class plagiarismsearch_config extends plagiarismsearch_table {
 
     public static function get_release() {
         global $CFG;
+
+        if (isset($CFG->release)) {
+            return $CFG->release;
+        }
+    }
+
+    public static function get_plugin_release() {
+        global $CFG;
         global $plugin;
         require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/version.php');
 
