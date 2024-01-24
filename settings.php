@@ -39,7 +39,7 @@ require_capability('moodle/site:config', $context, $USER->id, true, 'nopermissio
 require_once('plagiarism_form.php');
 $mform = new plagiarism_setup_form();
 
-$plagiarismsettings = get_config('plagiarism');
+$plagiarismsettings = plagiarismsearch_config::load_settings();
 
 $mform->set_data($plagiarismsettings);
 
@@ -51,8 +51,8 @@ $error = $result = null;
 
 $data = $mform->get_data();
 if ($data && confirm_sesskey()) {
-    if (!isset($data->plagiarismsearch_use)) {
-        $data->plagiarismsearch_use = 0;
+    if (!isset($data->enabled)) {
+        $data->enabled = 0;
     }
 
     $localonlysettings = plagiarismsearch_config::fields();
@@ -61,42 +61,42 @@ if ($data && confirm_sesskey()) {
 
     foreach ($localonlysettings as $field) {
         $value = isset($data->{$field}) ? $data->{$field} : null;
-        if (isset($plagiarismsettings->{$field}) && $plagiarismsettings->{$field} == $value) {
+        if (isset($plagiarismsettings[$field]) && $plagiarismsettings[$field] == $value) {
             continue; // Setting unchanged.
         }
 
         // Save the setting.
-        if (!set_config($field, $value, 'plagiarism')) {
+        if (!plagiarismsearch_config::set_settings($field, $value)) {
             $result = false;
         }
         // Update the local copy.
-        $plagiarismsettings->{$field} = $value;
+        $plagiarismsettings[$field] = $value;
     }
 
     if (empty($plagiarismsettings->plagiarismsearch_student_show_reports)) {
-        $plagiarismsettings->plagiarismsearch_student_show_percentage = 0;
-        set_config('plagiarismsearch_student_show_percentage', 0, 'plagiarism');
+        $plagiarismsettings['plagiarismsearch_student_show_percentage'] = 0;
+        plagiarismsearch_config::set_settings('plagiarismsearch_student_show_percentage', 0);
 
-        $plagiarismsettings->plagiarismsearch_student_student_submit = 0;
-        set_config('plagiarismsearch_student_student_submit', 0, 'plagiarism');
+        $plagiarismsettings['plagiarismsearch_student_student_submit'] = 0;
+        plagiarismsearch_config::set_settings('plagiarismsearch_student_student_submit', 0);
 
-        $plagiarismsettings->plagiarismsearch_student_student_resubmit = 0;
-        set_config('plagiarismsearch_student_student_resubmit', 0, 'plagiarism');
+        $plagiarismsettings['plagiarismsearch_student_student_resubmit'] = 0;
+        plagiarismsearch_config::set_settings('plagiarismsearch_student_student_resubmit', 0);
     }
-    if (empty($plagiarismsettings->plagiarismsearch_student_resubmit_numbers)) {
-        $plagiarismsettings->plagiarismsearch_student_resubmit_numbers = '';
+    if (empty($plagiarismsettings['plagiarismsearch_student_resubmit_numbers'])) {
+        $plagiarismsettings['plagiarismsearch_student_resubmit_numbers'] = '';
     }
 
 
-    if ($data->plagiarismsearch_use) {
+    if ($data->enabled) {
         $api = new plagiarismsearch_api();
         $page = $api->ping();
         if (!$page || !$page->status) {
             $error = get_string('settings_error_server', 'plagiarism_plagiarismsearch') .
                     (!empty($page->message) ? ' ' . $page->message : '');
 
-            $plagiarismsettings->plagiarismsearch_use = 0;
-            set_config('plagiarismsearch_use', 0, 'plagiarism');
+            $plagiarismsettings['enabled'] = 0;
+            plagiarismsearch_config::set_settings('enabled', 0);
 
             $result = false;
         }
@@ -105,7 +105,6 @@ if ($data && confirm_sesskey()) {
 
 echo $OUTPUT->header();
 echo $OUTPUT->box_start('generalbox boxaligncenter', 'intro');
-
 if ($result !== null) {
     if (empty($result)) {
         if ($error) {

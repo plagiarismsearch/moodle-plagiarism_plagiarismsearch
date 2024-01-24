@@ -106,9 +106,9 @@ $string['settings_saved'] = 'Настройки PlagiarismSearch успешно 
 // $string['settings_saved'] = 'Настройки PlagiarismSearch были успешно сохранены';
 $string['submit'] = 'Отправить в PlagiarismSearch';
 $string['use'] = 'Включить PlagiarismSearch';
+$string['enabled'] = 'Включить PlagiarismSearch';
 $string['yellow'] = 'Желтый уровень плагиата начинается с';
 $string['red'] = 'Красный уровень плагиата начинается с';
-
 
 $string['text_plain'] = 'PlagiarismSearch.com – расширенная онлайн-проверка на плагиат. <br/>
 PlagiarismSearch.com это ведущий веб-сайт по проверке плагиата, который предоставит вам

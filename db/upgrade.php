@@ -62,5 +62,23 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023033001, 'plagiarism', 'plagiarismsearch');
     }
 
+    if ($oldversion < 2024012401) {
+        $configs = get_config('plagiarism');
+
+        foreach ($configs as $field => $value) {
+            if (strpos($field, 'plagiarismsearch') === 0) {
+                if ($field === 'plagiarismsearch_use') {
+                    $DB->delete_records('config_plugins', ['name' => $field, 'plugin' => 'plagiarism']);
+
+                    $field = 'enabled';
+                }
+
+                set_config($field, $value, 'plagiarism_plagiarismsearch');
+            }
+        }
+
+        upgrade_plugin_savepoint(true, 2024012401, 'plagiarism', 'plagiarismsearch');
+    }
+
     return true;
 }

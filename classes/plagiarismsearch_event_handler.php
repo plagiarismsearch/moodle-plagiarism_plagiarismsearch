@@ -126,16 +126,4 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         return in_array($eventdata['eventname'], $this->allowedevents);
     }
 
-    protected function is_submission_draft() {
-        global $CFG;
-
-        if ($this->event->objecttable != 'assign_submission') {
-            return false;
-        }
-
-        require_once($CFG->dirroot . '/mod/assign/locallib.php');
-
-        return true;
-    }
-
 }

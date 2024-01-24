@@ -41,9 +41,9 @@ class plagiarism_setup_form extends moodleform {
             1 => $this->translate('yes', null),
         );
 
-        $field = plagiarismsearch_config::FIELD_USE;
+        $field = plagiarismsearch_config::FIELD_ENABLED;
         $mform->addElement('html', $this->translate('text_plain'));
-        $mform->addElement('checkbox', $prefix . $field, $this->translate($field));
+        $mform->addElement('checkbox', $field, $this->translate($field));
 
         $field = plagiarismsearch_config::FIELD_API_URL;
         $mform->addElement('text', $prefix . $field, $this->translate($field), array('size' => '40'));

@@ -31,7 +31,7 @@ if (!$cmid || !$id) {
     throw new \moodle_exception('no_cmid_or_id', 'plagiarism_plagiarismsearch');
 }
 
-if (!plagiarismsearch_config::is_enabled()) {
+if (!plagiarismsearch_config::is_plugin_enabled()) {
     // Disabled at the site level.
     throw new \moodle_exception('disabledsite', 'plagiarism_plagiarismsearch');
 }

@@ -106,6 +106,7 @@ $string['settings_saved'] = 'Ustawienia PlagiarismSearch pomyślnie zapisane';
 // $string['settings_saved'] = 'Ustawienia PlagiarismSearch pomyślnie zapisane';
 $string['submit'] = 'Wyślij do PlagiarismSearch';
 $string['use'] = 'Załącz PlagiarismSearch';
+$string['enabled'] = 'Załącz PlagiarismSearch';
 $string['yellow'] = 'Żółty poziom plagiatu zaczyna się od';
 $string['red'] = 'Czerwony poziom plagiatu zaczyna się od';
 

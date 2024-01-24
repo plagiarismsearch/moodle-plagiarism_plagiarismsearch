@@ -58,11 +58,11 @@ class plagiarismsearch_base {
             foreach ($mixed as $key => $value) {
                 $mixed[$key] = static::utf8ize($value);
             }
-        } elseif (is_object($mixed)) {
+        } else if (is_object($mixed)) {
             foreach ($mixed as $key => $value) {
                 $mixed->{$key} = static::utf8ize($value);
             }
-        } elseif (is_string($mixed)) {
+        } else if (is_string($mixed)) {
             return utf8_encode($mixed);
         }
         return $mixed;

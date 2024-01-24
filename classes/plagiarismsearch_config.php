@@ -23,6 +23,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
 
     const CONFIG_PREFIX = 'plagiarismsearch_';
     /**/
+    const FIELD_ENABLED = 'enabled';
     const FIELD_USE = 'use';
     const FIELD_API_URL = 'api_url';
     const FIELD_API_USER = 'api_user';
@@ -89,7 +90,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     public static function fields() {
-        $result = array();
+        $result = array(self::FIELD_ENABLED => self::FIELD_ENABLED);
         foreach (static::$fields as $field) {
             $result[$field] = static::CONFIG_PREFIX . $field;
         }
@@ -105,98 +106,106 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return ($value === null) ? $default : $value;
     }
 
-    public static function get_config($cmid, $name, $default = false) {
-        if (isset(static::$config[$cmid][$name])) {
-            return static::$config[$cmid][$name];
+    public static function get_config($cmid, $name, $default = null) {
+        if (!isset(static::$config[$cmid])) {
+            static::load_config($cmid);
         }
 
-        global $DB;
+        return isset(static::$config[$cmid][$name]) ? static::$config[$cmid][$name] : $default;
+    }
 
-        $condition = array(
-            'cmid' => $cmid,
-            'name' => $name,
-        );
+    private static function load_config($cmid) {
+        static::$config = array();
 
-        $config = $DB->get_records(static::table_name(), $condition, '', 'cmid,name,value');
+        $config = static::get_all(['cmid' => (int)$cmid]);
         if ($config) {
             foreach ($config as $row) {
                 static::$config[$row->cmid][$row->name] = $row->value;
             }
         }
 
-        if (isset(static::$config[$cmid][$name])) {
-            return static::$config[$cmid][$name];
+        return static::$config;
+    }
+
+    public static function set_config($cmid, $name, $value) {
+        $config = static::get_one(array('cmid' => $cmid, 'name' => $name));
+        if ($config) {
+            return static::update(array('value' => $value), $config->id);
         } else {
-            return $default;
+            return static::insert(array('cmid' => $cmid, 'name' => $name, 'value' => $value));
         }
     }
 
     /**
-     * This function should be used to initialize settings and check if plagiarism is enabled.
+     * This function should be used to initialize and get settings.
      *
-     * @param null $key
+     * @param string $key
      *
      * @return array|bool
      * @throws \dml_exception
      * @throws \moodle_exception
      */
-    public static function get_settings($key = null) {
-        if (!empty(static::$settings)) {
-            return self::get_settings_item($key);
+    public static function get_settings($key) {
+        if (empty(self::$settings)) {
+            self::load_settings();
         }
+        return self::get_settings_item($key);
+    }
 
-        static::$settings = (array) get_config('plagiarism');
+    public static function set_settings($key, $value) {
+        return set_config($key, $value, 'plagiarism_plagiarismsearch');
+    }
 
-        // Check if enabled.
-        $usefield = static::CONFIG_PREFIX . static::FIELD_USE;
-        if (isset(static::$settings[$usefield]) && static::$settings[$usefield]) {
-            return self::get_settings_item($key);
-        } else {
-            return false;
-        }
+    public static function load_settings() {
+        $settings = (array) get_config('plagiarism_plagiarismsearch');
+        self::$settings = $settings;
+        self::$settings['is_loaded'] = true;
+        return $settings;
     }
 
     /**
-     * @param null $key
+     * @param string $key
      *
      * @return mixed|null
      */
-    private static function get_settings_item($key = null) {
-        if (is_null($key)) {
-            return static::$settings;
+    private static function get_settings_item($key) {
+        $index = $key;
+        if($key !== self::FIELD_ENABLED) {
+            $index = self::CONFIG_PREFIX . $key;
         }
 
-        $key = static::CONFIG_PREFIX . $key;
+        return isset(self::$settings[$index]) ? self::$settings[$index] : null;
+    }
 
-        return isset(static::$settings[$key]) ? static::$settings[$key] : null;
+    public static function is_plugin_enabled() {
+        return (bool) self::get_settings(self::FIELD_ENABLED);
     }
 
     public static function is_enabled($cmid = null) {
-        return (bool) static::get_config_or_settings($cmid, static::FIELD_USE);
+        return self::is_plugin_enabled() && self::get_config($cmid, self::FIELD_ENABLED, self::get_config($cmid, self::FIELD_USE));
     }
 
     public static function is_enabled_auto($cmid = null) {
-        return (bool) static::get_config_or_settings($cmid, static::FIELD_USE) &&
-            static::get_config_or_settings($cmid, static::FIELD_AUTO_CHECK);
+        return self::is_plugin_enabled() && self::get_config_or_settings($cmid, self::FIELD_AUTO_CHECK);
     }
 
     public static function is_submit_web($cmid = null) {
-        $value = static::get_config_or_settings($cmid, static::FIELD_SOURCES_TYPE, static::SUBMIT_WEB);
-        return $value & static::SUBMIT_WEB;
+        $value = self::get_config_or_settings($cmid, self::FIELD_SOURCES_TYPE, self::SUBMIT_WEB);
+        return $value & self::SUBMIT_WEB;
     }
 
     public static function is_submit_storage($cmid = null) {
-        $value = static::get_config_or_settings($cmid, static::FIELD_SOURCES_TYPE);
+        $value = self::get_config_or_settings($cmid, self::FIELD_SOURCES_TYPE);
         return $value & static::SUBMIT_STORAGE;
     }
 
     public static function get_valid_parsed_text_url_as_array($cmid = null) {
-        $enabled = static::get_config_or_settings($cmid, static::FIELD_PARSE_TEXT_URLS);
+        $enabled = self::get_config_or_settings($cmid, self::FIELD_PARSE_TEXT_URLS);
         if (empty($enabled)) {
             return [];
         }
 
-        $urls = static::get_config_or_settings($cmid, static::FIELD_VALID_PARSED_TEXT_URLS);
+        $urls = self::get_config_or_settings($cmid, self::FIELD_VALID_PARSED_TEXT_URLS);
         if (empty($urls)) {
             return [];
         }

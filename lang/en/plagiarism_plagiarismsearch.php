@@ -106,6 +106,7 @@ $string['settings_saved'] = 'PlagiarismSearch settings have been successfully sa
 // $string['settings_saved'] = 'PlagiarismSearch settings have been saved successfully';
 $string['submit'] = 'Submit to PlagiarismSearch';
 $string['use'] = 'Enable PlagiarismSearch';
+$string['enabled'] = 'Enable PlagiarismSearch';
 $string['yellow'] = 'Plagiarism level yellow starts at';
 $string['red'] = 'Plagiarism level red starts at';
 

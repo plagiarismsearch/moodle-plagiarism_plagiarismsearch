@@ -168,11 +168,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         $cmid = $linkarray['cmid'];
 
         if (!$this->is_enabled($cmid)) {
-            return;
+            return null;
         }
 
         if (!$this->has_capability_links($cmid)) {
-            return;
+            return null;
         }
 
         if (!empty($linkarray['file'])) {
@@ -322,7 +322,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         $mform->addElement('header', 'plagiarismsearchdesc', $this->translate('plagiarismsearch'));
 
-        $field = plagiarismsearch_config::FIELD_USE;
+        $field = plagiarismsearch_config::FIELD_ENABLED;
         $mform->addElement('checkbox', $prefix . $field, $this->translate($field));
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
 
@@ -385,6 +385,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         $field = plagiarismsearch_config::FIELD_STUDENT_RESUBMIT_NUMBERS;
         $mform->addElement('text', $prefix . $field, $this->translate($field));
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
+        $mform->setType($prefix . $field, PARAM_INT);
 
         $field = plagiarismsearch_config::FIELD_PARSE_TEXT_URLS;
         $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
@@ -397,13 +398,15 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public function save_form_elements($data) {
         $cmid = $data->coursemodule;
+        $enabled = plagiarismsearch_config::FIELD_ENABLED;
 
         $fields = plagiarismsearch_config::fields();
+        $fields[$enabled] = plagiarismsearch_config::CONFIG_PREFIX . $enabled;
         foreach ($fields as $name => $field) {
             if (isset($data->{$field})) {
                 $value = $data->{$field};
                 $this->save_form_config($cmid, $name, $value);
-            } else if (in_array($name, array(plagiarismsearch_config::FIELD_USE))) {
+            } else if (in_array($name, array($enabled))) {
                 // Checkboxes default set 0.
                 $this->save_form_config($cmid, $name, 0);
             }
@@ -415,12 +418,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     }
 
     protected function save_form_config($cmid, $name, $value) {
-        $config = plagiarismsearch_config::get_one(array('cmid' => $cmid, 'name' => $name));
-        if ($config) {
-            return plagiarismsearch_config::update(array('value' => $value), $config->id);
-        } else {
-            return plagiarismsearch_config::insert(array('cmid' => $cmid, 'name' => $name, 'value' => $value));
-        }
+        return plagiarismsearch_config::set_config($cmid, $name, $value);
     }
 
     /**
@@ -494,4 +492,38 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return $handler->run();
     }
 
+}
+
+/**
+ * Add the PlagiarismSearch settings form to an add/edit activity page.
+ *
+ * @param moodleform_mod $formwrapper
+ * @param MoodleQuickForm $mform
+ * @return mixed
+ */
+function plagiarism_plagiarismsearch_coursemodule_standard_elements($formwrapper, $mform) {
+    $psplugin = new plagiarism_plugin_plagiarismsearch();
+    $course = $formwrapper->get_course();
+    $context = context_course::instance($course->id);
+    $modulename = $formwrapper->get_current()->modulename;
+
+    $psplugin->get_form_elements_module(
+        $mform,
+        $context,
+        isset($modulename) ? 'mod_' . $modulename : ''
+    );
+}
+
+
+/**
+ * Handle saving data from the PlagiarismSearch settings form.
+ *
+ * @param stdClass $data
+ * @param stdClass $course
+ */
+function plagiarism_plagiarismsearch_coursemodule_edit_post_actions($data, $course) {
+    $psplugin = new plagiarism_plugin_plagiarismsearch();
+    $psplugin->save_form_elements($data, $course);
+
+    return $data;
 }

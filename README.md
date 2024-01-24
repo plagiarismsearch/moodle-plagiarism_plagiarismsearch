@@ -1,11 +1,11 @@
 # moodle-plagiarism_plagiarismsearch  
 
-[![Build Status](https://api.travis-ci.org/plagiarismsearch/moodle-plagiarism_plagiarismsearch.svg?branch=master)](https://travis-ci.org/plagiarismsearch/moodle-plagiarism_plagiarismsearch)
+[//]: # ([![Build Status]&#40;https://api.travis-ci.org/plagiarismsearch/moodle-plagiarism_plagiarismsearch.svg?branch=master&#41;]&#40;https://travis-ci.org/plagiarismsearch/moodle-plagiarism_plagiarismsearch&#41;)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/plagiarismsearch/moodle-plagiarism_plagiarismsearch/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/plagiarismsearch/moodle-plagiarism_plagiarismsearch/?branch=master)
 
 PlagiarismSearch Plagiarism plugin for Moodle
 
-**Supported Moodle versions:** 2.7 - 4.1  
+**Supported Moodle versions:** 2.7 - 4.3  
 **Supported PHP versions:** 7.3 - 8.1  
 **Moodle plugins directory:** https://moodle.org/plugins/plagiarism_plagiarismsearch
 
