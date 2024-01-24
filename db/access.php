@@ -36,7 +36,7 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'student' => CAP_ALLOW,
-        )
+        ),
     ),
     // Ability to submit links to plagiarismsearch.
     'plagiarism/plagiarismsearch:submitlinks' => array(
@@ -49,7 +49,7 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'student' => CAP_ALLOW,
-        )
+        ),
     ),
     // Ability to check status.
     'plagiarism/plagiarismsearch:statuslinks' => array(
@@ -62,7 +62,7 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'student' => CAP_ALLOW,
-        )
+        ),
     ),
     // Only students.
     'plagiarism/plagiarismsearch:isstudent' => array(
@@ -71,6 +71,6 @@ $capabilities = array(
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
             'student' => CAP_ALLOW,
-        )
-    )
+        ),
+    ),
 );

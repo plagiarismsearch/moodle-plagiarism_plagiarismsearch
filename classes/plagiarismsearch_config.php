@@ -81,7 +81,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         self::FIELD_FILTER_CHARS, self::FIELD_FILTER_PLAGIARISM, self::FIELD_FILTER_QUOTES, self::FIELD_FILTER_REFERENCES,
         self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
         self::FIELD_STUDENT_SHOW_PERCENTAGE, self::FIELD_STUDENT_SHOW_REPORTS, self::FIELD_STUDENT_SUBMIT,
-        self::FIELD_PARSE_TEXT_URLS, self::FIELD_VALID_PARSED_TEXT_URLS
+        self::FIELD_PARSE_TEXT_URLS, self::FIELD_VALID_PARSED_TEXT_URLS,
     );
 
     public static function table_name() {
@@ -170,7 +170,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
      */
     private static function get_settings_item($key) {
         $index = $key;
-        if($key !== self::FIELD_ENABLED) {
+        if ($key !== self::FIELD_ENABLED) {
             $index = self::CONFIG_PREFIX . $key;
         }
 

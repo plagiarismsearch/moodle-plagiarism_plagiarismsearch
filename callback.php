@@ -63,7 +63,7 @@ if ($report) {
 
     $values = array(
         'status' => plagiarismsearch_reports::STATUS_ERROR,
-        'log' => 'Sync JSON error'
+        'log' => 'Sync JSON error',
     );
 
     plagiarismsearch_reports::update($values, $localreport->id);
@@ -74,6 +74,6 @@ if ($debug) {
         'jsonerror' => json_last_error(),
         'localreport' => $localreport,
         'report' => $report,
-        'reportdata' => $reportdata
+        'reportdata' => $reportdata,
     ));
 }

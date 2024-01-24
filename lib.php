@@ -256,7 +256,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 if ($link) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('pdf_report'), array(
-                                'target' => '_blank'
+                                'target' => '_blank',
                                     )
                     );
                 }
@@ -266,7 +266,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 if ($link) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('html_report'), array(
-                                'target' => '_blank'
+                                'target' => '_blank',
                                     )
                     );
                 }
