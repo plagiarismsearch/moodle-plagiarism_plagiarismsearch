@@ -256,7 +256,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 if ($link) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('pdf_report'), array(
-                                'target' => '_blank',
+                                'target' => '_blank'
                                     )
                     );
                 }
@@ -266,7 +266,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 if ($link) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('html_report'), array(
-                                'target' => '_blank',
+                                'target' => '_blank'
                                     )
                     );
                 }
@@ -311,9 +311,15 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         if ($modulename != 'mod_assign') {
             return;
         }
-        $cmid = optional_param('update', 0, PARAM_INT);
 
         $prefix = plagiarismsearch_config::CONFIG_PREFIX;
+
+        $formfieds = isset($mform->_elementIndex) ? $mform->_elementIndex : array();
+        if(isset($formfieds[$prefix . plagiarismsearch_config::FIELD_ENABLED])) {
+            return;
+        }
+        $cmid = optional_param('update', 0, PARAM_INT);
+
         $notoryes = array(
             0 => $this->translate('no', null),
             1 => $this->translate('yes', null),
