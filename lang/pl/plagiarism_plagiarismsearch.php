@@ -27,10 +27,11 @@ $string['auto_check'] = 'Automatyczna kontrola';
 $string['manual_check'] = 'Ręczna kontrola';
 $string['add_to_storage'] = 'Dodaj do Magazynu';
 
+$string['detect_ai'] = 'Wykryj SI tekst';
 $string['sources_type'] = 'Źródła';
-$string['sources_doc_web_storage'] = 'Dokument vs Internet+ Magazyn';
+$string['sources_doc_web_storage'] = 'Dokument vs Internet+Pamięć';
 $string['sources_doc_web'] = 'Dokument vs Internet';
-$string['sources_doc_storage'] = 'Dokument vs Magazyn';
+$string['sources_doc_storage'] = 'Dokument vs Pamięć';
 
 $string['report_type'] = 'Rodzaj pliku raportu';
 $string['report_show_no'] = 'Nie pokazuj';
@@ -42,6 +43,7 @@ $string['report_language'] = 'Zgłoś język';
 $string['report_language_default'] = 'Domyślnie (Angielski)';
 $string['report_language_en'] = 'Angielski';
 $string['report_language_es'] = 'Hiszpański';
+$string['report_language_ua'] = 'Ukrainian';
 $string['report_language_pl'] = 'Polski';
 $string['report_language_ru'] = 'Rosyjski';
 
@@ -92,6 +94,9 @@ $string['status_error'] = 'Błąd. Dokument';
 $string['status'] = 'status';
 $string['is_in'] = 'jest w';
 $string['plagiarism'] = 'Plagiat';
+$string['ai'] = 'SI';
+$string['ai_rate'] = ' Całkowita stawka SI';
+$string['ai_probability'] = 'SI Prawdopodobieństwo';
 $string['empty_parameter'] = 'Pusty \'{$a}\' parameter';
 $string['report_not_found'] = 'Nie znaleziono raportu';
 $string['no_cmid_or_id'] = 'Nie ma cmid albo id';

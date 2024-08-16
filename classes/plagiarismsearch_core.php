@@ -228,6 +228,12 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         if (property_exists($report, 'plagiat')) {
             $values['plagiarism'] = $report->plagiat;
         }
+        if (property_exists($report, 'ai_probability')) {
+            $values['ai_probability'] = $report->ai_probability;
+        }
+        if (property_exists($report, 'ai_average_probability')) {
+            $values['ai_rate'] = $report->ai_average_probability;
+        }
         if (property_exists($report, 'file')) {
             $values['url'] = (string) $report->file;
         }

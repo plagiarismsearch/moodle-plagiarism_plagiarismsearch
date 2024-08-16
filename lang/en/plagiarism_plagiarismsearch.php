@@ -27,6 +27,7 @@ $string['auto_check'] = 'Auto check';
 $string['manual_check'] = 'Manual check';
 $string['add_to_storage'] = 'Add to Storage';
 
+$string['detect_ai'] = 'Detect AI';
 $string['sources_type'] = 'Sources';
 $string['sources_doc_web_storage'] = 'Doc vs Web + Storage';
 $string['sources_doc_web'] = 'Doc vs Web';
@@ -42,6 +43,7 @@ $string['report_language'] = 'Report language';
 $string['report_language_default'] = 'Default (English)';
 $string['report_language_en'] = 'English';
 $string['report_language_es'] = 'Spanish';
+$string['report_language_ua'] = 'Ukrainian';
 $string['report_language_pl'] = 'Polish';
 $string['report_language_ru'] = 'Russian';
 
@@ -92,6 +94,9 @@ $string['status_error'] = 'Error. Document';
 $string['status'] = 'status';
 $string['is_in'] = 'is in';
 $string['plagiarism'] = 'Plagiarism';
+$string['ai'] = 'AI';
+$string['ai_rate'] = 'Total AI rate';
+$string['ai_probability'] = 'AI probability';
 $string['empty_parameter'] = 'Empty \'{$a}\' parameter';
 $string['report_not_found'] = 'Report was not found';
 $string['no_cmid_or_id'] = 'No cmid or id';

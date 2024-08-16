@@ -80,5 +80,24 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024012401, 'plagiarism', 'plagiarismsearch');
     }
 
+
+    if ($oldversion < 2024081601) {
+
+        $table = new xmldb_table('plagiarism_ps_reports');
+
+        $field = new xmldb_field('ai_rate', XMLDB_TYPE_NUMBER, '5,2', null, null, null, null, 'plagiarism');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('ai_probability', XMLDB_TYPE_NUMBER, '5,2', null, null, null, null, 'ai_rate');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Savepoint reached.
+        upgrade_plugin_savepoint(true, 2024081601, 'plagiarism', 'plagiarismsearch');
+    }
+
     return true;
 }

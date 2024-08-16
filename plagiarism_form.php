@@ -81,6 +81,10 @@ class plagiarism_setup_form extends moodleform {
         $mform->addElement('select', $prefix . $field, $this->translate($field), plagiarismsearch_config::get_submit_types());
         $mform->setDefault($prefix . $field, plagiarismsearch_config::SUBMIT_WEB_STORAGE);
 
+        $field = plagiarismsearch_config::FIELD_DETECT_AI;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
+
         $field = plagiarismsearch_config::FIELD_FILTER_CHARS;
         $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
         $mform->setDefault($prefix . $field, 0);

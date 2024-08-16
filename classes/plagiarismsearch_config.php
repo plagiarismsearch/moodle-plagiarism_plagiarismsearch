@@ -33,6 +33,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     const FIELD_MANUAL_CHECK = 'manual_check';
     const FIELD_ADD_TO_STORAGE = 'add_to_storage';
     const FIELD_SOURCES_TYPE = 'sources_type';
+    const FIELD_DETECT_AI = 'detect_ai';
     const FIELD_REPORT_LANGUAGE = 'report_language';
     const FIELD_REPORT_TYPE = 'report_type';
     const FIELD_FILTER_CHARS = 'filter_chars';
@@ -61,6 +62,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     const LANGUAGE_DEFAULT = '';
     const LANGUAGE_EN = 'en';
     const LANGUAGE_ES = 'es';
+    const LANGUAGE_UA = 'ua';
     const LANGUAGE_PL = 'pl';
     const LANGUAGE_RU = 'ru';
     /**/
@@ -77,6 +79,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         self::FIELD_AUTO_CHECK, self::FIELD_MANUAL_CHECK,
         self::FIELD_ADD_TO_STORAGE,
         self::FIELD_SOURCES_TYPE,
+        self::FIELD_DETECT_AI,
         self::FIELD_REPORT_LANGUAGE, self::FIELD_REPORT_TYPE,
         self::FIELD_FILTER_CHARS, self::FIELD_FILTER_PLAGIARISM, self::FIELD_FILTER_QUOTES, self::FIELD_FILTER_REFERENCES,
         self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
@@ -199,6 +202,10 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return $value & static::SUBMIT_STORAGE;
     }
 
+    public static function is_submit_ai($cmid = null) {
+        return self::get_config_or_settings($cmid, self::FIELD_DETECT_AI);
+    }
+
     public static function get_valid_parsed_text_url_as_array($cmid = null) {
         $enabled = self::get_config_or_settings($cmid, self::FIELD_PARSE_TEXT_URLS);
         if (empty($enabled)) {
@@ -252,6 +259,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             static::LANGUAGE_DEFAULT => static::translate('report_language_default'),
             static::LANGUAGE_EN => static::translate('report_language_en'),
             static::LANGUAGE_ES => static::translate('report_language_es'),
+            static::LANGUAGE_UA => static::translate('report_language_ua'),
             static::LANGUAGE_PL => static::translate('report_language_pl'),
             static::LANGUAGE_RU => static::translate('report_language_ru'),
         );

@@ -164,6 +164,12 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         }
     }
 
+    public static function get_ai_color_class($report) {
+        if ($report) {
+            return 'plagiarismsearch-ai';
+        }
+    }
+
     public static function get_error_statuses() {
         return array(
             self::STATUS_NOT_PAID,
@@ -206,6 +212,10 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function is_checked($report) {
         return $report && $report->status == self::STATUS_CHECKED;
+    }
+
+    public static function is_checked_ai($report) {
+        return self::is_checked($report) && $report->ai_rate !== null;
     }
 
     public static function build_pdf_link($report, $cmid = null) {

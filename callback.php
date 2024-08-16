@@ -48,6 +48,8 @@ $report = plagiarismsearch_base::jsondecode($reportdata, false);
 if ($report) {
     $values = array(
         'plagiarism' => $report->plagiarism,
+        'ai_rate' => $report->ai_average_probability,
+        'ai_probability' => $report->ai_probability,
         'status' => $report->status,
         'url' => $report->file,
         'rfileid' => $report->file_id,

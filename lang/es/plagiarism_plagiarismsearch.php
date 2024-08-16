@@ -27,6 +27,7 @@ $string['auto_check'] = 'Revisión automática';
 $string['manual_check'] = 'Revisión manual';
 $string['add_to_storage'] = 'Add to depósito institucional';
 
+$string['detect_ai'] = 'Detectar IA';
 $string['sources_type'] = 'Fuentes';
 $string['sources_doc_web_storage'] = 'Doc vs Web + Depósito';
 $string['sources_doc_web'] = 'Doc vs Web';
@@ -41,6 +42,7 @@ $string['report_language'] = 'Informar el idioma';
 $string['report_language_default'] = 'Preestablecido (Inglés)';
 $string['report_language_en'] = 'Inglés';
 $string['report_language_es'] = 'Español';
+$string['report_language_ua'] = 'Ukrainian';
 $string['report_language_pl'] = 'Polaco';
 $string['report_language_ru'] = 'Ruso';
 
@@ -91,6 +93,9 @@ $string['status_error'] = 'Error. Documento';
 $string['status'] = 'estatus';
 $string['is_in'] = 'está en';
 $string['plagiarism'] = 'Plagio';
+$string['ai'] = 'IA';
+$string['ai_rate'] = 'Porcentaje total de IA';
+$string['ai_probability'] = 'Probabilidad de IA';
 $string['empty_parameter'] = 'Vacío \'{$a}\' parámetro';
 $string['report_not_found'] = 'El informe no ha sido encontrado';
 $string['no_cmid_or_id'] = 'No hay cmid o id';

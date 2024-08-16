@@ -13,8 +13,10 @@
                 <FIELD NAME="rfileid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="rid" NEXT="rserverurl" COMMENT="Report file id" DEFAULT="0"/>
                 <FIELD NAME="rserverurl" TYPE="char" LENGTH="255" PREVIOUS="rfileid" NEXT="rkey" COMMENT="Report server domain"/>
                 <FIELD NAME="rkey" TYPE="char" LENGTH="64" PREVIOUS="rserverurl" NEXT="plagiarism" COMMENT="Report key"/>
-                <FIELD NAME="plagiarism" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of plagiarism detected" PREVIOUS="rkey" NEXT="status"/>
-                <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="plagiarism" NEXT="url"/>
+                <FIELD NAME="plagiarism" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of plagiarism detected" PREVIOUS="rkey" NEXT="ai_rate"/>
+                <FIELD NAME="ai_rate" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="The total percentage of AI generated passages in the text" PREVIOUS="plagiarism" NEXT="ai_probability"/>
+                <FIELD NAME="ai_probability" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="The percentage of likelihood that the whole text was AI generated" PREVIOUS="ai_rate" NEXT="status"/>
+                <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="ai_probability" NEXT="url"/>
                 <FIELD NAME="url" TYPE="char" LENGTH="1024" NOTNULL="false" SEQUENCE="false" PREVIOUS="status" NEXT="cmid" DEFAULT=""/>
                 <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="url" NEXT="filehash"/>
                 <FIELD NAME="filehash" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="cmid" NEXT="filename"/>

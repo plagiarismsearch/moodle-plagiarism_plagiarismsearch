@@ -25,7 +25,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         $url = $this->apiurl . '/reports/create';
 
         $default = array(
-            'fields' => array('id', 'status', 'plagiat', 'file'),
+            'fields' => array('id', 'status', 'plagiat', 'file', 'ai_probability', 'ai_average_probability'),
             'remote_id' => $this->generate_remote_id(),
             'is_add_storage' => $this->get_config(plagiarismsearch_config::FIELD_ADD_TO_STORAGE, 1),
             'is_search_filter_chars' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_CHARS, 0),
@@ -46,6 +46,9 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
         if (plagiarismsearch_config::is_submit_web($this->cmid)) {
             $default['is_search_web'] = 1;
+        }
+        if (plagiarismsearch_config::is_submit_ai($this->cmid)) {
+            $default['is_search_ai'] = 1;
         }
         if (plagiarismsearch_config::is_submit_storage($this->cmid)) {
             $default['is_search_storage'] = 1;
@@ -113,7 +116,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     public function action_status($ids = array()) {
         $url = $this->apiurl . '/reports';
 
-        $post['fields'] = array('id', 'status', 'plagiat', 'file');
+        $post['fields'] = array('id', 'status', 'plagiat', 'file', 'ai_probability', 'ai_average_probability');
         $post['ids'] = $ids;
 
         return $this->post($url, $post);

@@ -245,19 +245,33 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         if (plagiarismsearch_reports::is_checked($report)) {
             if ($this->has_show_reports_percentage($cmid)) {
-                $result .= html_writer::tag('span', $this->translate('plagiarism').':&nbsp;' .
-                                html_writer::tag('span', round($report->plagiarism, 2) . '%', array(
-                                    'class' => plagiarismsearch_reports::get_color_class($report))
-                                ), array('title' => $this->translate('link_title'))
+                $result .= html_writer::tag('span', $this->translate('plagiarism') . ':&nbsp;' .
+                    html_writer::tag('span', round($report->plagiarism, 2) . '%', array(
+                            'class' => plagiarismsearch_reports::get_color_class($report))
+                    ), array('title' => $this->translate('link_title'))
                 );
+
+                if (plagiarismsearch_reports::is_checked_ai($report)) {
+                    $aititle = $this->translate('ai_rate') . ': ' .
+                        round($report->ai_rate, 2) . '%' . ', ' .
+                        $this->translate('ai_probability') . ': ' .
+                        round($report->ai_probability, 2) . '%';
+
+                    $result .= html_writer::empty_tag('br');
+                    $result .= html_writer::tag('span', $this->translate('ai') . ':&nbsp;' .
+                        html_writer::tag('span', round($report->ai_rate, 2) . '%', array(
+                                'class' => plagiarismsearch_reports::get_ai_color_class($report))
+                        ), array('title' => $aititle)
+                    );
+                }
             }
             if ($this->has_show_reports_pdf_link($cmid)) {
                 $link = plagiarismsearch_reports::build_pdf_link($report, $cmid);
                 if ($link) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('pdf_report'), array(
-                                'target' => '_blank'
-                                    )
+                            'target' => '_blank'
+                        )
                     );
                 }
             }
@@ -266,8 +280,8 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 if ($link) {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('html_report'), array(
-                                'target' => '_blank'
-                                    )
+                            'target' => '_blank'
+                        )
                     );
                 }
             }
@@ -346,6 +360,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         $field = plagiarismsearch_config::FIELD_SOURCES_TYPE;
         $mform->addElement('select', $prefix . $field, $this->translate($field), plagiarismsearch_config::get_submit_types());
+        $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
+
+        $field = plagiarismsearch_config::FIELD_DETECT_AI;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
 
         $field = plagiarismsearch_config::FIELD_FILTER_CHARS;

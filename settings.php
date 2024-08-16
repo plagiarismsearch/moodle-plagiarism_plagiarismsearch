@@ -89,6 +89,7 @@ if ($data && confirm_sesskey()) {
 
 
     if ($data->enabled) {
+        plagiarismsearch_config::load_settings();
         $api = new plagiarismsearch_api();
         $page = $api->ping();
         if (!$page || !$page->status) {

@@ -27,6 +27,7 @@ $string['auto_check'] = 'Автоматическая проверка';
 $string['manual_check'] = 'Ручная проверка';
 $string['add_to_storage'] = 'Добавить в Хранилище';
 
+$string['detect_ai'] = 'Поиск ИИ текста';
 $string['sources_type'] = 'Источники';
 $string['sources_doc_web_storage'] = 'Документ vs Интернет + Хранилище';
 $string['sources_doc_web'] = 'Документ vs Интернет';
@@ -42,6 +43,7 @@ $string['report_language'] = 'Язык отчета';
 $string['report_language_default'] = 'По умолчанию (Английский)';
 $string['report_language_en'] = 'Английский';
 $string['report_language_es'] = 'Испанский';
+$string['report_language_ua'] = 'Українська';
 $string['report_language_pl'] = 'Польский';
 $string['report_language_ru'] = 'Русский';
 
@@ -92,6 +94,9 @@ $string['status_error'] = 'Ошибка. Документ';
 $string['status'] = 'статус';
 $string['is_in'] = 'находится в';
 $string['plagiarism'] = 'Плагиат';
+$string['ai'] = 'ИИ';
+$string['ai_rate'] = 'Общий процент ИИ';
+$string['ai_probability'] = 'Вероятность ИИ';
 $string['empty_parameter'] = 'Пустой \'{$a}\' параметр';
 $string['report_not_found'] = 'Отчет не найден';
 $string['no_cmid_or_id'] = 'Нет cmid или id';
