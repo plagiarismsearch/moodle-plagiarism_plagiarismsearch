@@ -20,6 +20,10 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * Reports class for plagiarismsearch
+ */
 class plagiarismsearch_reports extends plagiarismsearch_table {
 
     // phpcs:disable moodle.Commenting.MissingDocblock.Constant
@@ -48,6 +52,11 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     const STATUS_CHECKED = 2;
     // phpcs:enable moodle.Commenting.MissingDocblock.Constant
 
+    /**
+     * Report statuses
+     *
+     * @var string[]
+     */
     public static $statuses = [
             self::STATUS_NOT_PAID => 'not paid',
             self::STATUS_SERVER_CORE_ERROR => 'server error',
@@ -88,7 +97,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * Hook before insert into table
      *
      * @param array $values
-     * @return mixed
+     * @return array
      */
     protected static function before_insert($values) {
         $values['created_at'] = $values['modified_at'] = time();
@@ -98,8 +107,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Hook before update into table
      *
-     * @param $values
-     * @return mixed
+     * @param array $values
+     * @return array
      */
     public static function before_update($values) {
         $values['modified_at'] = time();
@@ -125,8 +134,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Count valid reports
      *
-     * @param $conditions
-     * @return null
+     * @param array|null $conditions
+     * @return int|null
      * @throws dml_exception
      */
     public static function count_valid($conditions) {
@@ -149,7 +158,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Get one report by conditions
      *
-     * @param $conditions
+     * @param array|null $conditions
      * @return false|mixed
      * @throws dml_exception
      */
@@ -164,8 +173,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Get one report by conditions
      *
-     * @param $ttl
-     * @param $limit
+     * @param int $ttl
+     * @param int $limit
      * @return array
      * @throws coding_exception
      * @throws dml_exception
@@ -181,8 +190,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Get one report by conditions
      *
-     * @param $ttl
-     * @param $limit
+     * @param int $ttl
+     * @param int $limit
      * @return array
      * @throws coding_exception
      * @throws dml_exception
@@ -198,8 +207,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Count reports by condition
      *
-     * @param $conditions
-     * @return null
+     * @param array|null $conditions
+     * @return int|null
      * @throws dml_exception
      */
     public static function count($conditions) {
@@ -210,7 +219,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Choose color class by report
      *
-     * @param $report
+     * @param object $report
      * @return string
      * @throws dml_exception
      * @throws moodle_exception
@@ -241,7 +250,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Choose color class by report
      *
-     * @param $report
+     * @param object $report
      * @return string
      */
     public static function get_ai_color_class($report) {

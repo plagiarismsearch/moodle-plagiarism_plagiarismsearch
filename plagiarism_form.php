@@ -27,6 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/lib/formslib.php');
 
+/**
+ * plagiarism_setup_form
+ */
 class plagiarism_setup_form extends moodleform {
 
     /**
@@ -150,8 +153,8 @@ class plagiarism_setup_form extends moodleform {
     /**
      * Translate string
      *
-     * @param $value
-     * @param $module
+     * @param string $value
+     * @param string $module
      * @return lang_string|mixed|string
      * @throws coding_exception
      */

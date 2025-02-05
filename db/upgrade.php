@@ -24,6 +24,8 @@
  */
 
 /**
+ * This function is called by the plagiarism plugin to check if the plugin is enabled.
+ *
  * @param $oldversion
  * @return true
  * @throws ddl_exception

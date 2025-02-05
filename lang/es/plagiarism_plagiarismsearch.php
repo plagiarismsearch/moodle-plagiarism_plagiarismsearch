@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Spanish language pack
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2018 PlagiarismSearch.com
@@ -74,7 +76,7 @@ $string['filter_plagiarism_course'] = 'Excluir el plagio del curso (no recomenda
 $string['parse_text_url'] = 'Permitir análisis de URL en texto';
 $string['valid_parsed_text_url'] = 'Lista de URL válidas para analizar';
 
-$string['submit'] = 'Enviar a entregar a PlagiarismSearch';
+$string['submit'] = 'Enviar a PlagiarismSearch';
 $string['resubmit'] = 'Volver a entregar de PlagiarismSearch';
 $string['processing'] = 'Procesamiento en curso';
 $string['unknown_error'] = 'Se ha producido un error desconocido';
@@ -107,7 +109,6 @@ $string['save'] = 'Guardar';
 $string['settings_error'] = 'Ha ocurrido un error en el proceso de actualización de PlagiarismSearch';
 $string['settings_error_server'] = 'Error de API ajustes de PlagiarismSearch';
 $string['settings_saved'] = 'Opciones de PlagiarismSearch guardada';
-$string['submit'] = 'Enviar a PlagiarismSearch';
 $string['use'] = 'Habilitar PlagiarismSearch';
 $string['enabled'] = 'Habilitar PlagiarismSearch';
 $string['yellow'] = 'Nivel amarillo del plagio comienza desde';

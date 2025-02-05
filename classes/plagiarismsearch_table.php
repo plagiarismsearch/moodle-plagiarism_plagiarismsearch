@@ -20,9 +20,15 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * Table class for plagiarismsearch
+ */
 class plagiarismsearch_table extends plagiarismsearch_base {
 
     /**
+     * Get database
+     *
      * @return \moodle_database
      */
     public static function db() {
@@ -42,7 +48,7 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     /**
      * Get all records by conditions
      *
-     * @param $conditions
+     * @param array|null $conditions
      * @return array
      * @throws dml_exception
      */
@@ -53,7 +59,7 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     /**
      * Get one record by conditions
      *
-     * @param $conditions
+     * @param array|null $conditions
      * @return false|mixed|stdClass
      * @throws dml_exception
      */
@@ -64,7 +70,7 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     /**
      * Count records by conditions
      *
-     * @param $conditions
+     * @param array|null $conditions
      * @return int|null
      * @throws dml_exception
      */
@@ -76,8 +82,8 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     /**
      * Insert record
      *
-     * @param $values
-     * @return bool|int|void
+     * @param array $values
+     * @return bool|int|null
      * @throws dml_exception
      */
     public static function insert($values) {
@@ -85,13 +91,14 @@ class plagiarismsearch_table extends plagiarismsearch_base {
         if ($values) {
             return static::db()->insert_record(static::table_name(), $values);
         }
+        return null;
     }
 
     /**
      * Before insert
      *
-     * @param $values
-     * @return mixed
+     * @param array $values
+     * @return array|null
      */
     protected static function before_insert($values) {
         return $values;
@@ -100,8 +107,8 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     /**
      * Update record
      *
-     * @param $values
-     * @param $conditions
+     * @param array $values
+     * @param array|null $conditions
      * @return bool|null
      * @throws dml_exception
      */
@@ -121,8 +128,8 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     /**
      * Before update
      *
-     * @param $values
-     * @return mixed
+     * @param array $values
+     * @return array|null mixed
      */
     public static function before_update($values) {
         return $values;
@@ -131,7 +138,7 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     /**
      * Delete record
      *
-     * @param $conditions
+     * @param array|null $conditions
      * @return bool|null
      * @throws dml_exception
      */
@@ -146,7 +153,7 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     /**
      * Build conditions
      *
-     * @param $conditions
+     * @param array|null $conditions
      * @return array
      * @throws coding_exception
      * @throws dml_exception

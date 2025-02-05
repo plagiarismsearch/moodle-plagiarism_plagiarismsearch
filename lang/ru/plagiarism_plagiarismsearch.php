@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Russian language file for plagiarismsearch
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -109,7 +111,6 @@ $string['save'] = 'Сохранить';
 $string['settings_error'] = 'При обновлении настроек PlagiarismSearch произошла ошибка';
 $string['settings_error_server'] = 'Ошибка API настроек PlagiarismSearch';
 $string['settings_saved'] = 'Настройки PlagiarismSearch успешно сохранены';
-$string['submit'] = 'Отправить в PlagiarismSearch';
 $string['use'] = 'Включить PlagiarismSearch';
 $string['enabled'] = 'Включить PlagiarismSearch';
 $string['yellow'] = 'Желтый уровень плагиата начинается с';

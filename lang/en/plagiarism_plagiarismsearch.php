@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * English language file for plagiarismsearch
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -108,7 +110,6 @@ $string['save'] = 'Save';
 $string['settings_error'] = 'There was an error while updating the PlagiarismSearch settings';
 $string['settings_error_server'] = 'PlagiarismSearch settings API error';
 $string['settings_saved'] = 'PlagiarismSearch settings have been successfully saved';
-$string['submit'] = 'Submit to PlagiarismSearch';
 $string['use'] = 'Enable PlagiarismSearch';
 $string['enabled'] = 'Enable PlagiarismSearch';
 $string['yellow'] = 'Plagiarism level yellow starts at';

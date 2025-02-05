@@ -20,18 +20,77 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * API class for plagiarismsearch
+ */
 class plagiarismsearch_api extends plagiarismsearch_base {
 
+    /**
+     * Api URL
+     *
+     * @var string|null
+     */
     public $apiurl = 'https://plagiarismsearch.com/api/v3';
+    /**
+     * Api user
+     *
+     * @var string|null
+     */
     public $apiuser;
+    /**
+     * Api key
+     *
+     * @var string|null
+     */
     public $apikey;
+    /**
+     * Api debug
+     *
+     * @var int|bool|null
+     */
     public $apidebug;
+    /**
+     * Api success
+     *
+     * @var bool|null
+     */
     public $apisuccess;
+    /**
+     * Api data
+     *
+     * @var mixed
+     */
     public $apidata;
+    /**
+     * Error string
+     *
+     * @var string|null
+     */
     public $apierror;
+    /**
+     * Curl request info
+     *
+     * @var array
+     */
     public $apiinfo;
+    /**
+     * Course module id
+     *
+     * @var int|null
+     */
     public $cmid;
+    /**
+     * User id
+     *
+     * @var int|null
+     */
     public $userid;
+    /**
+     * Course id
+     *
+     * @var int|null
+     */
     public $courseid;
 
     /**
@@ -40,6 +99,8 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     protected $file;
 
     /**
+     * Text for submitting
+     *
      * @var string
      */
     protected $text;
@@ -47,7 +108,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**
      * Constructor.
      *
-     * @param $config
+     * @param array $config
      * @throws dml_exception
      * @throws moodle_exception
      */
@@ -106,12 +167,13 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**
      * Get response
      *
-     * @return mixed|void
+     * @return mixed|null
      */
     public function get_response() {
         if ($this->apidata) {
             return $this->unpack($this->apidata);
         }
+        return null;
     }
 
     /**
@@ -124,6 +186,13 @@ class plagiarismsearch_api extends plagiarismsearch_base {
         return plagiarismsearch_base::jsondecode($data, false);
     }
 
+    /**
+     * Build post fields
+     *
+     * @param array|string $post
+     * @param array $files
+     * @return array|string
+     */
     private function build_post_fields($post, $files = []) {
         $postfields = $this->build_post_files($post, $files);
         if (!$postfields) {
@@ -135,7 +204,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**
      * Build post fields
      *
-     * @param $post
+     * @param array|string $post
      * @return string
      */
     private function build_post_to_string($post) {
@@ -152,8 +221,8 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**
      * Build post fields
      *
-     * @param $post
-     * @param $files
+     * @param array|string $post
+     * @param array $files
      * @return array
      */
     private function build_post_files($post, $files) {
@@ -177,7 +246,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**
      * Build files
      *
-     * @param $files
+     * @param array $files
      * @return array
      */
     private function build_files($files) {

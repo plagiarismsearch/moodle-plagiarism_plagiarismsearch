@@ -20,6 +20,10 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * Core class for plagiarismsearch
+ */
 class plagiarismsearch_core extends plagiarismsearch_base {
 
     /**
@@ -255,7 +259,6 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      * @param stdClass $coursemodule
      * @param context_module $context
      * @return string
-     * @global stdClass $CFG
      */
     public static function redirect_url($coursemodule, $context) {
         global $CFG;
@@ -279,7 +282,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     /**
      * Generate text hash
      *
-     * @param $text
+     * @param string $text
      * @return string
      */
     public static function get_text_hash($text) {

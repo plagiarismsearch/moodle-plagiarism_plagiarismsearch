@@ -35,8 +35,23 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/classes/map.php');
  */
 class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
+    /**
+     * Cache view links
+     *
+     * @var array
+     */
     protected static $cacheviewlinks = [];
+    /**
+     * Cache student role id
+     *
+     * @var
+     */
     protected static $cachestudentroleid;
+    /**
+     * Cache is student
+     *
+     * @var bool|null
+     */
     protected static $cacheisstudent;
 
     /**
@@ -216,10 +231,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      * Hook to allow plagiarism specific information to be displayed beside a submission.
      *
      * @param $linkarray
-     *
-     * @return string
-     * @internal param array $linkarraycontains all relevant information for the plugin to generate a link.
-     *
+     * @return string|null
      */
     public function get_links($linkarray) {
 

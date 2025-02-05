@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * PlagiarismSearch plugin configuration.
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -32,7 +34,6 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     const CONFIG_PREFIX = 'plagiarismsearch_';
 
     // phpcs:disable moodle.Commenting.MissingDocblock.Constant
-
     // Fields representing plugin configuration options.
     const FIELD_ENABLED = 'enabled';
     const FIELD_USE = 'use';
@@ -164,7 +165,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
      * @param int $cmid
      * @param string $name
      * @param mixed $default
-     * @return mixed|null
+     * @return mixed|array|null
      */
     public static function get_config($cmid, $name, $default = null) {
         if (!isset(static::$config[$cmid])) {
@@ -177,7 +178,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Load the configuration for the given course module.
      *
-     * @param $cmid
+     * @param int $cmid
      * @return array
      */
     private static function load_config($cmid) {
@@ -196,9 +197,9 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Set the configuration value for the given course module and field name.
      *
-     * @param $cmid
-     * @param $name
-     * @param $value
+     * @param int $cmid
+     * @param string $name
+     * @param mixed $value
      * @return bool|int|null
      */
     public static function set_config($cmid, $name, $value) {
@@ -228,8 +229,8 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Set the settings value for the given key.
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      * @return bool
      */
     public static function set_settings($key, $value) {
@@ -278,7 +279,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Check if the plugin is enabled for the given course module.
      *
-     * @param $cmid
+     * @param int|null $cmid
      * @return bool
      * @throws dml_exception
      * @throws moodle_exception
@@ -290,7 +291,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Check if the plugin is enabled for the given course module.
      *
-     * @param $cmid
+     * @param int|null $cmid
      * @return bool
      * @throws dml_exception
      * @throws moodle_exception
@@ -302,7 +303,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Check if the plugin is enabled for the given course module.
      *
-     * @param $cmid
+     * @param int|null $cmid
      * @return int
      */
     public static function is_submit_web($cmid = null) {
@@ -313,7 +314,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Check if the plugin is enabled for the given course module.
      *
-     * @param $cmid
+     * @param int|null $cmid
      * @return int
      */
     public static function is_submit_storage($cmid = null) {
@@ -324,7 +325,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Check if the plugin is enabled for the given course module.
      *
-     * @param $cmid
+     * @param int|null $cmid
      * @return array|bool|mixed
      */
     public static function is_submit_ai($cmid = null) {
@@ -334,7 +335,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**
      * Check if the plugin is enabled for the given course module.
      *
-     * @param $cmid
+     * @param int|null $cmid
      * @return array|string[]
      */
     public static function get_valid_parsed_text_url_as_array($cmid = null) {

@@ -20,6 +20,10 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * Base class for plagiarismsearch
+ */
 class plagiarismsearch_base {
 
     public function __construct($config = []) {
@@ -29,7 +33,7 @@ class plagiarismsearch_base {
     /**
      * Configure object
      *
-     * @param $config
+     * @param array $config
      * @return void
      */
     protected function configure($config = []) {
@@ -47,8 +51,8 @@ class plagiarismsearch_base {
     /**
      * Translate string
      *
-     * @param $value
-     * @param $module
+     * @param string $value
+     * @param string $module
      * @return lang_string|mixed|string
      * @throws coding_exception
      */
@@ -62,8 +66,8 @@ class plagiarismsearch_base {
     /**
      * Json decode
      *
-     * @param $json
-     * @param $associative
+     * @param string $json
+     * @param bool|null $associative
      * @return mixed
      */
     public static function jsondecode($json, $associative = null) {
@@ -75,6 +79,12 @@ class plagiarismsearch_base {
         return $result;
     }
 
+    /**
+     * Encode to UTF-8
+     *
+     * @param $mixed
+     * @return mixed|string
+     */
     public static function utf8ize($mixed) {
         if (is_array($mixed)) {
             foreach ($mixed as $key => $value) {
@@ -85,7 +95,7 @@ class plagiarismsearch_base {
                 $mixed->{$key} = static::utf8ize($value);
             }
         } else if (is_string($mixed)) {
-            return utf8_encode($mixed);
+            return mb_convert_encoding($mixed, 'UTF-8');
         }
         return $mixed;
     }

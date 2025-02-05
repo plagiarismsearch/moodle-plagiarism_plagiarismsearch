@@ -20,17 +20,31 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * Event handler class for plagiarismsearch
+ */
 class plagiarismsearch_event_handler extends plagiarismsearch_base {
 
     /**
      * @var core\event\base
      */
     protected $event;
+    /**
+     * Allowed components
+     *
+     * @var string[]
+     */
     protected $allowedcomponents = [
             'mod_assign',
             'assignsubmission_file',
             'assignsubmission_onlinetext',
     ];
+    /**
+     * Allowed events
+     *
+     * @var string[]
+     */
     protected $allowedevents = [
             '\assignsubmission_file\event\submission_updated',
             '\assignsubmission_file\event\assessable_uploaded',
@@ -41,7 +55,7 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
      * Constructor
      *
      * @param \core\event\base $event
-     * @param $config
+     * @param array $config
      */
     public function __construct(core\event\base $event, $config = []) {
         $this->event = $event;
@@ -76,6 +90,7 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
 
     /**
      * Parse user id
+     *
      * @return int|mixed
      */
     public function userid() {
@@ -87,13 +102,13 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         } else if (!empty($USER->id)) {
             return $USER->id;
         }
-            return 0;
+        return 0;
     }
 
     /**
      * Get online text content
      *
-     * @return mixed|null
+     * @return string|null
      */
     public function get_onlinetext_content() {
         return !empty($this->event->other['content']) ? $this->event->other['content'] : null;
@@ -131,12 +146,12 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
      * Handle uploaded file
      *
      * @param $pathnamehash
-     * @return void|null
+     * @return void
      */
     protected function handle_uploaded_file($pathnamehash) {
         $file = get_file_storage()->get_file_by_hash($pathnamehash);
         if ($file->is_directory()) {
-            return null;
+            return;
         }
 
         plagiarismsearch_core::send_file($file, $this->cmid(),

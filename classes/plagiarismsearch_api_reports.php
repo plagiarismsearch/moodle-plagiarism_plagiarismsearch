@@ -20,8 +20,19 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * API class for plagiarismsearch
+ */
 class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
+    /**
+     * API call to create report
+     *
+     * @param array $post
+     * @param array $files
+     * @return mixed|null
+     */
     public function action_create($post = [], $files = []) {
         $url = $this->apiurl . '/reports/create';
 
@@ -75,6 +86,13 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         return $this->post($url, array_merge($default, $post), $files);
     }
 
+    /**
+     * Create report from file
+     *
+     * @param $filename
+     * @param $post
+     * @return mixed|null
+     */
     public function action_create_file($filename, $post = []) {
         $post['title'] = basename($filename);
         $files = ['file' => realpath($filename)];
@@ -83,6 +101,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     }
 
     /**
+     * Send file to scanning
+     *
      * @param \stored_file $file
      * @param array $post
      * @return stdClass|null Json response
@@ -104,6 +124,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     }
 
     /**
+     * Create report from text
+     *
      * @param string $text
      * @param array $post
      * @return \stdClass Json response
@@ -116,6 +138,12 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         return $this->action_create($post);
     }
 
+    /**
+     * Get report status
+     *
+     * @param $ids
+     * @return mixed|null
+     */
     public function action_status($ids = []) {
         $url = $this->apiurl . '/reports';
 
@@ -125,10 +153,22 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         return $this->post($url, $post);
     }
 
+    /**
+     * Config wrapper
+     *
+     * @param $name
+     * @param $default
+     * @return array|bool|mixed
+     */
     protected function get_config($name, $default = null) {
         return plagiarismsearch_config::get_config_or_settings($this->cmid, $name, $default);
     }
 
+    /**
+     * Generate remote id
+     *
+     * @return string
+     */
     protected function generate_remote_id() {
         $result = [
             // Context id.
@@ -147,6 +187,11 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         return implode(',', $result);
     }
 
+    /**
+     * Find temporary directory for writing files
+     *
+     * @return string
+     */
     protected function tmp_dir() {
         global $CFG;
         $tmpdir = $CFG->dataroot . '/temp';
@@ -156,6 +201,13 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         return sys_get_temp_dir();
     }
 
+    /**
+     * Write content to temporary file
+     *
+     * @param $filename
+     * @param $content
+     * @return string|null
+     */
     protected function tmp_file($filename, $content) {
         $tmpdir = $this->tmp_dir();
         if (!$tmpdir || !$filename) {
