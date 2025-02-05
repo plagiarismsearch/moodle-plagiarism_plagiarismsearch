@@ -80,7 +80,6 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024012401, 'plagiarism', 'plagiarismsearch');
     }
 
-
     if ($oldversion < 2024081601) {
 
         $table = new xmldb_table('plagiarism_ps_reports');

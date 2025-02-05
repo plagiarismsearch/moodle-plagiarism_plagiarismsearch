@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -24,8 +25,8 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     /**
      * Get sender ID
      *
-     * @global type $USER
      * @return int
+     * @global type $USER
      */
     public static function get_sender_id() {
         global $USER;
@@ -62,13 +63,13 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     public static function send_file($file, $cmid, $params = array()) {
         $filename = $file->get_filename();
         $apivalues = array(
-            'cmid' => $cmid,
+                'cmid' => $cmid,
             /**/
-            'senderid' => static::get_sender_id(),
-            'userid' => $file->get_userid(),
-            'fileid' => $file->get_id(),
-            'filename' => $filename,
-            'filehash' => $file->get_pathnamehash(),
+                'senderid' => static::get_sender_id(),
+                'userid' => $file->get_userid(),
+                'fileid' => $file->get_id(),
+                'filename' => $filename,
+                'filehash' => $file->get_pathnamehash(),
         );
 
         $api = new plagiarismsearch_api_reports($apivalues);
@@ -87,7 +88,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
                 $values['log'] = $apierror . ($errormessage ? ': ' . $errormessage : '');
 
                 $msg = get_string('submit_error', 'plagiarism_plagiarismsearch', $filename) .
-                    $errormessage;
+                        $errormessage;
             }
         } else {
             $values['status'] = plagiarismsearch_reports::STATUS_SERVER_ERROR;
@@ -112,12 +113,12 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      */
     public static function send_text($text, $cmid, $userid, $params = array()) {
         $apivalues = array(
-            'cmid' => $cmid,
-            'userid' => $userid,
-            'senderid' => static::get_sender_id(),
+                'cmid' => $cmid,
+                'userid' => $userid,
+                'senderid' => static::get_sender_id(),
             // Unique text hash.
-            'filehash' => static::get_text_hash($text),
-            'text' => $text,
+                'filehash' => static::get_text_hash($text),
+                'text' => $text,
         );
 
         $api = new plagiarismsearch_api_reports($apivalues);
@@ -161,7 +162,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         $msg = '';
         if (!$page) {
             $values = array(
-                'status' => plagiarismsearch_reports::STATUS_SERVER_ERROR,
+                    'status' => plagiarismsearch_reports::STATUS_SERVER_ERROR,
             );
             $rids = array_keys($ids);
             foreach ($rids as $id) {
@@ -253,10 +254,10 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     /**
      * Safe back redirect url
      *
-     * @global stdClass $CFG
      * @param stdClass $coursemodule
      * @param context_module $context
      * @return string
+     * @global stdClass $CFG
      */
     public static function redirect_url($coursemodule, $context) {
         global $CFG;

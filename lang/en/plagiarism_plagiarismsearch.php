@@ -20,6 +20,7 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+// phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
 $string['plagiarismsearch'] = 'PlagiarismSearch';
 $string['pluginname'] = 'PlagiarismSearch';
 
@@ -107,14 +108,11 @@ $string['save'] = 'Save';
 $string['settings_error'] = 'There was an error while updating the PlagiarismSearch settings';
 $string['settings_error_server'] = 'PlagiarismSearch settings API error';
 $string['settings_saved'] = 'PlagiarismSearch settings have been successfully saved';
-// $string['settings_cancelled'] = 'PlagiarismSearch settings have been canceled';
-// $string['settings_saved'] = 'PlagiarismSearch settings have been saved successfully';
 $string['submit'] = 'Submit to PlagiarismSearch';
 $string['use'] = 'Enable PlagiarismSearch';
 $string['enabled'] = 'Enable PlagiarismSearch';
 $string['yellow'] = 'Plagiarism level yellow starts at';
 $string['red'] = 'Plagiarism level red starts at';
-
 
 $string['text_plain'] = 'PlagiarismSearch.com – advanced online plagiarism checker. <br/>
 PlagiarismSearch.com is a leading plagiarism checking website that will provide you with an accurate report during a short timeframe. <br/>
@@ -124,3 +122,4 @@ $string['plagiarismsearch:viewlinks'] = 'Ability to view links for plagiarism re
 $string['plagiarismsearch:submitlinks'] = 'Ability to submit links to PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Ability to check report status';
 $string['plagiarismsearch:isstudent'] = 'Allow students only';
+// phpcs:enable moodle.Files.LangFilesOrdering.IncorrectOrder

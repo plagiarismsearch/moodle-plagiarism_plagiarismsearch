@@ -22,9 +22,12 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+define('AJAX_SCRIPT', true);
+define('NO_MOODLE_COOKIES', true);
+
 require_once(dirname(__FILE__) . '/../../config.php');
-global $CFG;
-require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/lib.php');
+require_once(dirname(__FILE__) . '/lib.php');
 
 $rid = optional_param('id', null, PARAM_INT);
 $key = optional_param('api_key', null, PARAM_TEXT);
@@ -47,14 +50,14 @@ if (!$localreport) {
 $report = plagiarismsearch_base::jsondecode($reportdata, false);
 if ($report) {
     $values = array(
-        'plagiarism' => $report->plagiarism,
-        'ai_rate' => $report->ai_average_probability,
-        'ai_probability' => $report->ai_probability,
-        'status' => $report->status,
-        'url' => $report->file,
-        'rfileid' => $report->file_id,
-        'rkey' => $report->auth_key,
-        'rserverurl' => (isset($report->server_url) ? $report->server_url : ''),
+            'plagiarism' => $report->plagiarism,
+            'ai_rate' => $report->ai_average_probability,
+            'ai_probability' => $report->ai_probability,
+            'status' => $report->status,
+            'url' => $report->file,
+            'rfileid' => $report->file_id,
+            'rkey' => $report->auth_key,
+            'rserverurl' => (isset($report->server_url) ? $report->server_url : ''),
     );
 
     if (plagiarismsearch_reports::update($values, $localreport->id)) {
@@ -64,8 +67,8 @@ if ($report) {
     // JSON error.
 
     $values = array(
-        'status' => plagiarismsearch_reports::STATUS_ERROR,
-        'log' => 'Sync JSON error',
+            'status' => plagiarismsearch_reports::STATUS_ERROR,
+            'log' => 'Sync JSON error',
     );
 
     plagiarismsearch_reports::update($values, $localreport->id);
@@ -73,9 +76,9 @@ if ($report) {
 
 if ($debug) {
     echo json_encode(array(
-        'jsonerror' => json_last_error(),
-        'localreport' => $localreport,
-        'report' => $report,
-        'reportdata' => $reportdata,
+            'jsonerror' => json_last_error(),
+            'localreport' => $localreport,
+            'report' => $report,
+            'reportdata' => $reportdata,
     ));
 }

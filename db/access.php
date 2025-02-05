@@ -26,51 +26,51 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
     // Ability to view links to plagiarism results.
-    'plagiarism/plagiarismsearch:viewlinks' => array(
-        'captype' => 'read',
-        'riskbitmask' => RISK_PERSONAL,
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'manager' => CAP_ALLOW,
-            'coursecreator' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'student' => CAP_ALLOW,
+        'plagiarism/plagiarismsearch:viewlinks' => array(
+                'captype' => 'read',
+                'riskbitmask' => RISK_PERSONAL,
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'manager' => CAP_ALLOW,
+                        'coursecreator' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
+                        'student' => CAP_ALLOW,
+                ),
         ),
-    ),
     // Ability to submit links to plagiarismsearch.
-    'plagiarism/plagiarismsearch:submitlinks' => array(
-        'captype' => 'read',
-        'riskbitmask' => RISK_PERSONAL,
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'manager' => CAP_ALLOW,
-            'coursecreator' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'student' => CAP_ALLOW,
+        'plagiarism/plagiarismsearch:submitlinks' => array(
+                'captype' => 'read',
+                'riskbitmask' => RISK_PERSONAL,
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'manager' => CAP_ALLOW,
+                        'coursecreator' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
+                        'student' => CAP_ALLOW,
+                ),
         ),
-    ),
     // Ability to check status.
-    'plagiarism/plagiarismsearch:statuslinks' => array(
-        'captype' => 'read',
-        'riskbitmask' => RISK_PERSONAL,
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'manager' => CAP_ALLOW,
-            'coursecreator' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'student' => CAP_ALLOW,
+        'plagiarism/plagiarismsearch:statuslinks' => array(
+                'captype' => 'read',
+                'riskbitmask' => RISK_PERSONAL,
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'manager' => CAP_ALLOW,
+                        'coursecreator' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
+                        'student' => CAP_ALLOW,
+                ),
         ),
-    ),
     // Only students.
-    'plagiarism/plagiarismsearch:isstudent' => array(
-        'captype' => 'read',
-        'riskbitmask' => RISK_PERSONAL,
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
-            'student' => CAP_ALLOW,
+        'plagiarism/plagiarismsearch:isstudent' => array(
+                'captype' => 'read',
+                'riskbitmask' => RISK_PERSONAL,
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'student' => CAP_ALLOW,
+                ),
         ),
-    ),
 );

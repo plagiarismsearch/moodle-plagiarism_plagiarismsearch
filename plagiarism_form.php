@@ -37,8 +37,8 @@ class plagiarism_setup_form extends moodleform {
         $prefix = plagiarismsearch_config::CONFIG_PREFIX;
         $reporttypes = plagiarismsearch_config::get_report_types();
         $notoryes = array(
-            0 => $this->translate('no', null),
-            1 => $this->translate('yes', null),
+                0 => $this->translate('no', null),
+                1 => $this->translate('yes', null),
         );
 
         $field = plagiarismsearch_config::FIELD_ENABLED;

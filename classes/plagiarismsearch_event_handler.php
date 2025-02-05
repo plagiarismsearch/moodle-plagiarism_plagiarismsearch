@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -26,14 +27,14 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
      */
     protected $event;
     protected $allowedcomponents = array(
-        'mod_assign',
-        'assignsubmission_file',
-        'assignsubmission_onlinetext',
+            'mod_assign',
+            'assignsubmission_file',
+            'assignsubmission_onlinetext',
     );
     protected $allowedevents = array(
-        '\assignsubmission_file\event\submission_updated',
-        '\assignsubmission_file\event\assessable_uploaded',
-        '\assignsubmission_onlinetext\event\assessable_uploaded',
+            '\assignsubmission_file\event\submission_updated',
+            '\assignsubmission_file\event\assessable_uploaded',
+            '\assignsubmission_onlinetext\event\assessable_uploaded',
     );
 
     public function __construct(core\event\base $event, $config = array()) {
@@ -103,13 +104,15 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
             return null;
         }
 
-        plagiarismsearch_core::send_file($file, $this->cmid(), array('submit' => 'auto', 'storage_subject_id' => $this->courceid()));
+        plagiarismsearch_core::send_file($file, $this->cmid(),
+                array('submit' => 'auto', 'storage_subject_id' => $this->courceid()));
     }
 
     protected function handle_online_text() {
         $content = $this->get_onlinetext_content();
         if ($content) {
-            plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid(), array('submit' => 'auto', 'storage_subject_id' => $this->courceid()));
+            plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid(),
+                    array('submit' => 'auto', 'storage_subject_id' => $this->courceid()));
         }
     }
 

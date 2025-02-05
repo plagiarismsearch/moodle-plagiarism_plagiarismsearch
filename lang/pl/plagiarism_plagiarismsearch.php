@@ -107,14 +107,11 @@ $string['save'] = 'Zapisz';
 $string['settings_error'] = 'Podczas aktualizacji ustawień PlagiarismSearch wystąpił błąd';
 $string['settings_error_server'] = 'Błąd API ustawień PlagiarismSearch';
 $string['settings_saved'] = 'Ustawienia PlagiarismSearch pomyślnie zapisane';
-// $string['settings_cancelled'] = 'Ustawienia PlagiarismSearch anulowane';
-// $string['settings_saved'] = 'Ustawienia PlagiarismSearch pomyślnie zapisane';
 $string['submit'] = 'Wyślij do PlagiarismSearch';
 $string['use'] = 'Załącz PlagiarismSearch';
 $string['enabled'] = 'Załącz PlagiarismSearch';
 $string['yellow'] = 'Żółty poziom plagiatu zaczyna się od';
 $string['red'] = 'Czerwony poziom plagiatu zaczyna się od';
-
 
 $string['text_plain'] = 'PlagiarismSearch.com – zaawansowane narzędzie do sprawdzania plagiatu online. <br/>
 PlagiarismSearch.com to jest wiodąca strona internetowa kontroli plagiatu, która dostarczy Ci dokładny raport w krótkim czasie. <br/>

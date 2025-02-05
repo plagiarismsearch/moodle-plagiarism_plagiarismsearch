@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -25,17 +26,17 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         $url = $this->apiurl . '/reports/create';
 
         $default = array(
-            'fields' => array('id', 'status', 'plagiat', 'file', 'ai_probability', 'ai_average_probability'),
-            'remote_id' => $this->generate_remote_id(),
-            'is_add_storage' => $this->get_config(plagiarismsearch_config::FIELD_ADD_TO_STORAGE, 1),
-            'is_search_filter_chars' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_CHARS, 0),
-            'is_search_filter_references' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_REFERENCES, 0),
-            'is_search_filter_quotes' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_QUOTES, 0),
-            'callback_url' => new moodle_url('/plagiarism/plagiarismsearch/callback.php'),
-            'moodle' => plagiarismsearch_config::get_plugin_release(),
-            'moodle_release' => plagiarismsearch_config::get_release(),
-            'storage_course_id' => $this->cmid,
-            'storage_user_id' => $this->userid,
+                'fields' => array('id', 'status', 'plagiat', 'file', 'ai_probability', 'ai_average_probability'),
+                'remote_id' => $this->generate_remote_id(),
+                'is_add_storage' => $this->get_config(plagiarismsearch_config::FIELD_ADD_TO_STORAGE, 1),
+                'is_search_filter_chars' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_CHARS, 0),
+                'is_search_filter_references' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_REFERENCES, 0),
+                'is_search_filter_quotes' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_QUOTES, 0),
+                'callback_url' => new moodle_url('/plagiarism/plagiarismsearch/callback.php'),
+                'moodle' => plagiarismsearch_config::get_plugin_release(),
+                'moodle_release' => plagiarismsearch_config::get_release(),
+                'storage_course_id' => $this->cmid,
+                'storage_user_id' => $this->userid,
         );
 
         $file = $this->get_file();
@@ -103,7 +104,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * @param string $text
      * @param array $post
-     * @return stdObject Json response
+     * @return \stdObject Json response
      */
     public function action_send_text($text, $post = array()) {
         $this->set_text($text);
@@ -129,9 +130,9 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     protected function generate_remote_id() {
         $result = array(
             // Context id.
-            'c:' . $this->cmid,
+                'c:' . $this->cmid,
             // User id.
-            'u:' . $this->userid,
+                'u:' . $this->userid,
         );
 
         if ($file = $this->get_file()) {

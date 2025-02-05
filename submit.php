@@ -63,7 +63,7 @@ if (!$file) {
     throw new \moodle_exception('invalidfilehash', 'plagiarism_plagiarismsearch');
 }
 
-/* @var $file \stored_file */
+/* @var $file \stored_file The file object to validate. */
 if ($file->get_contextid() != $context->id) {
     throw new \moodle_exception('wrongfilecontext', 'plagiarism_plagiarismsearch');
 }
@@ -73,7 +73,8 @@ if ($file->get_userid() != $userid) {
 }
 
 // Send file.
-$msg = plagiarismsearch_core::send_file($file, $cmid, array('force' => $force, 'submit' => 'manual', 'storage_subject_id' => $cm->course));
+$msg = plagiarismsearch_core::send_file($file, $cmid,
+        array('force' => $force, 'submit' => 'manual', 'storage_subject_id' => $cm->course));
 
 // Safe back redirect.
 $redirect = plagiarismsearch_core::redirect_url($cm, $context);

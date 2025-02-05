@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -46,29 +47,29 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     const STATUS_CHECKED = 2;
 
     public static $statuses = array(
-        self::STATUS_NOT_PAID => 'not paid',
-        self::STATUS_SERVER_CORE_ERROR => 'server error',
-        self::STATUS_SERVER_ERROR => 'failed',
-        self::STATUS_ERROR => 'error',
-        self::STATUS_INIT => 'init',
-        self::STATUS_RESERVED__8 => 'init',
-        self::STATUS_RESERVED__7 => 'init',
-        self::STATUS_RESERVED__6 => 'init',
-        self::STATUS_RESERVED__5 => 'init',
-        self::STATUS_PROCESSING_STORAGE => 'processing',
-        self::STATUS_PROCESSING_STORAGE_CHECK => 'processing',
-        self::STATUS_PROCESSING_FILES => 'processing',
-        self::STATUS_PROCESSING_FILES_CHECK => 'processing',
-        self::STATUS_PROCESSING => 'processing',
-        self::STATUS_PRE_CHECKED => 'processing',
-        self::STATUS_POST_CHECKED => 'processing',
-        self::STATUS_SOURCES => 'processing',
-        self::STATUS_SNIPPETS => 'processing',
-        self::STATUS_RESERVED_6 => 'processing',
-        self::STATUS_RESERVED_7 => 'processing',
-        self::STATUS_RESERVED_8 => 'processing',
-        self::STATUS_RESERVED_9 => 'processing',
-        self::STATUS_CHECKED => 'checked',
+            self::STATUS_NOT_PAID => 'not paid',
+            self::STATUS_SERVER_CORE_ERROR => 'server error',
+            self::STATUS_SERVER_ERROR => 'failed',
+            self::STATUS_ERROR => 'error',
+            self::STATUS_INIT => 'init',
+            self::STATUS_RESERVED__8 => 'init',
+            self::STATUS_RESERVED__7 => 'init',
+            self::STATUS_RESERVED__6 => 'init',
+            self::STATUS_RESERVED__5 => 'init',
+            self::STATUS_PROCESSING_STORAGE => 'processing',
+            self::STATUS_PROCESSING_STORAGE_CHECK => 'processing',
+            self::STATUS_PROCESSING_FILES => 'processing',
+            self::STATUS_PROCESSING_FILES_CHECK => 'processing',
+            self::STATUS_PROCESSING => 'processing',
+            self::STATUS_PRE_CHECKED => 'processing',
+            self::STATUS_POST_CHECKED => 'processing',
+            self::STATUS_SOURCES => 'processing',
+            self::STATUS_SNIPPETS => 'processing',
+            self::STATUS_RESERVED_6 => 'processing',
+            self::STATUS_RESERVED_7 => 'processing',
+            self::STATUS_RESERVED_8 => 'processing',
+            self::STATUS_RESERVED_9 => 'processing',
+            self::STATUS_CHECKED => 'checked',
     );
 
     public static function table_name() {
@@ -90,7 +91,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         if (isset($values['rid'])) {
             $report = static::get_one(array('rid' => $values['rid']));
             if ($report) {
-                return static::update(array_merge((array)$report, $values), $report->id);
+                return static::update(array_merge((array) $report, $values), $report->id);
             }
         }
         return static::insert($values);
@@ -117,24 +118,24 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         list($where, $params) = static::build_conditions($conditions);
 
         return static::db()->get_record_sql("SELECT * FROM {" . static::table_name() . "}"
-                        . ($where ? " WHERE " . $where : '')
-                        . " ORDER BY created_at DESC LIMIT 1", $params);
+                . ($where ? " WHERE " . $where : '')
+                . " ORDER BY created_at DESC LIMIT 1", $params);
     }
 
     public static function get_processing_reports($ttl = 300, $limit = 50) {
         list($where, $status) = static::db()->get_in_or_equal(static::get_processing_statuses());
 
         return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
-                        . " WHERE modified_at < ? AND status " . $where
-                        . " LIMIT " . $limit, array_merge(array(time() - $ttl), $status));
+                . " WHERE modified_at < ? AND status " . $where
+                . " LIMIT " . $limit, array_merge(array(time() - $ttl), $status));
     }
 
     public static function get_error_reports($ttl = 43200, $limit = 50) {
         list($where, $status) = static::db()->get_in_or_equal(static::get_error_statuses());
 
         return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
-                        . " WHERE rid > 0 AND modified_at < ? AND status " . $where
-                        . " LIMIT " . $limit, array_merge(array(time() - $ttl), $status));
+                . " WHERE rid > 0 AND modified_at < ? AND status " . $where
+                . " LIMIT " . $limit, array_merge(array(time() - $ttl), $status));
     }
 
     public static function count($conditions) {
@@ -172,10 +173,10 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function get_error_statuses() {
         return array(
-            self::STATUS_NOT_PAID,
-            self::STATUS_SERVER_CORE_ERROR,
-            self::STATUS_SERVER_ERROR,
-            self::STATUS_ERROR,
+                self::STATUS_NOT_PAID,
+                self::STATUS_SERVER_CORE_ERROR,
+                self::STATUS_SERVER_ERROR,
+                self::STATUS_ERROR,
         );
     }
 
@@ -185,24 +186,24 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function get_processing_statuses() {
         return array(
-            self::STATUS_INIT,
-            self::STATUS_RESERVED__8,
-            self::STATUS_RESERVED__7,
-            self::STATUS_RESERVED__6,
-            self::STATUS_RESERVED__5,
-            self::STATUS_PROCESSING_STORAGE,
-            self::STATUS_PROCESSING_STORAGE_CHECK,
-            self::STATUS_PROCESSING_FILES,
-            self::STATUS_PROCESSING_FILES_CHECK,
-            self::STATUS_PROCESSING,
-            self::STATUS_PRE_CHECKED,
-            self::STATUS_POST_CHECKED,
-            self::STATUS_SOURCES,
-            self::STATUS_SNIPPETS,
-            self::STATUS_RESERVED_6,
-            self::STATUS_RESERVED_7,
-            self::STATUS_RESERVED_8,
-            self::STATUS_RESERVED_9,
+                self::STATUS_INIT,
+                self::STATUS_RESERVED__8,
+                self::STATUS_RESERVED__7,
+                self::STATUS_RESERVED__6,
+                self::STATUS_RESERVED__5,
+                self::STATUS_PROCESSING_STORAGE,
+                self::STATUS_PROCESSING_STORAGE_CHECK,
+                self::STATUS_PROCESSING_FILES,
+                self::STATUS_PROCESSING_FILES_CHECK,
+                self::STATUS_PROCESSING,
+                self::STATUS_PRE_CHECKED,
+                self::STATUS_POST_CHECKED,
+                self::STATUS_SOURCES,
+                self::STATUS_SNIPPETS,
+                self::STATUS_RESERVED_6,
+                self::STATUS_RESERVED_7,
+                self::STATUS_RESERVED_8,
+                self::STATUS_RESERVED_9,
         );
     }
 

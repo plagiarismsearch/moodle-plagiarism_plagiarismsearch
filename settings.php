@@ -87,7 +87,6 @@ if ($data && confirm_sesskey()) {
         $plagiarismsettings['plagiarismsearch_student_resubmit_numbers'] = '';
     }
 
-
     if ($data->enabled) {
         plagiarismsearch_config::load_settings();
         $api = new plagiarismsearch_api();

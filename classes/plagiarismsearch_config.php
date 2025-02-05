@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -51,7 +52,6 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     /**/
     const SUBMIT_WEB = 1;
     const SUBMIT_STORAGE = 2;
-    // SUBMIT_WEB_STORAGE = self::SUBMIT_WEB | self::SUBMIT_STORAGE.
     const SUBMIT_WEB_STORAGE = 3;
     /**/
     const REPORT_NO = 0;
@@ -74,17 +74,17 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     protected static $config = array();
     protected static $settings = array();
     protected static $fields = array(
-        self::FIELD_USE,
-        self::FIELD_API_URL, self::FIELD_API_USER, self::FIELD_API_KEY, self::FIELD_API_DEBUG,
-        self::FIELD_AUTO_CHECK, self::FIELD_MANUAL_CHECK,
-        self::FIELD_ADD_TO_STORAGE,
-        self::FIELD_SOURCES_TYPE,
-        self::FIELD_DETECT_AI,
-        self::FIELD_REPORT_LANGUAGE, self::FIELD_REPORT_TYPE,
-        self::FIELD_FILTER_CHARS, self::FIELD_FILTER_PLAGIARISM, self::FIELD_FILTER_QUOTES, self::FIELD_FILTER_REFERENCES,
-        self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
-        self::FIELD_STUDENT_SHOW_PERCENTAGE, self::FIELD_STUDENT_SHOW_REPORTS, self::FIELD_STUDENT_SUBMIT,
-        self::FIELD_PARSE_TEXT_URLS, self::FIELD_VALID_PARSED_TEXT_URLS,
+            self::FIELD_USE,
+            self::FIELD_API_URL, self::FIELD_API_USER, self::FIELD_API_KEY, self::FIELD_API_DEBUG,
+            self::FIELD_AUTO_CHECK, self::FIELD_MANUAL_CHECK,
+            self::FIELD_ADD_TO_STORAGE,
+            self::FIELD_SOURCES_TYPE,
+            self::FIELD_DETECT_AI,
+            self::FIELD_REPORT_LANGUAGE, self::FIELD_REPORT_TYPE,
+            self::FIELD_FILTER_CHARS, self::FIELD_FILTER_PLAGIARISM, self::FIELD_FILTER_QUOTES, self::FIELD_FILTER_REFERENCES,
+            self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
+            self::FIELD_STUDENT_SHOW_PERCENTAGE, self::FIELD_STUDENT_SHOW_REPORTS, self::FIELD_STUDENT_SUBMIT,
+            self::FIELD_PARSE_TEXT_URLS, self::FIELD_VALID_PARSED_TEXT_URLS,
     );
 
     public static function table_name() {
@@ -120,7 +120,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     private static function load_config($cmid) {
         static::$config = array();
 
-        $config = static::get_all(['cmid' => (int)$cmid]);
+        $config = static::get_all(['cmid' => (int) $cmid]);
         if ($config) {
             foreach ($config as $row) {
                 static::$config[$row->cmid][$row->name] = $row->value;
@@ -239,38 +239,38 @@ class plagiarismsearch_config extends plagiarismsearch_table {
 
     public static function get_submit_types() {
         return array(
-            static::SUBMIT_WEB_STORAGE => static::translate('sources_doc_web_storage'),
-            static::SUBMIT_WEB => static::translate('sources_doc_web'),
-            static::SUBMIT_STORAGE => static::translate('sources_doc_storage'),
+                static::SUBMIT_WEB_STORAGE => static::translate('sources_doc_web_storage'),
+                static::SUBMIT_WEB => static::translate('sources_doc_web'),
+                static::SUBMIT_STORAGE => static::translate('sources_doc_storage'),
         );
     }
 
     public static function get_report_types() {
         return array(
-            static::REPORT_NO => static::translate('report_show_no'),
-            static::REPORT_PDF => static::translate('report_show_pdf'),
-            static::REPORT_HTML => static::translate('report_show_html'),
-            static::REPORT_PDF_HTML => static::translate('report_show_pdf_html'),
+                static::REPORT_NO => static::translate('report_show_no'),
+                static::REPORT_PDF => static::translate('report_show_pdf'),
+                static::REPORT_HTML => static::translate('report_show_html'),
+                static::REPORT_PDF_HTML => static::translate('report_show_pdf_html'),
         );
     }
 
     public static function get_report_languages() {
         return array(
-            static::LANGUAGE_DEFAULT => static::translate('report_language_default'),
-            static::LANGUAGE_EN => static::translate('report_language_en'),
-            static::LANGUAGE_ES => static::translate('report_language_es'),
-            static::LANGUAGE_UA => static::translate('report_language_ua'),
-            static::LANGUAGE_PL => static::translate('report_language_pl'),
-            static::LANGUAGE_RU => static::translate('report_language_ru'),
+                static::LANGUAGE_DEFAULT => static::translate('report_language_default'),
+                static::LANGUAGE_EN => static::translate('report_language_en'),
+                static::LANGUAGE_ES => static::translate('report_language_es'),
+                static::LANGUAGE_UA => static::translate('report_language_ua'),
+                static::LANGUAGE_PL => static::translate('report_language_pl'),
+                static::LANGUAGE_RU => static::translate('report_language_ru'),
         );
     }
 
     public static function get_plagiarism_filters() {
         return array(
-            static::FILTER_PLAGIARISM_NO => static::translate('filter_plagiarism_no'),
-            static::FILTER_PLAGIARISM_USER_COURSE => static::translate('filter_plagiarism_user_course'),
-            static::FILTER_PLAGIARISM_USER => static::translate('filter_plagiarism_user'),
-            static::FILTER_PLAGIARISM_COURSE => static::translate('filter_plagiarism_course'),
+                static::FILTER_PLAGIARISM_NO => static::translate('filter_plagiarism_no'),
+                static::FILTER_PLAGIARISM_USER_COURSE => static::translate('filter_plagiarism_user_course'),
+                static::FILTER_PLAGIARISM_USER => static::translate('filter_plagiarism_user'),
+                static::FILTER_PLAGIARISM_COURSE => static::translate('filter_plagiarism_course'),
         );
     }
 

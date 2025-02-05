@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -99,8 +100,8 @@ class plagiarismsearch_table extends plagiarismsearch_base {
         }
 
         return array(
-            $where ? implode(' AND ', $where) : '',
-            $params,
+                $where ? implode(' AND ', $where) : '',
+                $params,
         );
     }
 
