@@ -30,6 +30,9 @@ global $CFG;
 require_once($CFG->dirroot . '/plagiarism/lib.php');
 require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/classes/map.php');
 
+/**
+ * Plagiarism plugin for PlagiarismSearch.
+ */
 class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
     protected static $cacheviewlinks = [];
@@ -102,9 +105,8 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     protected static function get_reports_link_type($cmid = null) {
         if (static::is_student($cmid)) {
             return plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_SHOW_REPORTS);
-        } else {
-            return plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_TYPE);
         }
+        return plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_TYPE);
     }
 
     /**
@@ -115,7 +117,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public static function has_show_reports_pdf_link($cmid = null) {
         $type = static::get_reports_link_type($cmid);
-        return $type & plagiarismsearch_config::REPORT_PDF;
+        return (bool) $type & plagiarismsearch_config::REPORT_PDF;
     }
 
     /**
@@ -126,7 +128,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public static function has_show_reports_html_link($cmid = null) {
         $type = static::get_reports_link_type($cmid);
-        return $type & plagiarismsearch_config::REPORT_HTML;
+        return (bool) $type & plagiarismsearch_config::REPORT_HTML;
     }
 
     /**
@@ -149,9 +151,8 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         if (static::is_student($cmid)) {
             return (bool) plagiarismsearch_config::get_config_or_settings($cmid,
                     plagiarismsearch_config::FIELD_STUDENT_SHOW_PERCENTAGE);
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -165,9 +166,8 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         if (static::is_student($cmid)) {
             return $manualsubmit &&
                     plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_SUBMIT);
-        } else {
-            return $manualsubmit;
         }
+        return (bool) $manualsubmit;
     }
 
     /**
@@ -238,8 +238,16 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         } else if (!empty($linkarray['content'])) {
             return $this->get_links_content($linkarray);
         }
+        return null;
     }
 
+    /**
+     * Get links file
+     *
+     * @param array $linkarray
+     * @return string
+     * @throws moodle_exception
+     */
     protected function get_links_file($linkarray) {
         $cmid = $linkarray['cmid'];
         $userid = $linkarray['userid'];
@@ -279,6 +287,12 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return $result;
     }
 
+    /**
+     * Builds links
+     *
+     * @param array $linkarray
+     * @return string
+     */
     protected function get_links_content($linkarray) {
         $cmid = $linkarray['cmid'];
         $userid = $linkarray['userid'];
@@ -295,6 +309,14 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return $result;
     }
 
+    /**
+     * Render report links
+     *
+     * @param int $cmid
+     * @param object $report
+     * @return string
+     * @throws moodle_exception
+     */
     protected function render_report_links($cmid, $report) {
         $result = '';
         if (empty($report)) {
@@ -362,6 +384,14 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return $result;
     }
 
+    /**
+     * Find the newest report for a given user and file hash.
+     *
+     * @param int $cmid
+     * @param int $userid
+     * @param string $hash
+     * @return false|mixed
+     */
     protected function get_top_report($cmid, $userid, $hash) {
         return plagiarismsearch_reports::get_one_top([
                 'cmid' => $cmid,
@@ -370,6 +400,13 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         ]);
     }
 
+    /**
+     * Config wrapper to get the default value for a form element.
+     *
+     * @param int $cmid
+     * @param string $field
+     * @return array|bool|mixed|null
+     */
     protected function get_form_element_default_value($cmid, $field) {
         return plagiarismsearch_config::get_config_or_settings($cmid, $field);
     }
@@ -377,8 +414,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     /**
      * Hook to add plagiarism specific settings to a module settings page
      *
-     * @param object $mform - Moodle form
-     * @param object $context - current context
+     * @param object $mform
+     * @param object $context
+     * @param string $modulename
+     * @return void
+     * @throws coding_exception
      */
     public function get_form_elements_module($mform, $context, $modulename = "") {
         if ($modulename != 'mod_assign') {
@@ -497,10 +537,25 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         }
     }
 
+    /**
+     * Translate wrapper
+     *
+     * @param string $value
+     * @param string $module
+     * @return lang_string|mixed|string
+     */
     protected function translate($value, $module = 'plagiarism_plagiarismsearch') {
         return plagiarismsearch_base::translate($value, $module);
     }
 
+    /**
+     * Save form config
+     *
+     * @param int $cmid
+     * @param string $name
+     * @param mixed $value
+     * @return bool|int|null
+     */
     protected function save_form_config($cmid, $name, $value) {
         return plagiarismsearch_config::set_config($cmid, $name, $value);
     }
@@ -509,7 +564,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      * Hook to allow a disclosure to be printed notifying users what will happen with their submission.
      *
      * @param int $cmid - course module id
-     *
      * @return string
      */
     public function print_disclosure($cmid) {
@@ -529,10 +583,21 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return $outputhtml;
     }
 
+    /**
+     * Cron function for old versions of Moodle.
+     *
+     * @return mixed
+     */
     public function plagiarism_cron() {
-        return cron();
+        return $this->cron();
     }
 
+    /**
+     * Cron function for PlagiarismSearch.
+     *
+     * @return true
+     * @throws dml_exception
+     */
     public function cron() {
         global $CFG;
 
@@ -553,6 +618,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return true;
     }
 
+    /**
+     * Log function
+     *
+     * @return bool
+     */
     public static function log() {
         global $CFG;
         $args = func_get_args();
@@ -571,9 +641,15 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return true;
     }
 
+    /**
+     * Event handler
+     *
+     * @param \core\event\base $event
+     * @return void
+     */
     public static function event_handler(core\event\base $event) {
         $handler = new plagiarismsearch_event_handler($event);
-        return $handler->run();
+        $handler->run();
     }
 
 }
@@ -583,7 +659,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
  *
  * @param moodleform_mod $formwrapper
  * @param MoodleQuickForm $mform
- * @return mixed
+ * @return void
  */
 function plagiarism_plagiarismsearch_coursemodule_standard_elements($formwrapper, $mform) {
     $psplugin = new plagiarism_plugin_plagiarismsearch();

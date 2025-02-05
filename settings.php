@@ -15,11 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * settings.php
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once(dirname(dirname(__FILE__)) . '/../config.php');
 global $CFG, $OUTPUT, $USER, $PAGE;
 require_once($CFG->libdir . '/adminlib.php');

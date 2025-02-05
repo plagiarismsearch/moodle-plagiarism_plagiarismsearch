@@ -26,7 +26,6 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      * Get sender ID
      *
      * @return int
-     * @global \stdClass $USER
      */
     public static function get_sender_id() {
         global $USER;
@@ -34,9 +33,10 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     }
 
     /**
+     * Get user submission by cmid
+     *
      * @param int $cmid
      * @param null $userid
-     *
      * @return bool|\stdClass
      */
     public static function get_user_submission_by_cmid($cmid, $userid = null) {
@@ -276,6 +276,12 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         return $redirect;
     }
 
+    /**
+     * Generate text hash
+     *
+     * @param $text
+     * @return string
+     */
     public static function get_text_hash($text) {
         return md5(strip_tags($text));
     }

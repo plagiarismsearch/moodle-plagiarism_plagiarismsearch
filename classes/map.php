@@ -13,7 +13,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
+ * Load all classes
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com

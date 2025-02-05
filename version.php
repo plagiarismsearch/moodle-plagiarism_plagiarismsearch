@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * @package    plagiarism_plagiarismsearch
+ * @author     Alex Crosby developer@plagiarismsearch.com
+ * @copyright  @2017 PlagiarismSearch.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 if (!isset($plugin)) {

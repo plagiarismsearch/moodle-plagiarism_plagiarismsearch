@@ -85,7 +85,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * @param \stored_file $file
      * @param array $post
-     * @return stdClass Json response
+     * @return stdClass|null Json response
      */
     public function action_send_file($file, $post = []) {
         $this->set_file($file);
@@ -99,6 +99,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
             return $result;
         }
+
+        return null;
     }
 
     /**
@@ -150,9 +152,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         $tmpdir = $CFG->dataroot . '/temp';
         if ($tmpdir && is_writable($tmpdir)) {
             return $tmpdir;
-        } else {
-            return sys_get_temp_dir();
         }
+        return sys_get_temp_dir();
     }
 
     protected function tmp_file($filename, $content) {

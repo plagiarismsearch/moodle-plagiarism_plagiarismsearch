@@ -37,17 +37,33 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
             '\assignsubmission_onlinetext\event\assessable_uploaded',
     ];
 
+    /**
+     * Constructor
+     *
+     * @param \core\event\base $event
+     * @param $config
+     */
     public function __construct(core\event\base $event, $config = []) {
         $this->event = $event;
         parent::__construct($config);
     }
 
+    /**
+     * Parse cmid
+     *
+     * @return int|mixed
+     */
     public function cmid() {
         $data = $this->event->get_data();
 
         return empty($data['contextinstanceid']) ? $data['contextinstanceid'] : $this->event->get_context()->instanceid;
     }
 
+    /**
+     * Parse course id
+     *
+     * @return int|mixed
+     */
     public function courceid() {
         $data = $this->event->get_data();
 
@@ -58,6 +74,10 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         return $this->cmid();
     }
 
+    /**
+     * Parse user id
+     * @return int|mixed
+     */
     public function userid() {
         global $USER;
         $data = $this->event->get_data();
@@ -66,15 +86,24 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
             return $data['userid'];
         } else if (!empty($USER->id)) {
             return $USER->id;
-        } else {
-            return 0;
         }
+            return 0;
     }
 
+    /**
+     * Get online text content
+     *
+     * @return mixed|null
+     */
     public function get_onlinetext_content() {
         return !empty($this->event->other['content']) ? $this->event->other['content'] : null;
     }
 
+    /**
+     * Run event handler
+     *
+     * @return void
+     */
     public function run() {
         if (!$this->is_valid()) {
             return;
@@ -98,6 +127,12 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         }
     }
 
+    /**
+     * Handle uploaded file
+     *
+     * @param $pathnamehash
+     * @return void|null
+     */
     protected function handle_uploaded_file($pathnamehash) {
         $file = get_file_storage()->get_file_by_hash($pathnamehash);
         if ($file->is_directory()) {
@@ -108,6 +143,11 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
                 ['submit' => 'auto', 'storage_subject_id' => $this->courceid()]);
     }
 
+    /**
+     * Handle online text
+     *
+     * @return void
+     */
     protected function handle_online_text() {
         $content = $this->get_onlinetext_content();
         if ($content) {
@@ -116,14 +156,31 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         }
     }
 
+    /**
+     * Check if event is valid
+     *
+     * @return bool
+     * @throws dml_exception
+     * @throws moodle_exception
+     */
     protected function is_valid() {
         return $this->is_allowed_component() && plagiarismsearch_config::is_enabled_auto($this->cmid());
     }
 
+    /**
+     * Check if component is allowed
+     *
+     * @return bool
+     */
     protected function is_allowed_component() {
         return in_array($this->event->component, $this->allowedcomponents);
     }
 
+    /**
+     * Check if event is upload
+     *
+     * @return bool
+     */
     protected function is_upload() {
         $eventdata = $this->event->get_data();
         return in_array($eventdata['eventname'], $this->allowedevents);

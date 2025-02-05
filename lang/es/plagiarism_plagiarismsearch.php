@@ -20,6 +20,7 @@
  * @copyright  @2018 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+// phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
 $string['plagiarismsearch'] = 'PlagiarismSearch';
 $string['pluginname'] = 'Plugin de plagio de PlagiarismSearch';
 
@@ -120,3 +121,4 @@ $string['plagiarismsearch:viewlinks'] = 'Posibilidad de ver enlaces basados en r
 $string['plagiarismsearch:submitlinks'] = 'Posibilidades de enviar enlaces a PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Posibilidad de revisar el estatus del informe';
 $string['plagiarismsearch:isstudent'] = 'Permitir solamente a los estudiantes';
+// phpcs:enable moodle.Files.LangFilesOrdering.IncorrectOrder

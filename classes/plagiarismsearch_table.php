@@ -30,23 +30,56 @@ class plagiarismsearch_table extends plagiarismsearch_base {
         return $DB;
     }
 
+    /**
+     * Table name
+     *
+     * @return string
+     */
     public static function table_name() {
         return get_called_class();
     }
 
+    /**
+     * Get all records by conditions
+     *
+     * @param $conditions
+     * @return array
+     * @throws dml_exception
+     */
     public static function get_all($conditions) {
         return static::db()->get_records(static::table_name(), $conditions);
     }
 
+    /**
+     * Get one record by conditions
+     *
+     * @param $conditions
+     * @return false|mixed|stdClass
+     * @throws dml_exception
+     */
     public static function get_one($conditions) {
         return static::db()->get_record(static::table_name(), $conditions);
     }
 
+    /**
+     * Count records by conditions
+     *
+     * @param $conditions
+     * @return int|null
+     * @throws dml_exception
+     */
     public static function count($conditions) {
         $row = static::db()->get_record(static::table_name(), $conditions, 'COUNT(*) AS count');
         return isset($row) ? $row->count : null;
     }
 
+    /**
+     * Insert record
+     *
+     * @param $values
+     * @return bool|int|void
+     * @throws dml_exception
+     */
     public static function insert($values) {
         $values = static::before_insert($values);
         if ($values) {
@@ -54,10 +87,24 @@ class plagiarismsearch_table extends plagiarismsearch_base {
         }
     }
 
+    /**
+     * Before insert
+     *
+     * @param $values
+     * @return mixed
+     */
     protected static function before_insert($values) {
         return $values;
     }
 
+    /**
+     * Update record
+     *
+     * @param $values
+     * @param $conditions
+     * @return bool|null
+     * @throws dml_exception
+     */
     public static function update($values, $conditions = null) {
         if (!$conditions) {
             return null;
@@ -71,10 +118,23 @@ class plagiarismsearch_table extends plagiarismsearch_base {
         return static::db()->update_record(static::table_name(), $values);
     }
 
+    /**
+     * Before update
+     *
+     * @param $values
+     * @return mixed
+     */
     public static function before_update($values) {
         return $values;
     }
 
+    /**
+     * Delete record
+     *
+     * @param $conditions
+     * @return bool|null
+     * @throws dml_exception
+     */
     public static function delete($conditions = null) {
         if (!$conditions) {
             return null;
@@ -83,6 +143,14 @@ class plagiarismsearch_table extends plagiarismsearch_base {
 
     }
 
+    /**
+     * Build conditions
+     *
+     * @param $conditions
+     * @return array
+     * @throws coding_exception
+     * @throws dml_exception
+     */
     protected static function build_conditions($conditions) {
         $where = [];
         $params = [];

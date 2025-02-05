@@ -20,10 +20,20 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/**
+ * Class representing the configuration for the PlagiarismSearch plugin.
+ */
 class plagiarismsearch_config extends plagiarismsearch_table {
 
+    /**
+     * Prefix used for configuration keys.
+     */
     const CONFIG_PREFIX = 'plagiarismsearch_';
-    /**/
+
+    // phpcs:disable moodle.Commenting.MissingDocblock.Constant
+
+    // Fields representing plugin configuration options.
     const FIELD_ENABLED = 'enabled';
     const FIELD_USE = 'use';
     const FIELD_API_URL = 'api_url';
@@ -49,30 +59,52 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     const FIELD_STUDENT_DISCLOSURE = 'student_disclosure';
     const FIELD_PARSE_TEXT_URLS = 'parse_text_url';
     const FIELD_VALID_PARSED_TEXT_URLS = 'valid_parsed_text_url';
-    /**/
+
+    // Submission types.
     const SUBMIT_WEB = 1;
     const SUBMIT_STORAGE = 2;
     const SUBMIT_WEB_STORAGE = 3;
-    /**/
+
+    // Report types.
     const REPORT_NO = 0;
     const REPORT_PDF = 1;
     const REPORT_HTML = 2;
     const REPORT_PDF_HTML = 3;
-    /**/
+
+    // Report languages.
     const LANGUAGE_DEFAULT = '';
     const LANGUAGE_EN = 'en';
     const LANGUAGE_ES = 'es';
     const LANGUAGE_UA = 'ua';
     const LANGUAGE_PL = 'pl';
     const LANGUAGE_RU = 'ru';
-    /**/
+
+    // Plagiarism filters.
     const FILTER_PLAGIARISM_NO = 0;
     const FILTER_PLAGIARISM_USER_COURSE = 1;
     const FILTER_PLAGIARISM_USER = 2;
     const FILTER_PLAGIARISM_COURSE = 3;
+    // phpcs:enable moodle.Commenting.MissingDocblock.Constant
 
+    /**
+     * Cached plugin configuration values.
+     *
+     * @var array
+     */
     protected static $config = [];
+
+    /**
+     * Cached plugin settings.
+     *
+     * @var array
+     */
     protected static $settings = [];
+
+    /**
+     * List of configurable fields for the plugin.
+     *
+     * @var array
+     */
     protected static $fields = [
             self::FIELD_USE,
             self::FIELD_API_URL, self::FIELD_API_USER, self::FIELD_API_KEY, self::FIELD_API_DEBUG,
@@ -87,11 +119,20 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             self::FIELD_PARSE_TEXT_URLS, self::FIELD_VALID_PARSED_TEXT_URLS,
     ];
 
+    /**
+     * Returns the table name for the plugin configuration.
+     *
+     * @return string
+     */
     public static function table_name() {
-        // Moodle error: 'name is too long. Limit is 28 chars.'.
         return 'plagiarism_ps_config';
     }
 
+    /**
+     * Returns the list of fields used in the plugin configuration.
+     *
+     * @return array
+     */
     public static function fields() {
         $result = [self::FIELD_ENABLED => self::FIELD_ENABLED];
         foreach (static::$fields as $field) {
@@ -100,6 +141,14 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return $result;
     }
 
+    /**
+     * Retrieves configuration or settings for the given course module and field name.
+     *
+     * @param int|null $cmid Course module ID.
+     * @param string $name Field name.
+     * @param mixed|null $default Default value.
+     * @return mixed
+     */
     public static function get_config_or_settings($cmid, $name, $default = null) {
         $value = static::get_config($cmid, $name, null);
         if ($value === null) {
@@ -109,6 +158,14 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return ($value === null) ? $default : $value;
     }
 
+    /**
+     * Get the configuration value for the given course module and field name.
+     *
+     * @param int $cmid
+     * @param string $name
+     * @param mixed $default
+     * @return mixed|null
+     */
     public static function get_config($cmid, $name, $default = null) {
         if (!isset(static::$config[$cmid])) {
             static::load_config($cmid);
@@ -117,6 +174,12 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return isset(static::$config[$cmid][$name]) ? static::$config[$cmid][$name] : $default;
     }
 
+    /**
+     * Load the configuration for the given course module.
+     *
+     * @param $cmid
+     * @return array
+     */
     private static function load_config($cmid) {
         static::$config = [];
 
@@ -130,6 +193,14 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return static::$config;
     }
 
+    /**
+     * Set the configuration value for the given course module and field name.
+     *
+     * @param $cmid
+     * @param $name
+     * @param $value
+     * @return bool|int|null
+     */
     public static function set_config($cmid, $name, $value) {
         $config = static::get_one(['cmid' => $cmid, 'name' => $name]);
         if ($config) {
@@ -154,10 +225,23 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return self::get_settings_item($key);
     }
 
+    /**
+     * Set the settings value for the given key.
+     *
+     * @param $key
+     * @param $value
+     * @return bool
+     */
     public static function set_settings($key, $value) {
         return set_config($key, $value, 'plagiarism_plagiarismsearch');
     }
 
+    /**
+     * Load the plugin settings.
+     *
+     * @return array
+     * @throws dml_exception
+     */
     public static function load_settings() {
         $settings = (array) get_config('plagiarism_plagiarismsearch');
         self::$settings = $settings;
@@ -166,8 +250,9 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     /**
-     * @param string $key
+     * Get the settings value for the given key.
      *
+     * @param string $key
      * @return mixed|null
      */
     private static function get_settings_item($key) {
@@ -179,32 +264,79 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return isset(self::$settings[$index]) ? self::$settings[$index] : null;
     }
 
+    /**
+     * Check if the plugin is enabled.
+     *
+     * @return bool
+     * @throws dml_exception
+     * @throws moodle_exception
+     */
     public static function is_plugin_enabled() {
         return (bool) self::get_settings(self::FIELD_ENABLED);
     }
 
+    /**
+     * Check if the plugin is enabled for the given course module.
+     *
+     * @param $cmid
+     * @return bool
+     * @throws dml_exception
+     * @throws moodle_exception
+     */
     public static function is_enabled($cmid = null) {
         return self::is_plugin_enabled() && self::get_config($cmid, self::FIELD_ENABLED, self::get_config($cmid, self::FIELD_USE));
     }
 
+    /**
+     * Check if the plugin is enabled for the given course module.
+     *
+     * @param $cmid
+     * @return bool
+     * @throws dml_exception
+     * @throws moodle_exception
+     */
     public static function is_enabled_auto($cmid = null) {
         return self::is_plugin_enabled() && self::get_config_or_settings($cmid, self::FIELD_AUTO_CHECK);
     }
 
+    /**
+     * Check if the plugin is enabled for the given course module.
+     *
+     * @param $cmid
+     * @return int
+     */
     public static function is_submit_web($cmid = null) {
         $value = self::get_config_or_settings($cmid, self::FIELD_SOURCES_TYPE, self::SUBMIT_WEB);
         return $value & self::SUBMIT_WEB;
     }
 
+    /**
+     * Check if the plugin is enabled for the given course module.
+     *
+     * @param $cmid
+     * @return int
+     */
     public static function is_submit_storage($cmid = null) {
         $value = self::get_config_or_settings($cmid, self::FIELD_SOURCES_TYPE);
         return $value & static::SUBMIT_STORAGE;
     }
 
+    /**
+     * Check if the plugin is enabled for the given course module.
+     *
+     * @param $cmid
+     * @return array|bool|mixed
+     */
     public static function is_submit_ai($cmid = null) {
         return self::get_config_or_settings($cmid, self::FIELD_DETECT_AI);
     }
 
+    /**
+     * Check if the plugin is enabled for the given course module.
+     *
+     * @param $cmid
+     * @return array|string[]
+     */
     public static function get_valid_parsed_text_url_as_array($cmid = null) {
         $enabled = self::get_config_or_settings($cmid, self::FIELD_PARSE_TEXT_URLS);
         if (empty($enabled)) {
@@ -218,14 +350,25 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         return explode("\n", trim($urls));
     }
 
+    /**
+     * Get release version
+     *
+     * @return string|null
+     */
     public static function get_release() {
         global $CFG;
 
         if (isset($CFG->release)) {
             return $CFG->release;
         }
+        return null;
     }
 
+    /**
+     * Get plugin release version
+     *
+     * @return string|null
+     */
     public static function get_plugin_release() {
         global $CFG;
         global $plugin;
@@ -234,8 +377,14 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         if (isset($plugin->release)) {
             return $plugin->release;
         }
+        return null;
     }
 
+    /**
+     * Get submit types
+     *
+     * @return array
+     */
     public static function get_submit_types() {
         return [
                 static::SUBMIT_WEB_STORAGE => static::translate('sources_doc_web_storage'),
@@ -244,6 +393,11 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         ];
     }
 
+    /**
+     * Get report types
+     *
+     * @return array
+     */
     public static function get_report_types() {
         return [
                 static::REPORT_NO => static::translate('report_show_no'),
@@ -253,6 +407,11 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         ];
     }
 
+    /**
+     * Get report languages
+     *
+     * @return array
+     */
     public static function get_report_languages() {
         return [
                 static::LANGUAGE_DEFAULT => static::translate('report_language_default'),
@@ -264,6 +423,11 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         ];
     }
 
+    /**
+     * Get plagiarism filters
+     *
+     * @return array
+     */
     public static function get_plagiarism_filters() {
         return [
                 static::FILTER_PLAGIARISM_NO => static::translate('filter_plagiarism_no'),
@@ -273,6 +437,11 @@ class plagiarismsearch_config extends plagiarismsearch_table {
         ];
     }
 
+    /**
+     * Get default valid parsed text urls
+     *
+     * @return string
+     */
     public static function get_default_valid_parsed_text_urls() {
         return "docs.google.com/\ndrive.google.com/";
     }

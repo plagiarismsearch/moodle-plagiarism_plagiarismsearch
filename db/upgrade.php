@@ -15,12 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * lib.php - Contains Plagiarism plugin specific functions called by Modules.
+ * Contains Plagiarism plugin specific functions called by Modules.
  *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/**
+ * @param $oldversion
+ * @return true
+ * @throws ddl_exception
+ * @throws ddl_table_missing_exception
+ * @throws dml_exception
+ * @throws downgrade_exception
+ * @throws moodle_exception
+ * @throws upgrade_exception
  */
 function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
     global $DB;

@@ -26,6 +26,12 @@ class plagiarismsearch_base {
         $this->configure($config);
     }
 
+    /**
+     * Configure object
+     *
+     * @param $config
+     * @return void
+     */
     protected function configure($config = []) {
         if (empty($config)) {
             return;
@@ -38,6 +44,14 @@ class plagiarismsearch_base {
         }
     }
 
+    /**
+     * Translate string
+     *
+     * @param $value
+     * @param $module
+     * @return lang_string|mixed|string
+     * @throws coding_exception
+     */
     public static function translate($value, $module = 'plagiarism_plagiarismsearch') {
         if (empty($value)) {
             return $value;
@@ -45,6 +59,13 @@ class plagiarismsearch_base {
         return get_string($value, $module);
     }
 
+    /**
+     * Json decode
+     *
+     * @param $json
+     * @param $associative
+     * @return mixed
+     */
     public static function jsondecode($json, $associative = null) {
         $result = json_decode($json, $associative);
         $error = json_last_error();

@@ -20,6 +20,8 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+// phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
 $string['auto_check'] = 'Автоматична перевірка';
 $string['manual_check'] = 'Ручна перевірка';
 $string['add_to_storage'] = 'Додати до Cховища';
@@ -118,3 +120,4 @@ $string['plagiarismsearch:viewlinks'] = 'Можливість перегляда
 $string['plagiarismsearch:submitlinks'] = 'Можливість подавати посилання до PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Можливість перевіряти статус звіту';
 $string['plagiarismsearch:isstudent'] = 'Дозволити лише студентам';
+// phpcs:enable moodle.Files.LangFilesOrdering.IncorrectOrder

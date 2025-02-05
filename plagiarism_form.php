@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * plagiarism_setup_form
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -145,6 +147,14 @@ class plagiarism_setup_form extends moodleform {
         $this->add_action_buttons(true);
     }
 
+    /**
+     * Translate string
+     *
+     * @param $value
+     * @param $module
+     * @return lang_string|mixed|string
+     * @throws coding_exception
+     */
     protected function translate($value, $module = 'plagiarism_plagiarismsearch') {
         return plagiarismsearch_base::translate($value, $module);
     }
