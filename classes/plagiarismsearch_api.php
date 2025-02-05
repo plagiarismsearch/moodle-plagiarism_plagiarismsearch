@@ -60,7 +60,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**
      * Api data
      *
-     * @var mixed
+     * @var string|bool|null
      */
     public $apidata;
     /**

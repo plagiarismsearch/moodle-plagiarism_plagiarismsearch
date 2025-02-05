@@ -352,15 +352,11 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * @return string|null
      */
     public static function build_pdf_link($report, $cmid = null) {
-        if (!$report) {
-            return null;
-        }
-
         if (empty($report->rkey)) {
             return $report->url;
         }
 
-        $language = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
+        $language = (string) plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
 
         return static::build_link($report, $language, '/download');
     }
@@ -373,11 +369,11 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * @return string|null
      */
     public static function build_html_link($report, $cmid = null) {
-        if (!$report) {
+        if (empty($report->rkey)) {
             return null;
         }
 
-        $language = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
+        $language = (string) plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
 
         return static::build_link($report, $language, '');
     }
