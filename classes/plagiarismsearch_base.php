@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Base class for plagiarismsearch
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -26,6 +28,11 @@
  */
 class plagiarismsearch_base {
 
+    /**
+     * Constructor
+     *
+     * @param array $config
+     */
     public function __construct($config = []) {
         $this->configure($config);
     }
@@ -82,7 +89,7 @@ class plagiarismsearch_base {
     /**
      * Encode to UTF-8
      *
-     * @param $mixed
+     * @param mixed $mixed
      * @return mixed|string
      */
     public static function utf8ize($mixed) {

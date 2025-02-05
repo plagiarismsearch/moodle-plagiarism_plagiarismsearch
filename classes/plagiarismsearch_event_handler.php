@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Event handler class for plagiarismsearch
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -145,7 +147,7 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
     /**
      * Handle uploaded file
      *
-     * @param $pathnamehash
+     * @param string $pathnamehash
      * @return void
      */
     protected function handle_uploaded_file($pathnamehash) {

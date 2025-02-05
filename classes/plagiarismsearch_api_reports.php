@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * API class for plagiarismsearch
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -89,8 +91,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * Create report from file
      *
-     * @param $filename
-     * @param $post
+     * @param string $filename
+     * @param array $post
      * @return mixed|null
      */
     public function action_create_file($filename, $post = []) {
@@ -141,7 +143,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * Get report status
      *
-     * @param $ids
+     * @param array $ids
      * @return mixed|null
      */
     public function action_status($ids = []) {
@@ -156,8 +158,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * Config wrapper
      *
-     * @param $name
-     * @param $default
+     * @param string $name
+     * @param mixed $default
      * @return array|bool|mixed
      */
     protected function get_config($name, $default = null) {
@@ -204,8 +206,8 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * Write content to temporary file
      *
-     * @param $filename
-     * @param $content
+     * @param string $filename
+     * @param string $content
      * @return string|null
      */
     protected function tmp_file($filename, $content) {

@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Reports class for plagiarismsearch
+ *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -277,7 +279,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Check if report is error
      *
-     * @param $report
+     * @param object $report
      * @return bool
      */
     public static function is_error($report) {
@@ -315,7 +317,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Check if report is processing
      *
-     * @param $report
+     * @param object $report
      * @return bool
      */
     public static function is_processing($report) {
@@ -325,7 +327,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Check if report is checked
      *
-     * @param $report
+     * @param object $report
      * @return bool
      */
     public static function is_checked($report) {
@@ -335,7 +337,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Check if report is checked and has AI rate
      *
-     * @param $report
+     * @param object $report
      * @return bool
      */
     public static function is_checked_ai($report) {
@@ -345,8 +347,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Build PDF link
      *
-     * @param $report
-     * @param $cmid
+     * @param object $report
+     * @param int|null $cmid
      * @return string|null
      */
     public static function build_pdf_link($report, $cmid = null) {
@@ -366,8 +368,8 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Build HTML link
      *
-     * @param $report
-     * @param $cmid
+     * @param object $report
+     * @param int|null $cmid
      * @return string|null
      */
     public static function build_html_link($report, $cmid = null) {
@@ -383,9 +385,9 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     /**
      * Build report link
      *
-     * @param $report
-     * @param $language
-     * @param $suffix
+     * @param object $report
+     * @param string $language
+     * @param string $suffix
      * @return string
      */
     protected static function build_link($report, $language, $suffix = '') {

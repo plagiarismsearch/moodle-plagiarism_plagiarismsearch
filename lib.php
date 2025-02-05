@@ -42,12 +42,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     protected static $cacheviewlinks = [];
     /**
-     * Cache student role id
-     *
-     * @var
-     */
-    protected static $cachestudentroleid;
-    /**
      * Cache is student
      *
      * @var bool|null
@@ -230,7 +224,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     /**
      * Hook to allow plagiarism specific information to be displayed beside a submission.
      *
-     * @param $linkarray
+     * @param array $linkarray
      * @return string|null
      */
     public function get_links($linkarray) {

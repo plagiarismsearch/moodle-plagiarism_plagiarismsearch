@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * API class for plagiarismsearch
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
  * @copyright  @2017 PlagiarismSearch.com
@@ -127,7 +128,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
      * @param string $url
      * @param array $post
      * @param array $files
-     * @return mixed|void
+     * @return mixed|null
      */
     public function post($url, $post = [], $files = []) {
         $curl = curl_init($url);
@@ -162,6 +163,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
         if ($this->apidata) {
             return $this->unpack($this->apidata);
         }
+        return null;
     }
 
     /**
@@ -179,7 +181,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**
      * Unpack response
      *
-     * @param $data
+     * @param string $data
      * @return mixed
      */
     private function unpack($data) {
