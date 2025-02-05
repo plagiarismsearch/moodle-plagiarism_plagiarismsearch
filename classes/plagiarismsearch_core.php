@@ -26,7 +26,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      * Get sender ID
      *
      * @return int
-     * @global type $USER
+     * @global \stdClass $USER
      */
     public static function get_sender_id() {
         global $USER;
@@ -34,7 +34,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     }
 
     /**
-     * @param      $cmid
+     * @param int $cmid
      * @param null $userid
      *
      * @return bool|\stdClass
@@ -64,7 +64,6 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         $filename = $file->get_filename();
         $apivalues = array(
                 'cmid' => $cmid,
-            /**/
                 'senderid' => static::get_sender_id(),
                 'userid' => $file->get_userid(),
                 'fileid' => $file->get_id(),
@@ -116,7 +115,6 @@ class plagiarismsearch_core extends plagiarismsearch_base {
                 'cmid' => $cmid,
                 'userid' => $userid,
                 'senderid' => static::get_sender_id(),
-            // Unique text hash.
                 'filehash' => static::get_text_hash($text),
                 'text' => $text,
         );

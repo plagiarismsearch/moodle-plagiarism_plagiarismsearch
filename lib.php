@@ -532,7 +532,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 function plagiarism_plagiarismsearch_coursemodule_standard_elements($formwrapper, $mform) {
     $psplugin = new plagiarism_plugin_plagiarismsearch();
     $course = $formwrapper->get_course();
-    $context = context_course::instance($course->id);
+    $context = context_course::instance(isset($course->id) ? $course->id : $course);
     $modulename = $formwrapper->get_current()->modulename;
 
     $psplugin->get_form_elements_module(

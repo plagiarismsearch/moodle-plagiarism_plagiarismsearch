@@ -85,7 +85,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * @param \stored_file $file
      * @param array $post
-     * @return stdObject Json response
+     * @return \stdObject Json response
      */
     public function action_send_file($file, $post = array()) {
         $this->set_file($file);
