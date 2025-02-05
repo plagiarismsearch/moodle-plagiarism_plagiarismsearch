@@ -24,12 +24,12 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$observers = array(
-    // Event Handlers.
-        array(
+$observers = [
+        // Event Handlers.
+        [
                 'eventname' => '*',
                 'includefile' => '/plagiarism/plagiarismsearch/lib.php',
                 'callback' => 'plagiarism_plugin_plagiarismsearch::event_handler',
-        ),
-);
+        ],
+];
 

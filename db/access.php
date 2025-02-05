@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-    // Ability to view links to plagiarism results.
+        // Ability to view links to plagiarism results.
         'plagiarism/plagiarismsearch:viewlinks' => array(
                 'captype' => 'read',
                 'riskbitmask' => RISK_PERSONAL,
@@ -38,7 +38,7 @@ $capabilities = array(
                         'student' => CAP_ALLOW,
                 ),
         ),
-    // Ability to submit links to plagiarismsearch.
+        // Ability to submit links to plagiarismsearch.
         'plagiarism/plagiarismsearch:submitlinks' => array(
                 'captype' => 'read',
                 'riskbitmask' => RISK_PERSONAL,
@@ -51,7 +51,7 @@ $capabilities = array(
                         'student' => CAP_ALLOW,
                 ),
         ),
-    // Ability to check status.
+        // Ability to check status.
         'plagiarism/plagiarismsearch:statuslinks' => array(
                 'captype' => 'read',
                 'riskbitmask' => RISK_PERSONAL,
@@ -64,7 +64,7 @@ $capabilities = array(
                         'student' => CAP_ALLOW,
                 ),
         ),
-    // Only students.
+        // Only students.
         'plagiarism/plagiarismsearch:isstudent' => array(
                 'captype' => 'read',
                 'riskbitmask' => RISK_PERSONAL,
