@@ -34,12 +34,10 @@ if (!$reports) {
 }
 
 if ($reports) {
-    $ids = array();
-
+    $ids = [];
     foreach ($reports as $report) {
         $ids[$report->id] = $report->rid;
     }
-
     $msg = plagiarismsearch_core::check_status($ids);
 } else {
     $msg = "OK! Empty queue";

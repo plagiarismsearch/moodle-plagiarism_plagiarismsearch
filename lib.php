@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/classes/map.php');
 
 class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
-    protected static $cacheviewlinks = array();
+    protected static $cacheviewlinks = [];
     protected static $cachestudentroleid;
     protected static $cacheisstudent;
 
@@ -65,10 +65,22 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return !empty(static::$cacheviewlinks[$cmid]);
     }
 
+    /**
+     * Check if plagiarism search is enabled for a specific course module.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return bool True if enabled, false otherwise.
+     */
     public static function is_enabled($cmid = null) {
         return plagiarismsearch_config::is_enabled($cmid);
     }
 
+    /**
+     * Determine if the current user is a student in the given course module.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return bool True if the user is a student, false otherwise.
+     */
     public static function is_student($cmid = null) {
         if (static::$cacheisstudent === null) {
             if (is_siteadmin()) {
@@ -81,6 +93,12 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         return static::$cacheisstudent;
     }
 
+    /**
+     * Get the type of report link to display based on the user's role.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return int The type of report link.
+     */
     protected static function get_reports_link_type($cmid = null) {
         if (static::is_student($cmid)) {
             return plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_SHOW_REPORTS);
@@ -89,20 +107,44 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         }
     }
 
+    /**
+     * Check if the PDF report link should be displayed.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return bool True if the PDF report link should be displayed, false otherwise.
+     */
     public static function has_show_reports_pdf_link($cmid = null) {
         $type = static::get_reports_link_type($cmid);
         return $type & plagiarismsearch_config::REPORT_PDF;
     }
 
+    /**
+     * Check if the HTML report link should be displayed.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return bool True if the HTML report link should be displayed, false otherwise.
+     */
     public static function has_show_reports_html_link($cmid = null) {
         $type = static::get_reports_link_type($cmid);
         return $type & plagiarismsearch_config::REPORT_HTML;
     }
 
+    /**
+     * Check if any report link should be displayed.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return bool True if any report link should be displayed, false otherwise.
+     */
     public static function has_show_reports_link($cmid = null) {
         return (bool) static::get_reports_link_type($cmid);
     }
 
+    /**
+     * Check if the plagiarism percentage should be displayed.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return bool True if the percentage should be displayed, false otherwise.
+     */
     public static function has_show_reports_percentage($cmid = null) {
         if (static::is_student($cmid)) {
             return (bool) plagiarismsearch_config::get_config_or_settings($cmid,
@@ -112,6 +154,12 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         }
     }
 
+    /**
+     * Check if the submit link should be displayed.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return bool True if the submit link should be displayed, false otherwise.
+     */
     public static function has_show_submit_link($cmid = null) {
         $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_MANUAL_CHECK);
         if (static::is_student($cmid)) {
@@ -122,6 +170,14 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         }
     }
 
+    /**
+     * Check if the resubmit link should be displayed for the given parameters.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @param int|null $userid User ID. Default is null.
+     * @param string|null $filehash File hash. Default is null.
+     * @return bool True if the resubmit link should be displayed, false otherwise.
+     */
     public static function has_show_resubmit_link($cmid = null, $userid = null, $filehash = null) {
         $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_MANUAL_CHECK);
         $isstudent = static::is_student($cmid);
@@ -142,11 +198,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         $limit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_STUDENT_RESUBMIT_NUMBERS);
         if ($limit) {
-            $countreports = plagiarismsearch_reports::count_valid(array(
+            $countreports = plagiarismsearch_reports::count_valid([
                     'cmid' => $cmid,
                     'userid' => $userid,
                     'filehash' => $filehash,
-            ));
+            ]);
 
             if ($countreports > $limit) {
                 return false;
@@ -196,13 +252,13 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         $result = " \n";
         $result .= $this->render_report_links($cmid, $report);
 
-        $urlconfig = array(
+        $urlconfig = [
                 'userid' => $userid,
                 'cmid' => $cmid,
                 'filehash' => $filehash,
                 'sesskey' => sesskey(),
                 'force' => 0,
-        );
+        ];
 
         if (!empty($report) && !plagiarismsearch_reports::is_processing($report)) {
             $urlconfig['force'] = 1;
@@ -248,9 +304,9 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         if (plagiarismsearch_reports::is_checked($report)) {
             if ($this->has_show_reports_percentage($cmid)) {
                 $result .= html_writer::tag('span', $this->translate('plagiarism') . ':&nbsp;' .
-                        html_writer::tag('span', round($report->plagiarism, 2) . '%', array(
-                                        'class' => plagiarismsearch_reports::get_color_class($report))
-                        ), array('title' => $this->translate('link_title'))
+                        html_writer::tag('span', round($report->plagiarism, 2) . '%', [
+                                        'class' => plagiarismsearch_reports::get_color_class($report)]
+                        ), ['title' => $this->translate('link_title')]
                 );
 
                 if (plagiarismsearch_reports::is_checked_ai($report)) {
@@ -261,9 +317,9 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::tag('span', $this->translate('ai') . ':&nbsp;' .
-                            html_writer::tag('span', round($report->ai_rate, 2) . '%', array(
-                                            'class' => plagiarismsearch_reports::get_ai_color_class($report))
-                            ), array('title' => $aititle)
+                            html_writer::tag('span', round($report->ai_rate, 2) . '%', [
+                                            'class' => plagiarismsearch_reports::get_ai_color_class($report)]
+                            ), ['title' => $aititle]
                     );
                 }
             }
@@ -271,9 +327,9 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 $link = plagiarismsearch_reports::build_pdf_link($report, $cmid);
                 if ($link) {
                     $result .= html_writer::empty_tag('br');
-                    $result .= html_writer::link($link, $this->translate('pdf_report'), array(
-                                    'target' => '_blank'
-                            )
+                    $result .= html_writer::link($link, $this->translate('pdf_report'), [
+                                    'target' => '_blank',
+                            ]
                     );
                 }
             }
@@ -281,20 +337,20 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                 $link = plagiarismsearch_reports::build_html_link($report, $cmid);
                 if ($link) {
                     $result .= html_writer::empty_tag('br');
-                    $result .= html_writer::link($link, $this->translate('html_report'), array(
-                                    'target' => '_blank'
-                            )
+                    $result .= html_writer::link($link, $this->translate('html_report'), [
+                                    'target' => '_blank',
+                            ]
                     );
                 }
             }
         } else if (plagiarismsearch_reports::is_processing($report)) {
             // Add check status button.
             if ($this->has_show_reports_link($cmid)) {
-                $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', array(
+                $checkurl = new moodle_url('/plagiarism/plagiarismsearch/status.php', [
                         'cmid' => $cmid,
                         'id' => $report->id,
                         'sesskey' => sesskey(),
-                ));
+                ]);
 
                 $result .= $this->translate('processing') . "\n "
                         . html_writer::link($checkurl, $this->translate('check_status'));
@@ -307,11 +363,11 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     }
 
     protected function get_top_report($cmid, $userid, $hash) {
-        return plagiarismsearch_reports::get_one_top(array(
+        return plagiarismsearch_reports::get_one_top([
                 'cmid' => $cmid,
                 'userid' => $userid,
                 'filehash' => $hash,
-        ));
+        ]);
     }
 
     protected function get_form_element_default_value($cmid, $field) {
@@ -331,16 +387,16 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         $prefix = plagiarismsearch_config::CONFIG_PREFIX;
 
-        $formfieds = isset($mform->_elementIndex) ? $mform->_elementIndex : array();
+        $formfieds = isset($mform->_elementIndex) ? $mform->_elementIndex : [];
         if (isset($formfieds[$prefix . plagiarismsearch_config::FIELD_ENABLED])) {
             return;
         }
         $cmid = optional_param('update', 0, PARAM_INT);
 
-        $notoryes = array(
+        $notoryes = [
                 0 => $this->translate('no', null),
                 1 => $this->translate('yes', null),
-        );
+        ];
         $reporttypes = plagiarismsearch_config::get_report_types();
 
         $mform->addElement('header', 'plagiarismsearchdesc', $this->translate('plagiarismsearch'));
@@ -434,7 +490,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             if (isset($data->{$field})) {
                 $value = $data->{$field};
                 $this->save_form_config($cmid, $name, $value);
-            } else if (in_array($name, array($enabled))) {
+            } else if (in_array($name, [$enabled])) {
                 // Checkboxes default set 0.
                 $this->save_form_config($cmid, $name, 0);
             }

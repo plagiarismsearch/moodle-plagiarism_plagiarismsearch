@@ -26,18 +26,18 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
      * @var core\event\base
      */
     protected $event;
-    protected $allowedcomponents = array(
+    protected $allowedcomponents = [
             'mod_assign',
             'assignsubmission_file',
             'assignsubmission_onlinetext',
-    );
-    protected $allowedevents = array(
+    ];
+    protected $allowedevents = [
             '\assignsubmission_file\event\submission_updated',
             '\assignsubmission_file\event\assessable_uploaded',
             '\assignsubmission_onlinetext\event\assessable_uploaded',
-    );
+    ];
 
-    public function __construct(core\event\base $event, $config = array()) {
+    public function __construct(core\event\base $event, $config = []) {
         $this->event = $event;
         parent::__construct($config);
     }
@@ -105,14 +105,14 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         }
 
         plagiarismsearch_core::send_file($file, $this->cmid(),
-                array('submit' => 'auto', 'storage_subject_id' => $this->courceid()));
+                ['submit' => 'auto', 'storage_subject_id' => $this->courceid()]);
     }
 
     protected function handle_online_text() {
         $content = $this->get_onlinetext_content();
         if ($content) {
             plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid(),
-                    array('submit' => 'auto', 'storage_subject_id' => $this->courceid()));
+                    ['submit' => 'auto', 'storage_subject_id' => $this->courceid()]);
         }
     }
 

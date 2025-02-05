@@ -71,9 +71,9 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     const FILTER_PLAGIARISM_USER = 2;
     const FILTER_PLAGIARISM_COURSE = 3;
 
-    protected static $config = array();
-    protected static $settings = array();
-    protected static $fields = array(
+    protected static $config = [];
+    protected static $settings = [];
+    protected static $fields = [
             self::FIELD_USE,
             self::FIELD_API_URL, self::FIELD_API_USER, self::FIELD_API_KEY, self::FIELD_API_DEBUG,
             self::FIELD_AUTO_CHECK, self::FIELD_MANUAL_CHECK,
@@ -85,7 +85,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
             self::FIELD_STUDENT_SHOW_PERCENTAGE, self::FIELD_STUDENT_SHOW_REPORTS, self::FIELD_STUDENT_SUBMIT,
             self::FIELD_PARSE_TEXT_URLS, self::FIELD_VALID_PARSED_TEXT_URLS,
-    );
+    ];
 
     public static function table_name() {
         // Moodle error: 'name is too long. Limit is 28 chars.'.
@@ -93,7 +93,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     public static function fields() {
-        $result = array(self::FIELD_ENABLED => self::FIELD_ENABLED);
+        $result = [self::FIELD_ENABLED => self::FIELD_ENABLED];
         foreach (static::$fields as $field) {
             $result[$field] = static::CONFIG_PREFIX . $field;
         }
@@ -118,7 +118,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     private static function load_config($cmid) {
-        static::$config = array();
+        static::$config = [];
 
         $config = static::get_all(['cmid' => (int) $cmid]);
         if ($config) {
@@ -131,12 +131,11 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     public static function set_config($cmid, $name, $value) {
-        $config = static::get_one(array('cmid' => $cmid, 'name' => $name));
+        $config = static::get_one(['cmid' => $cmid, 'name' => $name]);
         if ($config) {
-            return static::update(array('value' => $value), $config->id);
-        } else {
-            return static::insert(array('cmid' => $cmid, 'name' => $name, 'value' => $value));
+            return static::update(['value' => $value], $config->id);
         }
+        return static::insert(['cmid' => $cmid, 'name' => $name, 'value' => $value]);
     }
 
     /**
@@ -238,40 +237,40 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     }
 
     public static function get_submit_types() {
-        return array(
+        return [
                 static::SUBMIT_WEB_STORAGE => static::translate('sources_doc_web_storage'),
                 static::SUBMIT_WEB => static::translate('sources_doc_web'),
                 static::SUBMIT_STORAGE => static::translate('sources_doc_storage'),
-        );
+        ];
     }
 
     public static function get_report_types() {
-        return array(
+        return [
                 static::REPORT_NO => static::translate('report_show_no'),
                 static::REPORT_PDF => static::translate('report_show_pdf'),
                 static::REPORT_HTML => static::translate('report_show_html'),
                 static::REPORT_PDF_HTML => static::translate('report_show_pdf_html'),
-        );
+        ];
     }
 
     public static function get_report_languages() {
-        return array(
+        return [
                 static::LANGUAGE_DEFAULT => static::translate('report_language_default'),
                 static::LANGUAGE_EN => static::translate('report_language_en'),
                 static::LANGUAGE_ES => static::translate('report_language_es'),
                 static::LANGUAGE_UA => static::translate('report_language_ua'),
                 static::LANGUAGE_PL => static::translate('report_language_pl'),
                 static::LANGUAGE_RU => static::translate('report_language_ru'),
-        );
+        ];
     }
 
     public static function get_plagiarism_filters() {
-        return array(
+        return [
                 static::FILTER_PLAGIARISM_NO => static::translate('filter_plagiarism_no'),
                 static::FILTER_PLAGIARISM_USER_COURSE => static::translate('filter_plagiarism_user_course'),
                 static::FILTER_PLAGIARISM_USER => static::translate('filter_plagiarism_user'),
                 static::FILTER_PLAGIARISM_COURSE => static::translate('filter_plagiarism_course'),
-        );
+        ];
     }
 
     public static function get_default_valid_parsed_text_urls() {

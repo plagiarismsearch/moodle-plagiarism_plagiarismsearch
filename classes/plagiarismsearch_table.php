@@ -60,14 +60,15 @@ class plagiarismsearch_table extends plagiarismsearch_base {
 
     public static function update($values, $conditions = null) {
         if (!$conditions) {
-            return;
+            return null;
         }
         $values = static::before_update($values);
-        if ($values) {
-            $values['id'] = $conditions;
-
-            return static::db()->update_record(static::table_name(), $values);
+        if (!$values) {
+            return null;
         }
+        $values['id'] = $conditions;
+
+        return static::db()->update_record(static::table_name(), $values);
     }
 
     public static function before_update($values) {
@@ -75,14 +76,16 @@ class plagiarismsearch_table extends plagiarismsearch_base {
     }
 
     public static function delete($conditions = null) {
-        if ($conditions) {
-            return static::db()->delete_records(static::table_name(), $conditions);
+        if (!$conditions) {
+            return null;
         }
+        return static::db()->delete_records(static::table_name(), $conditions);
+
     }
 
     protected static function build_conditions($conditions) {
-        $where = array();
-        $params = array();
+        $where = [];
+        $params = [];
 
         if ($conditions) {
             foreach ($conditions as $key => $value) {
@@ -99,10 +102,10 @@ class plagiarismsearch_table extends plagiarismsearch_base {
             }
         }
 
-        return array(
+        return [
                 $where ? implode(' AND ', $where) : '',
                 $params,
-        );
+        ];
     }
 
 }

@@ -46,7 +46,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
      */
     protected $text;
 
-    public function __construct($config = array()) {
+    public function __construct($config = []) {
         $this->apiurl = plagiarismsearch_config::get_settings('api_url');
         $this->apiuser = plagiarismsearch_config::get_settings('api_user');
         $this->apikey = plagiarismsearch_config::get_settings('api_key');
@@ -55,7 +55,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
         parent::__construct($config);
     }
 
-    public function post($url, $post = array(), $files = array()) {
+    public function post($url, $post = [], $files = []) {
         $curl = curl_init($url);
 
         $postfields = $this->build_post_fields($post, $files);
@@ -100,7 +100,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
         return plagiarismsearch_base::jsondecode($data, false);
     }
 
-    private function build_post_fields($post, $files = array()) {
+    private function build_post_fields($post, $files = []) {
         $postfields = $this->build_post_files($post, $files);
         if (!$postfields) {
             $postfields = $this->build_post_to_string($post);
@@ -120,7 +120,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     }
 
     private function build_post_files($post, $files) {
-        $result = array();
+        $result = [];
         if (!empty($post) && is_array($post)) {
             foreach ($post as $key => $value) {
                 if (is_array($value)) {
@@ -138,7 +138,7 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     }
 
     private function build_files($files) {
-        $result = array();
+        $result = [];
 
         if (empty($files)) {
             return $result;

@@ -36,28 +36,28 @@ class plagiarism_setup_form extends moodleform {
 
         $prefix = plagiarismsearch_config::CONFIG_PREFIX;
         $reporttypes = plagiarismsearch_config::get_report_types();
-        $notoryes = array(
+        $notoryes = [
                 0 => $this->translate('no', null),
                 1 => $this->translate('yes', null),
-        );
+        ];
 
         $field = plagiarismsearch_config::FIELD_ENABLED;
         $mform->addElement('html', $this->translate('text_plain'));
         $mform->addElement('checkbox', $field, $this->translate($field));
 
         $field = plagiarismsearch_config::FIELD_API_URL;
-        $mform->addElement('text', $prefix . $field, $this->translate($field), array('size' => '40'));
+        $mform->addElement('text', $prefix . $field, $this->translate($field), ['size' => '40']);
         $mform->addRule($prefix . $field, null, 'required', null, 'client');
         $mform->setDefault($prefix . $field, 'https://plagiarismsearch.com/api/v3');
         $mform->setType($prefix . $field, PARAM_TEXT);
 
         $field = plagiarismsearch_config::FIELD_API_USER;
-        $mform->addElement('text', $prefix . $field, $this->translate($field), array('size' => '40'));
+        $mform->addElement('text', $prefix . $field, $this->translate($field), ['size' => '40']);
         $mform->addRule($prefix . $field, null, 'required', null, 'client');
         $mform->setType($prefix . $field, PARAM_TEXT);
 
         $field = plagiarismsearch_config::FIELD_API_KEY;
-        $mform->addElement('text', $prefix . $field, $this->translate($field), array('size' => '40'));
+        $mform->addElement('text', $prefix . $field, $this->translate($field), ['size' => '40']);
         $mform->addRule($prefix . $field, null, 'required', null, 'client');
         $mform->setType($prefix . $field, PARAM_TEXT);
 

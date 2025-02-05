@@ -45,7 +45,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         try {
             $modulecontext = context_module::instance($cmid);
             $assign = new assign($modulecontext, false, false);
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
             return false;
         }
 
@@ -60,16 +60,16 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      * @param array $params
      * @return string
      */
-    public static function send_file($file, $cmid, $params = array()) {
+    public static function send_file($file, $cmid, $params = []) {
         $filename = $file->get_filename();
-        $apivalues = array(
+        $apivalues = [
                 'cmid' => $cmid,
                 'senderid' => static::get_sender_id(),
                 'userid' => $file->get_userid(),
                 'fileid' => $file->get_id(),
                 'filename' => $filename,
                 'filehash' => $file->get_pathnamehash(),
-        );
+        ];
 
         $api = new plagiarismsearch_api_reports($apivalues);
         $page = $api->action_send_file($file, $params);
@@ -110,14 +110,14 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      * @param array $params
      * @return string
      */
-    public static function send_text($text, $cmid, $userid, $params = array()) {
-        $apivalues = array(
+    public static function send_text($text, $cmid, $userid, $params = []) {
+        $apivalues = [
                 'cmid' => $cmid,
                 'userid' => $userid,
                 'senderid' => static::get_sender_id(),
                 'filehash' => static::get_text_hash($text),
                 'text' => $text,
-        );
+        ];
 
         $api = new plagiarismsearch_api_reports($apivalues);
         $page = $api->action_send_text($text, $params);
@@ -159,9 +159,9 @@ class plagiarismsearch_core extends plagiarismsearch_base {
 
         $msg = '';
         if (!$page) {
-            $values = array(
+            $values = [
                     'status' => plagiarismsearch_reports::STATUS_SERVER_ERROR,
-            );
+            ];
             $rids = array_keys($ids);
             foreach ($rids as $id) {
                 plagiarismsearch_reports::update($values, $id);
@@ -217,7 +217,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      * @return array
      */
     protected static function fill_report_values($report) {
-        $values = array();
+        $values = [];
         if (property_exists($report, 'id')) {
             $values['rid'] = $report->id;
         }
@@ -262,9 +262,9 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         $isstudent = plagiarism_plugin_plagiarismsearch::is_student($context->id);
 
         if ($coursemodule->modname == 'assignment') {
-            $redirect = new moodle_url('/mod/assignment/submissions.php', array('id' => $coursemodule->id));
+            $redirect = new moodle_url('/mod/assignment/submissions.php', ['id' => $coursemodule->id]);
         } else if ($coursemodule->modname == 'assign') {
-            $redirectparams = array('id' => $coursemodule->id);
+            $redirectparams = ['id' => $coursemodule->id];
             if (!$isstudent) {
                 $redirectparams['action'] = 'grading';
             }

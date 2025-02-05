@@ -42,14 +42,14 @@ if ($key !== plagiarismsearch_config::get_settings('api_key')) {
     die();
 }
 
-$localreport = plagiarismsearch_reports::get_one(array('rid' => $rid));
+$localreport = plagiarismsearch_reports::get_one(['rid' => $rid]);
 if (!$localreport) {
     die();
 }
 
 $report = plagiarismsearch_base::jsondecode($reportdata, false);
 if ($report) {
-    $values = array(
+    $values = [
             'plagiarism' => $report->plagiarism,
             'ai_rate' => $report->ai_average_probability,
             'ai_probability' => $report->ai_probability,
@@ -58,7 +58,7 @@ if ($report) {
             'rfileid' => $report->file_id,
             'rkey' => $report->auth_key,
             'rserverurl' => (isset($report->server_url) ? $report->server_url : ''),
-    );
+    ];
 
     if (plagiarismsearch_reports::update($values, $localreport->id)) {
         echo $localreport->id;
@@ -66,19 +66,19 @@ if ($report) {
 } else {
     // JSON error.
 
-    $values = array(
+    $values = [
             'status' => plagiarismsearch_reports::STATUS_ERROR,
             'log' => 'Sync JSON error',
-    );
+    ];
 
     plagiarismsearch_reports::update($values, $localreport->id);
 }
 
 if ($debug) {
-    echo json_encode(array(
+    echo json_encode([
             'jsonerror' => json_last_error(),
             'localreport' => $localreport,
             'report' => $report,
             'reportdata' => $reportdata,
-    ));
+    ]);
 }

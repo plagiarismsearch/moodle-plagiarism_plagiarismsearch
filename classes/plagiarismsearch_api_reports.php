@@ -22,11 +22,11 @@
  */
 class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
-    public function action_create($post = array(), $files = array()) {
+    public function action_create($post = [], $files = []) {
         $url = $this->apiurl . '/reports/create';
 
-        $default = array(
-                'fields' => array('id', 'status', 'plagiat', 'file', 'ai_probability', 'ai_average_probability'),
+        $default = [
+                'fields' => ['id', 'status', 'plagiat', 'file', 'ai_probability', 'ai_average_probability'],
                 'remote_id' => $this->generate_remote_id(),
                 'is_add_storage' => $this->get_config(plagiarismsearch_config::FIELD_ADD_TO_STORAGE, 1),
                 'is_search_filter_chars' => $this->get_config(plagiarismsearch_config::FIELD_FILTER_CHARS, 0),
@@ -37,7 +37,7 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
                 'moodle_release' => plagiarismsearch_config::get_release(),
                 'storage_course_id' => $this->cmid,
                 'storage_user_id' => $this->userid,
-        );
+        ];
 
         $file = $this->get_file();
         if ($file) {
@@ -56,14 +56,14 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
             $filterplagiarism = $this->get_config(plagiarismsearch_config::FIELD_FILTER_PLAGIARISM, 0);
             if ($filterplagiarism == plagiarismsearch_config::FILTER_PLAGIARISM_USER_COURSE) {
-                $default['search_storage_user_group'] = array($this->userid, $this->cmid);
+                $default['search_storage_user_group'] = [$this->userid, $this->cmid];
             } else if ($filterplagiarism == plagiarismsearch_config::FILTER_PLAGIARISM_USER) {
                 $default['search_storage_filter[user_id]'] = $this->userid;
             } else if ($filterplagiarism == plagiarismsearch_config::FILTER_PLAGIARISM_COURSE) {
                 $default['search_storage_filter[group_id]'] = $this->cmid;
             } else if ($filterplagiarism !== plagiarismsearch_config::FILTER_PLAGIARISM_NO && $filterplagiarism !== '0') {
                 // Don't search on user course documents.
-                $default['search_storage_user_group'] = array($this->userid, $this->cmid);
+                $default['search_storage_user_group'] = [$this->userid, $this->cmid];
             }
         }
 
@@ -75,9 +75,9 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         return $this->post($url, array_merge($default, $post), $files);
     }
 
-    public function action_create_file($filename, $post = array()) {
+    public function action_create_file($filename, $post = []) {
         $post['title'] = basename($filename);
-        $files = array('file' => realpath($filename));
+        $files = ['file' => realpath($filename)];
 
         return $this->action_create($post, $files);
     }
@@ -85,9 +85,9 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * @param \stored_file $file
      * @param array $post
-     * @return \stdObject Json response
+     * @return stdClass Json response
      */
-    public function action_send_file($file, $post = array()) {
+    public function action_send_file($file, $post = []) {
         $this->set_file($file);
 
         $tmpfile = $this->tmp_file($file->get_filename(), $file->get_content());
@@ -104,9 +104,9 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     /**
      * @param string $text
      * @param array $post
-     * @return \stdObject Json response
+     * @return \stdClass Json response
      */
-    public function action_send_text($text, $post = array()) {
+    public function action_send_text($text, $post = []) {
         $this->set_text($text);
 
         $post['text'] = $text;
@@ -114,10 +114,10 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
         return $this->action_create($post);
     }
 
-    public function action_status($ids = array()) {
+    public function action_status($ids = []) {
         $url = $this->apiurl . '/reports';
 
-        $post['fields'] = array('id', 'status', 'plagiat', 'file', 'ai_probability', 'ai_average_probability');
+        $post['fields'] = ['id', 'status', 'plagiat', 'file', 'ai_probability', 'ai_average_probability'];
         $post['ids'] = $ids;
 
         return $this->post($url, $post);
@@ -128,12 +128,12 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
     }
 
     protected function generate_remote_id() {
-        $result = array(
+        $result = [
             // Context id.
                 'c:' . $this->cmid,
             // User id.
                 'u:' . $this->userid,
-        );
+        ];
 
         if ($file = $this->get_file()) {
             $result[] = 'f:' . $file->get_id();

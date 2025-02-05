@@ -22,11 +22,11 @@
  */
 class plagiarismsearch_base {
 
-    public function __construct($config = array()) {
+    public function __construct($config = []) {
         $this->configure($config);
     }
 
-    protected function configure($config = array()) {
+    protected function configure($config = []) {
         if (empty($config)) {
             return;
         }

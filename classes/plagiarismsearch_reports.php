@@ -46,7 +46,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     const STATUS_RESERVED_9 = 9;
     const STATUS_CHECKED = 2;
 
-    public static $statuses = array(
+    public static $statuses = [
             self::STATUS_NOT_PAID => 'not paid',
             self::STATUS_SERVER_CORE_ERROR => 'server error',
             self::STATUS_SERVER_ERROR => 'failed',
@@ -70,7 +70,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
             self::STATUS_RESERVED_8 => 'processing',
             self::STATUS_RESERVED_9 => 'processing',
             self::STATUS_CHECKED => 'checked',
-    );
+    ];
 
     public static function table_name() {
         // Moodle error: 'name is too long. Limit is 28 chars.'!
@@ -89,7 +89,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function add($values) {
         if (isset($values['rid'])) {
-            $report = static::get_one(array('rid' => $values['rid']));
+            $report = static::get_one(['rid' => $values['rid']]);
             if ($report) {
                 return static::update(array_merge((array) $report, $values), $report->id);
             }
@@ -105,7 +105,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         list($where, $params) = static::build_conditions($conditions);
 
         if (!$where) {
-            return;
+            return null;
         }
 
         $result = static::db()->get_record_sql("SELECT COUNT(*) AS count FROM {" . static::table_name() . "}"
@@ -127,7 +127,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
         return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
                 . " WHERE modified_at < ? AND status " . $where
-                . " LIMIT " . $limit, array_merge(array(time() - $ttl), $status));
+                . " LIMIT " . $limit, array_merge([time() - $ttl], $status));
     }
 
     public static function get_error_reports($ttl = 43200, $limit = 50) {
@@ -135,7 +135,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
         return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
                 . " WHERE rid > 0 AND modified_at < ? AND status " . $where
-                . " LIMIT " . $limit, array_merge(array(time() - $ttl), $status));
+                . " LIMIT " . $limit, array_merge([time() - $ttl], $status));
     }
 
     public static function count($conditions) {
@@ -144,40 +144,42 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     }
 
     public static function get_color_class($report) {
-        if ($report) {
-            $yellow = plagiarismsearch_config::get_settings('yellow_percent');
-            if (!$yellow) {
-                $yellow = 2; // 2%.
-            }
-            $red = plagiarismsearch_config::get_settings('red_percent');
+        if (!$report) {
+            return '';
+        }
+        $yellow = plagiarismsearch_config::get_settings('yellow_percent');
+        if (!$yellow) {
+            $yellow = 2; // 2%.
+        }
+        $red = plagiarismsearch_config::get_settings('red_percent');
 
-            if (!$red) {
-                $red = 7; // 7%.
-            }
+        if (!$red) {
+            $red = 7; // 7%.
+        }
 
-            if ($report->plagiarism >= $red) {
-                return 'plagiarismsearch-bad';
-            } else if ($report->plagiarism >= $yellow) {
-                return 'plagiarismsearch-warning';
-            } else {
-                return 'plagiarismsearch-good';
-            }
+        if ($report->plagiarism >= $red) {
+            return 'plagiarismsearch-bad';
+        } else if ($report->plagiarism >= $yellow) {
+            return 'plagiarismsearch-warning';
+        } else {
+            return 'plagiarismsearch-good';
         }
     }
 
     public static function get_ai_color_class($report) {
-        if ($report) {
-            return 'plagiarismsearch-ai';
+        if (!$report) {
+            return '';
         }
+        return 'plagiarismsearch-ai';
     }
 
     public static function get_error_statuses() {
-        return array(
+        return [
                 self::STATUS_NOT_PAID,
                 self::STATUS_SERVER_CORE_ERROR,
                 self::STATUS_SERVER_ERROR,
                 self::STATUS_ERROR,
-        );
+        ];
     }
 
     public static function is_error($report) {
@@ -185,7 +187,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     }
 
     public static function get_processing_statuses() {
-        return array(
+        return [
                 self::STATUS_INIT,
                 self::STATUS_RESERVED__8,
                 self::STATUS_RESERVED__7,
@@ -204,7 +206,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
                 self::STATUS_RESERVED_7,
                 self::STATUS_RESERVED_8,
                 self::STATUS_RESERVED_9,
-        );
+        ];
     }
 
     public static function is_processing($report) {
@@ -221,7 +223,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function build_pdf_link($report, $cmid = null) {
         if (!$report) {
-            return;
+            return null;
         }
 
         if (empty($report->rkey)) {
@@ -235,7 +237,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
     public static function build_html_link($report, $cmid = null) {
         if (!$report) {
-            return;
+            return null;
         }
 
         $language = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);

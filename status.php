@@ -52,14 +52,14 @@ if (!plagiarism_plugin_plagiarismsearch::has_show_reports_link($cmid)) {
 }
 
 // Load local report by id.
-$report = plagiarismsearch_reports::get_one(array('id' => $id));
+$report = plagiarismsearch_reports::get_one(['id' => $id]);
 
 if (empty($report->rid)) {
     throw new \moodle_exception('report_not_found', 'plagiarism_plagiarismsearch');
 }
 
 // Check remote status.
-$msg = plagiarismsearch_core::check_status(array($report->id => $report->rid));
+$msg = plagiarismsearch_core::check_status([$report->id => $report->rid]);
 
 // Safe back redirect.
 $redirect = plagiarismsearch_core::redirect_url($cm, $context);
