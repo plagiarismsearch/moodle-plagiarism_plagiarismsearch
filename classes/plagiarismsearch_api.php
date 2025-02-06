@@ -169,13 +169,10 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     /**
      * Get response
      *
-     * @return mixed|null
+     * @return mixed
      */
     public function get_response() {
-        if ($this->apidata) {
-            return $this->unpack($this->apidata);
-        }
-        return null;
+        return is_string($this->apidata) ? $this->unpack($this->apidata) : $this->apidata;
     }
 
     /**
