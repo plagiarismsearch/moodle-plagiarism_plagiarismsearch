@@ -122,4 +122,34 @@ $string['plagiarismsearch:viewlinks'] = 'Posibilidad de ver enlaces basados en r
 $string['plagiarismsearch:submitlinks'] = 'Posibilidades de enviar enlaces a PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Posibilidad de revisar el estatus del informe';
 $string['plagiarismsearch:isstudent'] = 'Permitir solamente a los estudiantes';
+
+$string['privacy:metadata:plagiarism_ps_reports'] = 'Información sobre los informes de plagio.';
+$string['privacy:metadata:plagiarism_ps_reports:userid'] = 'El ID del usuario asociado con el informe.';
+$string['privacy:metadata:plagiarism_ps_reports:senderid'] = 'El ID del remitente del informe.';
+$string['privacy:metadata:plagiarism_ps_reports:rid'] = 'El ID remoto del informe de plagio.';
+$string['privacy:metadata:plagiarism_ps_reports:rfileid'] = 'El ID remoto del archivo asociado con el informe.';
+$string['privacy:metadata:plagiarism_ps_reports:rserverurl'] = 'La URL del servidor remoto para el informe de plagio.';
+$string['privacy:metadata:plagiarism_ps_reports:rkey'] = 'La clave remota asociada con el informe de plagio.';
+$string['privacy:metadata:plagiarism_ps_reports:plagiarism'] = 'Indica el estado de plagio del informe.';
+$string['privacy:metadata:plagiarism_ps_reports:ai_rate'] = 'El porcentaje de evaluación de IA asociado con el informe.';
+$string['privacy:metadata:plagiarism_ps_reports:ai_probability'] = 'La probabilidad de plagio detectado por IA.';
+$string['privacy:metadata:plagiarism_ps_reports:status'] = 'El estado del informe de plagio.';
+$string['privacy:metadata:plagiarism_ps_reports:url'] = 'La URL relacionada con el informe de plagio.';
+$string['privacy:metadata:plagiarism_ps_reports:cmid'] = 'El ID del módulo del curso asociado con el informe.';
+$string['privacy:metadata:plagiarism_ps_reports:filehash'] = 'El hash del archivo asociado con el informe.';
+$string['privacy:metadata:plagiarism_ps_reports:filename'] = 'El nombre del archivo asociado con el informe.';
+$string['privacy:metadata:plagiarism_ps_reports:fileid'] = 'El ID del archivo en el informe de plagio.';
+$string['privacy:metadata:plagiarism_ps_reports:log'] = 'Los datos de registro relacionados con el informe de plagio.';
+$string['privacy:metadata:plagiarism_ps_reports:created_at'] = 'La fecha y hora en que se creó el informe.';
+$string['privacy:metadata:plagiarism_ps_reports:modified_at'] = 'La fecha y hora en que se modificó el informe por última vez.';
+
+$string['privacy:metadata:plagiarism_plagiarismsearch_client'] = 'Información enviada al cliente de búsqueda de plagio.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:userid'] = 'El ID del usuario que envía los datos.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:cmid'] = 'El ID del módulo del curso para los datos.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:onlinetext'] = 'El texto en línea enviado para la verificación de plagio.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:fileid'] = 'El ID del archivo enviado para la verificación de plagio.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:fileauthor'] = 'El autor del archivo enviado para la verificación de plagio.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:filename'] = 'El nombre del archivo enviado para la verificación de plagio.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:file'] = 'El contenido del archivo enviado para la verificación de plagio.';
+
 // phpcs:enable moodle.Files.LangFilesOrdering.IncorrectOrder

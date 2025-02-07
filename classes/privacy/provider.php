@@ -90,7 +90,7 @@ class provider implements
         $contextlist = new contextlist();
         $sql = "SELECT DISTINCT cmid FROM {plagiarism_ps_reports} WHERE userid = :userid";
         $params = [
-                'userid' => $userid
+                'userid' => $userid,
         ];
         $contextlist->add_from_sql($sql, $params);
 
@@ -110,8 +110,12 @@ class provider implements
         if (empty($userid)) {
             return;
         }
-        $user = $DB->get_record('user', array('id' => $userid));
-        $params = ['userid' => $user->id, 'cmid' => $context->instanceid];
+        $user = $DB->get_record('user', ['id' => $userid]);
+        $params = [
+                'userid' => $user->id,
+                'cmid' => $context->instanceid,
+        ];
+
         $sql = "SELECT id, userid, senderid, cmid, rid, rfileid, rserverurl, rkey, plagiarism, ai_rate, ai_probability,
                 status, url, filehash, filename, fileid, log, created_at, modified_at
                 FROM {plagiarism_ps_reports}

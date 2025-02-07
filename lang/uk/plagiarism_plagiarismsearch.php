@@ -122,4 +122,34 @@ $string['plagiarismsearch:viewlinks'] = 'Можливість перегляда
 $string['plagiarismsearch:submitlinks'] = 'Можливість подавати посилання до PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Можливість перевіряти статус звіту';
 $string['plagiarismsearch:isstudent'] = 'Дозволити лише студентам';
+
+$string['privacy:metadata:plagiarism_ps_reports'] = 'Інформація про звіти щодо плагіату.';
+$string['privacy:metadata:plagiarism_ps_reports:userid'] = 'ID користувача, пов\'язаного з звітом.';
+$string['privacy:metadata:plagiarism_ps_reports:senderid'] = 'ID відправника звіту.';
+$string['privacy:metadata:plagiarism_ps_reports:rid'] = 'Віддалений ID звіту про плагіат.';
+$string['privacy:metadata:plagiarism_ps_reports:rfileid'] = 'Віддалений ID файлу, пов\'язаного з звітом.';
+$string['privacy:metadata:plagiarism_ps_reports:rserverurl'] = 'URL віддаленого сервера для звіту про плагіат.';
+$string['privacy:metadata:plagiarism_ps_reports:rkey'] = 'Віддалений ключ, пов\'язаний з звітом про плагіат.';
+$string['privacy:metadata:plagiarism_ps_reports:plagiarism'] = 'Вказує статус плагіату в звіті.';
+$string['privacy:metadata:plagiarism_ps_reports:ai_rate'] = 'Оцінка ШІ, пов\'язана з звітом.';
+$string['privacy:metadata:plagiarism_ps_reports:ai_probability'] = 'Ймовірність плагіату, виявленого ШІ.';
+$string['privacy:metadata:plagiarism_ps_reports:status'] = 'Статус звіту про плагіат.';
+$string['privacy:metadata:plagiarism_ps_reports:url'] = 'URL, пов\'язаний з звітом про плагіат.';
+$string['privacy:metadata:plagiarism_ps_reports:cmid'] = 'ID модуля курсу, пов\'язаного з звітом.';
+$string['privacy:metadata:plagiarism_ps_reports:filehash'] = 'Хеш файлу, пов\'язаного з звітом.';
+$string['privacy:metadata:plagiarism_ps_reports:filename'] = 'Ім\'я файлу, пов\'язаного з звітом.';
+$string['privacy:metadata:plagiarism_ps_reports:fileid'] = 'ID файлу в звіті про плагіат.';
+$string['privacy:metadata:plagiarism_ps_reports:log'] = 'Журнальні дані, пов\'язані з звітом про плагіат.';
+$string['privacy:metadata:plagiarism_ps_reports:created_at'] = 'Дата та час створення звіту.';
+$string['privacy:metadata:plagiarism_ps_reports:modified_at'] = 'Дата та час останньої модифікації звіту.';
+
+$string['privacy:metadata:plagiarism_plagiarismsearch_client'] = 'Інформація, надіслана сервісу пошуку плагіату.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:userid'] = 'ID користувача, який надсилає дані.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:cmid'] = 'ID модуля курсу для даних.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:onlinetext'] = 'Онлайн-текст, надісланий для перевірки на плагіат.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:fileid'] = 'ID файлу, надісланого для перевірки на плагіат.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:fileauthor'] = 'Автор файлу, надісланого для перевірки на плагіат.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:filename'] = 'Ім\'я файлу, надісланого для перевірки на плагіат.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:file'] = 'Вміст файлу, надісланого для перевірки на плагіат.';
+
 // phpcs:enable moodle.Files.LangFilesOrdering.IncorrectOrder
