@@ -30,7 +30,6 @@ if (!isset($plugin)) {
 }
 $plugin->version = 2025020701; // YYYYMMDDVV.
 $plugin->requires = 2014051200; // Requires Moodle 2.7.
-$plugin->supported = [270, 450]; // Moodle 2.7 and 4.5 supported.
 $plugin->cron = 60;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'plagiarism_plagiarismsearch';
