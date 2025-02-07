@@ -5,8 +5,8 @@
 
 PlagiarismSearch Plagiarism plugin for Moodle
 
-**Supported Moodle versions:** 2.7 - 4.4  
-**Supported PHP versions:** 7.3 - 8.1  
+**Supported Moodle versions:** 2.7 - 4.5  
+**Supported PHP versions:** 7.3 - 8.3  
 **Moodle plugins directory:** https://moodle.org/plugins/plagiarism_plagiarismsearch
 
 Author: Alex Crosby <developer@plagiarismsearch.com>  
@@ -16,8 +16,7 @@ Copyright: PlagiarismSearch.com, https://plagiarismsearch.com
 PlagiarismSearch is a commercial product owned by Plagiarismsearch.com.
 
 
-QUICK INSTALL  
-==============  
+## Quick install
 
 1. Get latest release (zip file) on [GitHub](https://github.com/plagiarismsearch/moodle-plagiarism_plagiarismsearch/releases) or [Moodle plugins directory](https://moodle.org/plugins/plagiarism_plagiarismsearch)
 2. Follow the instructions described [here](https://docs.moodle.org/31/en/Installing_plugins#Installing_via_uploaded_ZIP_file) to install plugin
