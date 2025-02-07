@@ -123,4 +123,34 @@ $string['plagiarismsearch:viewlinks'] = 'Ability to view links for plagiarism re
 $string['plagiarismsearch:submitlinks'] = 'Ability to submit links to PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Ability to check report status';
 $string['plagiarismsearch:isstudent'] = 'Allow students only';
+
+$string['privacy:metadata:plagiarism_ps_reports'] = 'Information about plagiarism reports.';
+$string['privacy:metadata:plagiarism_ps_reports:userid'] = 'The ID of the user associated with the report.';
+$string['privacy:metadata:plagiarism_ps_reports:senderid'] = 'The ID of the sender of the report.';
+$string['privacy:metadata:plagiarism_ps_reports:rid'] = 'The remote ID of the plagiarism report.';
+$string['privacy:metadata:plagiarism_ps_reports:rfileid'] = 'The remote ID of the file associated with the report.';
+$string['privacy:metadata:plagiarism_ps_reports:rserverurl'] = 'The remote server URL for the plagiarism report.';
+$string['privacy:metadata:plagiarism_ps_reports:rkey'] = 'The remote key associated with the plagiarism report.';
+$string['privacy:metadata:plagiarism_ps_reports:plagiarism'] = 'Indicates the plagiarism status of the report.';
+$string['privacy:metadata:plagiarism_ps_reports:ai_rate'] = 'The AI rate associated with the report.';
+$string['privacy:metadata:plagiarism_ps_reports:ai_probability'] = 'The probability of AI-detected plagiarism.';
+$string['privacy:metadata:plagiarism_ps_reports:status'] = 'The status of the plagiarism report.';
+$string['privacy:metadata:plagiarism_ps_reports:url'] = 'The URL related to the plagiarism report.';
+$string['privacy:metadata:plagiarism_ps_reports:cmid'] = 'The ID of the course module associated with the report.';
+$string['privacy:metadata:plagiarism_ps_reports:filehash'] = 'The hash of the file associated with the report.';
+$string['privacy:metadata:plagiarism_ps_reports:filename'] = 'The name of the file associated with the report.';
+$string['privacy:metadata:plagiarism_ps_reports:fileid'] = 'The ID of the file in the plagiarism report.';
+$string['privacy:metadata:plagiarism_ps_reports:log'] = 'The log data related to the plagiarism report.';
+$string['privacy:metadata:plagiarism_ps_reports:created_at'] = 'The date and time when the report was created.';
+$string['privacy:metadata:plagiarism_ps_reports:modified_at'] = 'The date and time when the report was last modified.';
+
+$string['privacy:metadata:plagiarism_plagiarismsearch_client'] = 'Information sent to the plagiarism search client.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:userid'] = 'The ID of the user sending the data.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:cmid'] = 'The ID of the course module for the data.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:onlinetext'] = 'The online text submitted for plagiarism checking.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:fileid'] = 'The ID of the file sent for plagiarism checking.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:fileauthor'] = 'The author of the file sent for plagiarism checking.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:filename'] = 'The name of the file sent for plagiarism checking.';
+$string['privacy:metadata:plagiarism_plagiarismsearch_client:file'] = 'The file content sent for plagiarism checking.';
+
 // phpcs:enable moodle.Files.LangFilesOrdering.IncorrectOrder
