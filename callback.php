@@ -60,7 +60,7 @@ if ($report) {
             'rserverurl' => (isset($report->server_url) ? $report->server_url : ''),
     ];
 
-    if(isset( $report->comment_key)) {
+    if (isset($report->comment_key)) {
         $values['rcommentkey'] = $report->comment_key;
     }
 

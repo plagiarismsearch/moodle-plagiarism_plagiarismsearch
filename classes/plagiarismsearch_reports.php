@@ -393,7 +393,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         $language = (string) plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
 
         $params = [
-                'comment_key' => $report->rcommentkey
+                'comment_key' => $report->rcommentkey,
         ];
         global $USER;
         $username = (!empty($USER) && !empty($USER->firstname)) ? trim($USER->firstname . ' ' . $USER->lastname) : null;
@@ -421,6 +421,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * @param object $report
      * @param string $language
      * @param string $suffix
+     * @param array $params
      * @return string
      */
     protected static function build_link($report, $language, $suffix = '', $params = []) {
