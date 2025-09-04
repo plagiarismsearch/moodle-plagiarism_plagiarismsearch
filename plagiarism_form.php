@@ -108,7 +108,7 @@ class plagiarism_setup_form extends moodleform {
 
         $field = plagiarismsearch_config::FIELD_REPORT_LANGUAGE;
         $mform->addElement('select', $prefix . $field, $this->translate($field), plagiarismsearch_config::get_report_languages());
-        $mform->setDefault($prefix . $field, plagiarismsearch_config::REPORT_PDF);
+        $mform->setDefault($prefix . $field, plagiarismsearch_config::LANGUAGE_EN);
 
         $field = plagiarismsearch_config::FIELD_REPORT_TYPE;
         $mform->addElement('select', $prefix . $field, $this->translate($field), $reporttypes);
