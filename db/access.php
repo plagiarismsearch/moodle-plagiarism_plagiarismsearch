@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * lib.php - Contains Plagiarism plugin specific functions called by Modules.
+ * Contains Plagiarism plugin specific capabilities called by Modules.
  *
  * @package    plagiarism_plagiarismsearch
  * @author     Alex Crosby developer@plagiarismsearch.com
@@ -64,6 +64,19 @@ $capabilities = [
                         'editingteacher' => CAP_ALLOW,
                         'teacher' => CAP_ALLOW,
                         'student' => CAP_ALLOW,
+                ],
+        ],
+
+        'plagiarism/plagiarismsearch:reviewlinks' => [
+            // Ability to comment and review report sources.
+                'captype' => 'read',
+                'riskbitmask' => RISK_PERSONAL,
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => [
+                        'manager' => CAP_ALLOW,
+                        'coursecreator' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
                 ],
         ],
 

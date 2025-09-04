@@ -245,6 +245,9 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         if (property_exists($report, 'auth_key')) {
             $values['rkey'] = $report->auth_key;
         }
+        if (property_exists($report, 'comment_key')) {
+            $values['rcommentkey'] = $report->comment_key;
+        }
         if (property_exists($report, 'file_id')) {
             $values['rfileid'] = $report->file_id;
         }

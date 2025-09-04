@@ -41,6 +41,13 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      * @var array
      */
     protected static $cacheviewlinks = [];
+
+    /**
+     * Cache review links
+     *
+     * @var array
+     */
+    protected static $cachereviewlinks = [];
     /**
      * Cache is student
      *
@@ -56,8 +63,8 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public static function has_capability_links($cmid) {
         if (!isset(static::$cacheviewlinks[$cmid])) {
-            $context = context_module::instance($cmid);
-            static::$cacheviewlinks[$cmid] = has_capability('plagiarism/plagiarismsearch:viewlinks', $context);
+            static::$cacheviewlinks[$cmid] =
+                    static::has_capability_for_coursemodule('plagiarism/plagiarismsearch:viewlinks', $cmid);
 
             if (static::is_student($cmid)) {
                 if (plagiarismsearch_config::get_config_or_settings($cmid, 'student_show_reports')) {
@@ -75,6 +82,34 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         }
 
         return !empty(static::$cacheviewlinks[$cmid]);
+    }
+
+    /**
+     * Check if the user is able to review links (and cache the result)
+     *
+     * @param int $cmid
+     * @return bool
+     */
+    public static function has_capability_review_links($cmid) {
+        if (!isset(static::$cachereviewlinks[$cmid])) {
+            static::$cachereviewlinks[$cmid] =
+                    static::has_capability_for_coursemodule('plagiarism/plagiarismsearch:reviewlinks', $cmid);
+        }
+
+        return !empty(static::$cachereviewlinks[$cmid]);
+    }
+
+    /**
+     * Check if the user has a specific capability in the context of a course module.
+     *
+     * @param string $capability
+     * @param int $cmid
+     * @return bool
+     */
+    protected static function has_capability_for_coursemodule($capability, $cmid) {
+        $cm = get_coursemodule_from_id('', $cmid, 0, false, MUST_EXIST);
+        $context = context_module::instance($cm->id);
+        return has_capability($capability, $context);
     }
 
     /**
@@ -98,8 +133,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             if (is_siteadmin()) {
                 static::$cacheisstudent = false;
             } else {
-                $context = context_module::instance($cmid);
-                static::$cacheisstudent = has_capability('plagiarism/plagiarismsearch:isstudent', $context);
+                static::$cacheisstudent = static::has_capability_for_coursemodule('plagiarism/plagiarismsearch:isstudent', $cmid);
             }
         }
         return static::$cacheisstudent;
@@ -126,7 +160,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public static function has_show_reports_pdf_link($cmid = null) {
         $type = static::get_reports_link_type($cmid);
-        return (bool) $type & plagiarismsearch_config::REPORT_PDF;
+        return (bool) ($type & plagiarismsearch_config::REPORT_PDF);
     }
 
     /**
@@ -137,7 +171,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public static function has_show_reports_html_link($cmid = null) {
         $type = static::get_reports_link_type($cmid);
-        return (bool) $type & plagiarismsearch_config::REPORT_HTML;
+        return (bool) ($type & plagiarismsearch_config::REPORT_HTML);
     }
 
     /**
@@ -148,6 +182,20 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public static function has_show_reports_link($cmid = null) {
         return (bool) static::get_reports_link_type($cmid);
+    }
+
+    /**
+     * Check if any report link should be displayed.
+     *
+     * @param int|null $cmid Course module ID. Default is null.
+     * @return bool True if any report link should be displayed, false otherwise.
+     */
+    public static function has_show_reports_review_link($cmid = null) {
+        if (!plagiarismsearch_config::get_config_or_settings($cmid,
+                plagiarismsearch_config::FIELD_SHOW_REVIEW_LINK)) {
+            return false;
+        }
+        return static::has_capability_review_links($cmid) || is_siteadmin();
     }
 
     /**
@@ -371,6 +419,16 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                     );
                 }
             }
+            if ($this->has_show_reports_review_link($cmid)) {
+                $link = plagiarismsearch_reports::build_review_link($report, $cmid);
+                if ($link) {
+                    $result .= html_writer::empty_tag('br');
+                    $result .= html_writer::link($link, $this->translate('review_report'), [
+                                    'target' => '_blank',
+                            ]
+                    );
+                }
+            }
         } else if (plagiarismsearch_reports::is_processing($report)) {
             // Add check status button.
             if ($this->has_show_reports_link($cmid)) {
@@ -493,6 +551,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         $field = plagiarismsearch_config::FIELD_REPORT_TYPE;
         $mform->addElement('select', $prefix . $field, $this->translate($field), $reporttypes);
+        $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
+
+        $field = plagiarismsearch_config::FIELD_SHOW_REVIEW_LINK;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
         $mform->setDefault($prefix . $field, $this->get_form_element_default_value($cmid, $field));
 
         $field = plagiarismsearch_config::FIELD_STUDENT_SHOW_REPORTS;
@@ -656,6 +718,18 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     public static function event_handler(core\event\base $event) {
         $handler = new plagiarismsearch_event_handler($event);
         $handler->run();
+    }
+
+    /**
+     * This function is called from the inbox in mod assign.
+     * This will alert the user to refresh the assignment when there has been a change in scores.
+     *
+     * @param object $course The course object
+     * @param object $cm The course module.
+     * @return string
+     */
+    public function update_status($course, $cm) {
+        // Called at top of submissions/grading pages - allows printing of admin style links or updating status.
     }
 
 }

@@ -85,6 +85,8 @@ $string['unknown_error'] = 'Nieznany błąd';
 
 $string['pdf_report'] = 'Zapisz PDF raport';
 $string['html_report'] = 'Pokaż HTML raport';
+$string['review_report'] = 'Recenzowanie raportu';
+$string['show_review_link'] = 'Zezwól nauczycielom recenzować raporty';
 $string['link_title'] = 'PlagiarismSearch.com – zaawansowane narzędzie do sprawdzania plagiatu online';
 $string['check_status'] = 'Sprawdź status';
 $string['temp_folder_not_exists'] = 'Folder tymczasowy nie istnieje';

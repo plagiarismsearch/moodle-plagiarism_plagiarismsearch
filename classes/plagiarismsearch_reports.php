@@ -379,6 +379,43 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
     }
 
     /**
+     * Build Review link
+     *
+     * @param object $report
+     * @param int|null $cmid
+     * @return string|null
+     */
+    public static function build_review_link($report, $cmid = null) {
+        if (empty($report->rkey) || empty($report->rcommentkey)) {
+            return null;
+        }
+
+        $language = (string) plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
+
+        $params = [
+                'comment_key' => $report->rcommentkey
+        ];
+        global $USER;
+        $username = (!empty($USER) && !empty($USER->firstname)) ? trim($USER->firstname . ' ' . $USER->lastname) : null;
+        if ($username) {
+            $params['user_name'] = static::encode_comment_username($report->rcommentkey, $username);
+        }
+
+        return static::build_link($report, $language, '', $params);
+    }
+
+    /**
+     * Encode comment username for review link
+     *
+     * @param string $commentkey
+     * @param string $username
+     * @return string|null
+     */
+    protected static function encode_comment_username($commentkey, $username) {
+        return base64_encode(md5($commentkey . ':' . $username) . ':' . $username);
+    }
+
+    /**
      * Build report link
      *
      * @param object $report
@@ -386,7 +423,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * @param string $suffix
      * @return string
      */
-    protected static function build_link($report, $language, $suffix = '') {
+    protected static function build_link($report, $language, $suffix = '', $params = []) {
         if (!empty($report->rserverurl)) {
             $baseurl = $report->rserverurl;
         } else {
@@ -400,7 +437,9 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
             $route = '/' . $language . '/r';
         }
 
-        return $baseurl . $route . $suffix . '/' . $report->rid . '?key=' . $report->rkey;
+        $urlquery = http_build_query(array_merge(['key' => $report->rkey], $params), '', '&');
+
+        return $baseurl . $route . $suffix . '/' . $report->rid . '?' . $urlquery;
     }
 
 }

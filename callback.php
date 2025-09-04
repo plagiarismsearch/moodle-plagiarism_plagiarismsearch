@@ -60,6 +60,10 @@ if ($report) {
             'rserverurl' => (isset($report->server_url) ? $report->server_url : ''),
     ];
 
+    if(isset( $report->comment_key)) {
+        $values['rcommentkey'] = $report->comment_key;
+    }
+
     if (plagiarismsearch_reports::update($values, $localreport->id)) {
         echo $localreport->id;
     }

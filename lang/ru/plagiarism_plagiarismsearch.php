@@ -85,6 +85,8 @@ $string['unknown_error'] = 'Неизвестная ошибка';
 
 $string['pdf_report'] = 'Загрузить PDF отчет';
 $string['html_report'] = 'Просмотреть HTML отчет';
+$string['review_report'] = 'Рецензирование отчёта';
+$string['show_review_link'] = 'Разрешить преподавателям рецензировать отчёты';
 $string['link_title'] = 'PlagiarismSearch.com – расширенная онлайн-проверка на плагиат';
 $string['check_status'] = 'Проверить статус';
 $string['temp_folder_not_exists'] = 'Временная папка не существует';

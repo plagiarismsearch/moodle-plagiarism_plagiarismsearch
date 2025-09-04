@@ -12,9 +12,10 @@
                 <FIELD NAME="rid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="senderid" NEXT="rfileid" COMMENT="Report id" DEFAULT="0"/>
                 <FIELD NAME="rfileid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="rid" NEXT="rserverurl" COMMENT="Report file id" DEFAULT="0"/>
                 <FIELD NAME="rserverurl" TYPE="char" SEQUENCE="false" LENGTH="255" NOTNULL="false" PREVIOUS="rfileid" NEXT="rkey" COMMENT="Report server domain"/>
-                <FIELD NAME="rkey" TYPE="char" SEQUENCE="false" LENGTH="64" NOTNULL="false" PREVIOUS="rserverurl" NEXT="plagiarism" COMMENT="Report key"/>
+                <FIELD NAME="rkey" TYPE="char" SEQUENCE="false" LENGTH="64" NOTNULL="false" PREVIOUS="rserverurl" NEXT="rcommentkey" COMMENT="Report key"/>
+                <FIELD NAME="rcommentkey" TYPE="char" SEQUENCE="false" LENGTH="64" NOTNULL="false" PREVIOUS="rkey" NEXT="plagiarism" COMMENT="Report comment key"/>
                 <FIELD NAME="plagiarism" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of plagiarism detected"
-                       PREVIOUS="rkey" NEXT="ai_rate"/>
+                       PREVIOUS="rcommentkey" NEXT="ai_rate"/>
                 <FIELD NAME="ai_rate" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2"
                        COMMENT="The total percentage of AI generated passages in the text" PREVIOUS="plagiarism" NEXT="ai_probability"/>
                 <FIELD NAME="ai_probability" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="2"

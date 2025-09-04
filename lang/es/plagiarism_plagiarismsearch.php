@@ -83,6 +83,8 @@ $string['unknown_error'] = 'Se ha producido un error desconocido';
 
 $string['pdf_report'] = 'Download PDF informe';
 $string['html_report'] = 'Ver el informe HTML';
+$string['review_report'] = 'Revisión del informe';
+$string['show_review_link'] = 'Permitir a los profesores revisar los informes';
 $string['link_title'] = 'PlagiarismSearch.com – revision extendida online de plagio';
 $string['check_status'] = 'Revisar el estatus';
 $string['temp_folder_not_exists'] = 'Carpeta temporal no existe';

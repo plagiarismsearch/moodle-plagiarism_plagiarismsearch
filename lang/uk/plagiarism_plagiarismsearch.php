@@ -83,6 +83,8 @@ $string['unknown_error'] = 'Невідома помилка';
 
 $string['pdf_report'] = 'Завантажити звіт у PDF';
 $string['html_report'] = 'Переглянути звіт у HTML';
+$string['review_report'] = 'Рецензування звіту';
+$string['show_review_link'] = 'Дозволити викладачам рецензувати звіти';
 $string['link_title'] = 'PlagiarismSearch.com – розширений онлайн-інструмент для перевірки плагіату';
 $string['check_status'] = 'Перевірити статус';
 $string['temp_folder_not_exists'] = 'Тимчасова папка не існує';

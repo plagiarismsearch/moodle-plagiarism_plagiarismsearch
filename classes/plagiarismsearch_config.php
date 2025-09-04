@@ -52,6 +52,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     const FIELD_FILTER_REFERENCES = 'filter_references';
     const FIELD_FILTER_QUOTES = 'filter_quotes';
     const FIELD_FILTER_PLAGIARISM = 'filter_plagiarism';
+    const FIELD_SHOW_REVIEW_LINK = 'show_review_link';
     const FIELD_STUDENT_SHOW_REPORTS = 'student_show_reports';
     const FIELD_STUDENT_SHOW_PERCENTAGE = 'student_show_percentage';
     const FIELD_STUDENT_SUBMIT = 'student_submit';
@@ -115,6 +116,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             self::FIELD_DETECT_AI,
             self::FIELD_REPORT_LANGUAGE, self::FIELD_REPORT_TYPE,
             self::FIELD_FILTER_CHARS, self::FIELD_FILTER_PLAGIARISM, self::FIELD_FILTER_QUOTES, self::FIELD_FILTER_REFERENCES,
+            self::FIELD_SHOW_REVIEW_LINK,
             self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
             self::FIELD_STUDENT_SHOW_PERCENTAGE, self::FIELD_STUDENT_SHOW_REPORTS, self::FIELD_STUDENT_SUBMIT,
             self::FIELD_PARSE_TEXT_URLS, self::FIELD_VALID_PARSED_TEXT_URLS,

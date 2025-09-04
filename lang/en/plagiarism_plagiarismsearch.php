@@ -84,6 +84,8 @@ $string['unknown_error'] = 'Unknown error';
 
 $string['pdf_report'] = 'Download PDF report';
 $string['html_report'] = 'View HTML report';
+$string['review_report'] = 'Review report';
+$string['show_review_link'] = 'Allow teachers review reports';
 $string['link_title'] = 'PlagiarismSearch.com – advanced online plagiarism checker';
 $string['check_status'] = 'Check status';
 $string['temp_folder_not_exists'] = 'Temp folder does not exist';

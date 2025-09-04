@@ -111,5 +111,18 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024081601, 'plagiarism', 'plagiarismsearch');
     }
 
+    if ($oldversion < 2025090401) {
+
+        $table = new xmldb_table('plagiarism_ps_reports');
+
+        $field = new xmldb_field('rcommentkey', XMLDB_TYPE_CHAR, '64', XMLDB_UNSIGNED, null, null, null, 'rkey');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Savepoint reached.
+        upgrade_plugin_savepoint(true, 2025090401, 'plagiarism', 'plagiarismsearch');
+    }
+
     return true;
 }
