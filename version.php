@@ -28,10 +28,10 @@ defined('MOODLE_INTERNAL') || die();
 if (!isset($plugin)) {
     $plugin = new \stdClass();
 }
-$plugin->version = 2025090402; // YYYYMMDDVV.
+$plugin->version = 2025090403; // YYYYMMDDVV.
 $plugin->requires = 2014051200; // Requires Moodle 2.7.
 $plugin->cron = 60;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'plagiarism_plagiarismsearch';
-$plugin->release = '1.1.24';
+$plugin->release = '1.1.26';
 $plugin->icon = 'pix/logo.png';
