@@ -77,6 +77,7 @@ $string['filter_plagiarism_course'] = 'Исключить плагиат кур�
 
 $string['parse_text_url'] = 'Разрешить парсинг URL в тексте';
 $string['valid_parsed_text_url'] = 'Список допустимых URL для парсинга';
+$string['only_admin_can_configure_course'] = 'Только администраторы могут настраивать параметры курса';
 
 $string['submit'] = 'Проверить на PlagiarismSearch';
 $string['resubmit'] = 'Проверить повторно на PlagiarismSearch';
@@ -128,6 +129,7 @@ $string['plagiarismsearch:viewlinks'] = 'Возможность просматр
 $string['plagiarismsearch:submitlinks'] = 'Возможность отправлять ссылки на PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Возможность проверить статус отчета';
 $string['plagiarismsearch:isstudent'] = 'Разрешить только студентам';
+$string['plagiarismsearch:isadministrator'] = 'Разрешить только администраторам';
 
 $string['privacy:metadata:plagiarism_ps_reports'] = 'Информация о отчетах о плагиате.';
 $string['privacy:metadata:plagiarism_ps_reports:userid'] = 'ID пользователя, связанного с отчетом.';

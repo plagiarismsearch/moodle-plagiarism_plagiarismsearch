@@ -77,6 +77,7 @@ $string['filter_plagiarism_course'] = 'Wyfiltruj plagiat kursu (niepolecane)';
 
 $string['parse_text_url'] = 'Zezwalaj na parsowanie adresów URL w tekście';
 $string['valid_parsed_text_url'] = 'Lista prawidłowych adresów URL do analizy';
+$string['only_admin_can_configure_course'] = 'Tylko administratorzy mogą konfigurować ustawienia kursu';
 
 $string['submit'] = 'Sprawdź na PlagiarismSearch';
 $string['resubmit'] = 'Sprawdź jeszcze raz na PlagiarismSearch';
@@ -126,6 +127,8 @@ $string['plagiarismsearch:viewlinks'] = 'Możliwość przeglądu linków wg wyni
 $string['plagiarismsearch:submitlinks'] = 'Możliwość wysłania linków na PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Możliwość kontroli statusu raportu';
 $string['plagiarismsearch:isstudent'] = 'Pozwól tylko studentom';
+$string['plagiarismsearch:isadministrator'] = 'Tylko dla administratorów';
+
 $string['privacy:metadata:plagiarism_ps_reports'] = 'Informacje o raportach dotyczących plagiatu.';
 $string['privacy:metadata:plagiarism_ps_reports:userid'] = 'ID użytkownika powiązanego z raportem.';
 $string['privacy:metadata:plagiarism_ps_reports:senderid'] = 'ID nadawcy raportu.';
