@@ -114,6 +114,10 @@ class plagiarism_setup_form extends moodleform {
         $mform->addElement('select', $prefix . $field, $this->translate($field), $reporttypes);
         $mform->setDefault($prefix . $field, plagiarismsearch_config::REPORT_PDF);
 
+        $field = plagiarismsearch_config::FIELD_ONLY_ADMIN_CAN_CONFIGURE_COURSE;
+        $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
+        $mform->setDefault($prefix . $field, 0);
+
         $field = plagiarismsearch_config::FIELD_SHOW_REVIEW_LINK;
         $mform->addElement('select', $prefix . $field, $this->translate($field), $notoryes);
         $mform->setDefault($prefix . $field, 0);

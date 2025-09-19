@@ -76,6 +76,7 @@ $string['filter_plagiarism_course'] = 'Exclude course plagiarism (not recommende
 
 $string['parse_text_url'] = 'Allow URL parsing in text';
 $string['valid_parsed_text_url'] = 'Valid URLs list for parsing';
+$string['only_admin_can_configure_course'] = 'Only administrators can configure course settings';
 
 $string['submit'] = 'Submit to PlagiarismSearch';
 $string['resubmit'] = 'Resubmit to PlagiarismSearch';
@@ -125,6 +126,7 @@ $string['plagiarismsearch:viewlinks'] = 'Ability to view links for plagiarism re
 $string['plagiarismsearch:submitlinks'] = 'Ability to submit links to PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Ability to check report status';
 $string['plagiarismsearch:isstudent'] = 'Allow students only';
+$string['plagiarismsearch:isadministrator'] = 'Allow administrators only';
 
 $string['privacy:metadata:plagiarism_ps_reports'] = 'Information about plagiarism reports.';
 $string['privacy:metadata:plagiarism_ps_reports:userid'] = 'The ID of the user associated with the report.';

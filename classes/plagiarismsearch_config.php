@@ -61,6 +61,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     const FIELD_STUDENT_DISCLOSURE = 'student_disclosure';
     const FIELD_PARSE_TEXT_URLS = 'parse_text_url';
     const FIELD_VALID_PARSED_TEXT_URLS = 'valid_parsed_text_url';
+    const FIELD_ONLY_ADMIN_CAN_CONFIGURE_COURSE = 'only_admin_can_configure_course';
 
     // Submission types.
     const SUBMIT_WEB = 1;
@@ -116,6 +117,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
             self::FIELD_DETECT_AI,
             self::FIELD_REPORT_LANGUAGE, self::FIELD_REPORT_TYPE,
             self::FIELD_FILTER_CHARS, self::FIELD_FILTER_PLAGIARISM, self::FIELD_FILTER_QUOTES, self::FIELD_FILTER_REFERENCES,
+            self::FIELD_ONLY_ADMIN_CAN_CONFIGURE_COURSE,
             self::FIELD_SHOW_REVIEW_LINK,
             self::FIELD_STUDENT_DISCLOSURE, self::FIELD_STUDENT_RESUBMIT, self::FIELD_STUDENT_RESUBMIT_NUMBERS,
             self::FIELD_STUDENT_SHOW_PERCENTAGE, self::FIELD_STUDENT_SHOW_REPORTS, self::FIELD_STUDENT_SUBMIT,

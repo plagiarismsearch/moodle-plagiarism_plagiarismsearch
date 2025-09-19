@@ -100,6 +100,26 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     }
 
     /**
+     * Check if the user is able to configure course settings
+     *
+     * @param int $cmid
+     * @return bool
+     */
+    public static function has_capability_configure_course($cmid) {
+        if (is_siteadmin()) {
+            return true;
+        }
+
+        $onlyforadministrators =
+                plagiarismsearch_config::get_settings(plagiarismsearch_config::FIELD_ONLY_ADMIN_CAN_CONFIGURE_COURSE);
+        if (!$onlyforadministrators) {
+            return true;
+        }
+
+        return static::has_capability_for_coursemodule('plagiarism/plagiarismsearch:isadministrator', $cmid);
+    }
+
+    /**
      * Check if the user has a specific capability in the context of a course module.
      *
      * @param string $capability
@@ -489,13 +509,17 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             return;
         }
 
+        $cmid = optional_param('update', 0, PARAM_INT);
+        if (!static::has_capability_configure_course($cmid)) {
+            return;
+        }
+
         $prefix = plagiarismsearch_config::CONFIG_PREFIX;
 
         $formfieds = isset($mform->_elementIndex) ? $mform->_elementIndex : [];
         if (isset($formfieds[$prefix . plagiarismsearch_config::FIELD_ENABLED])) {
             return;
         }
-        $cmid = optional_param('update', 0, PARAM_INT);
 
         $notoryes = [
                 0 => $this->translate('no', null),
