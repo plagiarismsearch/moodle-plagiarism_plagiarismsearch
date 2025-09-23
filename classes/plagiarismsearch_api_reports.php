@@ -27,7 +27,6 @@
  * API class for plagiarismsearch
  */
 class plagiarismsearch_api_reports extends plagiarismsearch_api {
-
     /**
      * API call to create report
      *
@@ -226,5 +225,4 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
         return $fullname;
     }
-
 }
