@@ -125,7 +125,6 @@ $string['plagiarismsearch:viewlinks'] = 'Posibilidad de ver enlaces basados en r
 $string['plagiarismsearch:submitlinks'] = 'Posibilidades de enviar enlaces a PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Posibilidad de revisar el estatus del informe';
 $string['plagiarismsearch:isstudent'] = 'Permitir solamente a los estudiantes';
-$string['plagiarismsearch:isadministrator'] = 'Permitir solo a los administradores';
 
 $string['privacy:metadata:plagiarism_ps_reports'] = 'Información sobre los informes de plagio.';
 $string['privacy:metadata:plagiarism_ps_reports:userid'] = 'El ID del usuario asociado con el informe.';

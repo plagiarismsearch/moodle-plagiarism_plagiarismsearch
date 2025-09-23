@@ -110,13 +110,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
             return true;
         }
 
-        $onlyforadministrators =
-                plagiarismsearch_config::get_settings(plagiarismsearch_config::FIELD_ONLY_ADMIN_CAN_CONFIGURE_COURSE);
-        if (!$onlyforadministrators) {
-            return true;
-        }
-
-        return static::has_capability_for_coursemodule('plagiarism/plagiarismsearch:isadministrator', $cmid);
+        return !plagiarismsearch_config::get_settings(plagiarismsearch_config::FIELD_ONLY_ADMIN_CAN_CONFIGURE_COURSE);
     }
 
     /**

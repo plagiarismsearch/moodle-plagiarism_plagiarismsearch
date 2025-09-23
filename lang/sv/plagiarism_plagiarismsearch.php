@@ -76,7 +76,6 @@ $string['filter_plagiarism_course'] = 'Uteslut kursplagiat (rekommenderas inte)'
 
 $string['parse_text_url'] = 'Tillåt URL-tolkning i text';
 $string['valid_parsed_text_url'] = 'Giltiga URL-listor för tolkning';
-$string['plagiarismsearch:isadministrator'] = 'Tillåt endast administratörer';
 
 $string['submit'] = 'Skicka till PlagiarismSearch';
 $string['resubmit'] = 'Skicka om till PlagiarismSearch';

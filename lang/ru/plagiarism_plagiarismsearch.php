@@ -129,7 +129,6 @@ $string['plagiarismsearch:viewlinks'] = 'Возможность просматр
 $string['plagiarismsearch:submitlinks'] = 'Возможность отправлять ссылки на PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Возможность проверить статус отчета';
 $string['plagiarismsearch:isstudent'] = 'Разрешить только студентам';
-$string['plagiarismsearch:isadministrator'] = 'Разрешить только администраторам';
 
 $string['privacy:metadata:plagiarism_ps_reports'] = 'Информация о отчетах о плагиате.';
 $string['privacy:metadata:plagiarism_ps_reports:userid'] = 'ID пользователя, связанного с отчетом.';

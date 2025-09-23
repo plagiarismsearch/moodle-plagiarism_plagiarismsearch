@@ -89,14 +89,4 @@ $capabilities = [
                         'student' => CAP_ALLOW,
                 ],
         ],
-
-        'plagiarism/plagiarismsearch:isadministrator' => [
-            // Only administrator.
-                'captype' => 'read',
-                'riskbitmask' => RISK_PERSONAL,
-                'contextlevel' => CONTEXT_MODULE,
-                'archetypes' => [
-                        'administrator' => CAP_ALLOW,
-                ],
-        ],
 ];
