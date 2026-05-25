@@ -120,9 +120,10 @@ $string['red'] = 'Plagiarism level red starts at';
 
 $string['text_plain'] = 'PlagiarismSearch.com – advanced online plagiarism checker. <br/>
 PlagiarismSearch.com is a leading plagiarism checking website that will provide you with an accurate report during a short timeframe. <br/>
-Find out how to register <a href="https://plagiarismsearch.com/account/signup">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
+Find out how to register <a href="https://plagiarismsearch.com/university-plagiarism-checker">here</a> and ask us for a free trial <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
 $string['plagiarismsearch:viewlinks'] = 'Ability to view links for plagiarism results';
+$string['plagiarismsearch:reviewlinks'] = 'Ability to comment and review report sources';
 $string['plagiarismsearch:submitlinks'] = 'Ability to submit links to PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Ability to check report status';
 $string['plagiarismsearch:isstudent'] = 'Allow students only';

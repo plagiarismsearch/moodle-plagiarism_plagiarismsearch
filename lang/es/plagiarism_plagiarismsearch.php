@@ -119,9 +119,10 @@ $string['red'] = 'Nivel rojo del plagio comienza desde';
 
 $string['text_plain'] = 'PlagiarismSearch.com – revision extendida online de plagio. <br/>
 PlagiarismSearch.com es un sitio web líder en revisión de plagio que le proporcionará a Usted un informe preciso en un periodo corto de tiempo. <br/>
-Conozca el proceso <a href="https://plagiarismsearch.com/account/signup">de registro</a> y solicítenos la versión gratuita de prueba <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
+Conozca el proceso <a href="https://plagiarismsearch.com/es/university-plagiarism-checker">de registro</a> y solicítenos la versión gratuita de prueba <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
 $string['plagiarismsearch:viewlinks'] = 'Posibilidad de ver enlaces basados en resultados de plagio';
+$string['plagiarismsearch:reviewlinks'] = 'Posibilidad de comentar y revisar las fuentes del informe';
 $string['plagiarismsearch:submitlinks'] = 'Posibilidades de enviar enlaces a PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Posibilidad de revisar el estatus del informe';
 $string['plagiarismsearch:isstudent'] = 'Permitir solamente a los estudiantes';

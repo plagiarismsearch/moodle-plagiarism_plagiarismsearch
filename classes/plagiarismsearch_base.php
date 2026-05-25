@@ -26,6 +26,7 @@
 /**
  * Base class for plagiarismsearch
  */
+#[\AllowDynamicProperties]
 class plagiarismsearch_base {
 
     /**

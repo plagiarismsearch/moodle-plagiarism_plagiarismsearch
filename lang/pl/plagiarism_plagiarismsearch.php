@@ -121,9 +121,10 @@ $string['red'] = 'Czerwony poziom plagiatu zaczyna się od';
 
 $string['text_plain'] = 'PlagiarismSearch.com – zaawansowane narzędzie do sprawdzania plagiatu online. <br/>
 PlagiarismSearch.com to jest wiodąca strona internetowa kontroli plagiatu, która dostarczy Ci dokładny raport w krótkim czasie. <br/>
-Dowiedz się, <a href="https://plagiarismsearch.com/account/signup">jak się zarejestrować</a> i skontaktuj się z nami, aby uzyskać bezpłatną wersję próbną <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
+Dowiedz się, <a href="https://plagiarismsearch.com/pl/university-plagiarism-checker">jak się zarejestrować</a> i skontaktuj się z nami, aby uzyskać bezpłatną wersję próbną <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
 $string['plagiarismsearch:viewlinks'] = 'Możliwość przeglądu linków wg wyników plagiatu';
+$string['plagiarismsearch:reviewlinks'] = 'Możliwość komentowania i przeglądania źródeł raportu';
 $string['plagiarismsearch:submitlinks'] = 'Możliwość wysłania linków na PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Możliwość kontroli statusu raportu';
 $string['plagiarismsearch:isstudent'] = 'Pozwól tylko studentom';

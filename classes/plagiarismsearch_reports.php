@@ -375,7 +375,9 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
         $language = (string) plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_REPORT_LANGUAGE);
 
-        return static::build_link($report, $language, '');
+        $isspalink = !empty($language);
+
+        return $isspalink ? static::build_spa_link($report, $language) : static::build_link($report, $language, '');
     }
 
     /**
@@ -401,7 +403,9 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
             $params['user_name'] = static::encode_comment_username($report->rcommentkey, $username);
         }
 
-        return static::build_link($report, $language, '', $params);
+        $isspalink = !empty($language);
+
+        return $isspalink ? static::build_spa_link($report, $language, $params) : static::build_link($report, $language, '', $params);
     }
 
     /**
@@ -430,9 +434,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         } else {
             $baseurl = 'https://plagiarismsearch.com';
         }
-        if (empty($language)) {
-            $route = '/reports';
-        } else if ($language == plagiarismsearch_config::LANGUAGE_EN) {
+        if (empty($language) || $language == plagiarismsearch_config::LANGUAGE_EN) {
             $route = '/r';
         } else {
             $route = '/' . $language . '/r';
@@ -441,6 +443,22 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         $urlquery = http_build_query(array_merge(['key' => $report->rkey], $params), '', '&');
 
         return $baseurl . $route . $suffix . '/' . $report->rid . '?' . $urlquery;
+    }
+
+    /**
+     * Build spa report link
+     *
+     * @param object $report
+     * @param string $language
+     * @param array $params
+     * @return string
+     */
+    protected static function build_spa_link($report, $language, $params = []) {
+        $baseurl = 'https://app.plagiarismsearch.com';
+
+        $urlquery = http_build_query(array_merge(['key' => $report->rkey], $params), '', '&');
+
+        return $baseurl . '/reports/' . $report->rid . '?' . $urlquery . '#lang=' . $language . '&main';
     }
 
 }

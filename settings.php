@@ -94,7 +94,7 @@ if ($data && confirm_sesskey()) {
         plagiarismsearch_config::load_settings();
         $api = new plagiarismsearch_api();
         $page = $api->ping();
-        if (!$page || !$page->status) {
+        if (!$page || empty($page->status)) {
             $error = get_string('settings_error_server', 'plagiarism_plagiarismsearch') .
                     (!empty($page->message) ? ' ' . $page->message : '');
 

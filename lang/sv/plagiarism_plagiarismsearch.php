@@ -119,9 +119,10 @@ $string['red'] = 'Plagiatnivå röd börjar vid';
 
 $string['text_plain'] = 'PlagiarismSearch.com – avancerad online-plagiatkontroll. <br/>
 PlagiarismSearch.com är en ledande plagiatkontrollwebbplats som ger dig en noggrann rapport inom kort tid. <br/>
-Ta reda på hur du registrerar dig <a href="https://plagiarismsearch.com/account/signup">här</a> och be oss om en gratis provperiod <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
+Ta reda på hur du registrerar dig <a href="https://plagiarismsearch.com/se/university-plagiarism-checker">här</a> och be oss om en gratis provperiod <a href="mailto:support@plagiarismsearch.com">support@plagiarismsearch.com</a><br/><br/>';
 
 $string['plagiarismsearch:viewlinks'] = 'Möjlighet att visa länkar för plagiatresultat';
+$string['plagiarismsearch:reviewlinks'] = 'Möjlighet att kommentera och granska rapportkällor';
 $string['plagiarismsearch:submitlinks'] = 'Möjlighet att skicka länkar till PlagiarismSearch.com';
 $string['plagiarismsearch:statuslinks'] = 'Möjlighet att kontrollera rapportstatus';
 $string['plagiarismsearch:isstudent'] = 'Tillåt endast studenter';
