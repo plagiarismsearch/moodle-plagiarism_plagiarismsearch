@@ -113,7 +113,6 @@ class plagiarismsearch_api_reports extends plagiarismsearch_api {
 
         $tmpfile = $this->tmp_file($file->get_filename(), $file->get_content());
         if ($tmpfile) {
-
             $result = $this->action_create_file($tmpfile, $post);
 
             unlink($tmpfile);
