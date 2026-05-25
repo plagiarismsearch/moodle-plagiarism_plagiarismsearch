@@ -26,7 +26,6 @@
  * API class for plagiarismsearch
  */
 class plagiarismsearch_api extends plagiarismsearch_base {
-
     /**
      * Api URL
      *

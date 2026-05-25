@@ -32,9 +32,9 @@ use core_privacy\local\request\{writer, helper, contextlist, approved_contextlis
  * Privacy subsystem for plagiarism_plagiarismsearch.
  */
 class provider implements
-        \core_privacy\local\metadata\provider,
-        \core_privacy\local\request\core_userlist_provider,
-        \core_plagiarism\privacy\plagiarism_provider {
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\core_userlist_provider,
+    \core_plagiarism\privacy\plagiarism_provider {
 
     /**
      * Return the fields which contain personal data.
@@ -44,27 +44,28 @@ class provider implements
      */
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
-                'plagiarism_ps_reports',
-                [
-                        'userid' => 'privacy:metadata:plagiarism_ps_reports:userid',
-                        'senderid' => 'privacy:metadata:plagiarism_ps_reports:senderid',
-                        'rid' => 'privacy:metadata:plagiarism_ps_reports:rid',
-                        'rfileid' => 'privacy:metadata:plagiarism_ps_reports:rfileid',
-                        'rserverurl' => 'privacy:metadata:plagiarism_ps_reports:rserverurl',
-                        'rkey' => 'privacy:metadata:plagiarism_ps_reports:rkey',
-                        'plagiarism' => 'privacy:metadata:plagiarism_ps_reports:plagiarism',
-                        'ai_rate' => 'privacy:metadata:plagiarism_ps_reports:ai_rate',
-                        'ai_probability' => 'privacy:metadata:plagiarism_ps_reports:ai_probability',
-                        'status' => 'privacy:metadata:plagiarism_ps_reports:status',
-                        'url' => 'privacy:metadata:plagiarism_ps_reports:url',
-                        'cmid' => 'privacy:metadata:plagiarism_ps_reports:cmid',
-                        'filehash' => 'privacy:metadata:plagiarism_ps_reports:filehash',
-                        'filename' => 'privacy:metadata:plagiarism_ps_reports:filename',
-                        'fileid' => 'privacy:metadata:plagiarism_ps_reports:fileid',
-                        'log' => 'privacy:metadata:plagiarism_ps_reports:log',
-                        'created_at' => 'privacy:metadata:plagiarism_ps_reports:created_at',
-                        'modified_at' => 'privacy:metadata:plagiarism_ps_reports:modified_at',
-                ], 'privacy:metadata:plagiarism_ps_reports'
+            'plagiarism_ps_reports',
+            [
+                    'userid' => 'privacy:metadata:plagiarism_ps_reports:userid',
+                    'senderid' => 'privacy:metadata:plagiarism_ps_reports:senderid',
+                    'rid' => 'privacy:metadata:plagiarism_ps_reports:rid',
+                    'rfileid' => 'privacy:metadata:plagiarism_ps_reports:rfileid',
+                    'rserverurl' => 'privacy:metadata:plagiarism_ps_reports:rserverurl',
+                    'rkey' => 'privacy:metadata:plagiarism_ps_reports:rkey',
+                    'plagiarism' => 'privacy:metadata:plagiarism_ps_reports:plagiarism',
+                    'ai_rate' => 'privacy:metadata:plagiarism_ps_reports:ai_rate',
+                    'ai_probability' => 'privacy:metadata:plagiarism_ps_reports:ai_probability',
+                    'status' => 'privacy:metadata:plagiarism_ps_reports:status',
+                    'url' => 'privacy:metadata:plagiarism_ps_reports:url',
+                    'cmid' => 'privacy:metadata:plagiarism_ps_reports:cmid',
+                    'filehash' => 'privacy:metadata:plagiarism_ps_reports:filehash',
+                    'filename' => 'privacy:metadata:plagiarism_ps_reports:filename',
+                    'fileid' => 'privacy:metadata:plagiarism_ps_reports:fileid',
+                    'log' => 'privacy:metadata:plagiarism_ps_reports:log',
+                    'created_at' => 'privacy:metadata:plagiarism_ps_reports:created_at',
+                    'modified_at' => 'privacy:metadata:plagiarism_ps_reports:modified_at',
+            ],
+            'privacy:metadata:plagiarism_ps_reports'
         );
 
         $collection->link_external_location('plagiarism_plagiarismsearch', [
@@ -212,14 +213,14 @@ class provider implements
         }
         // Prepare SQL to gather all completed IDs.
         $userids = $userlist->get_userids();
-        list($insql, $inparams) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
+        [$insql, $inparams] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
 
         $inparams['cmid'] = $context->instanceid;
 
         $DB->delete_records_select(
-                'plagiarism_ps_reports',
-                "cmid = :cmid AND userid $insql",
-                $inparams
+            'plagiarism_ps_reports',
+            "cmid = :cmid AND userid $insql",
+            $inparams
         );
     }
 }

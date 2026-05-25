@@ -405,7 +405,9 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
         $isspalink = !empty($language);
 
-        return $isspalink ? static::build_spa_link($report, $language, $params) : static::build_link($report, $language, '', $params);
+        return $isspalink
+                ? static::build_spa_link($report, $language, $params)
+                : static::build_link($report, $language, '', $params);
     }
 
     /**

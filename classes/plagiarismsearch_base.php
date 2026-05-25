@@ -28,7 +28,6 @@
  */
 #[\AllowDynamicProperties]
 class plagiarismsearch_base {
-
     /**
      * Constructor
      *
