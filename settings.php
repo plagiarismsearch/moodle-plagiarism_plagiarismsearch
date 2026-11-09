@@ -76,7 +76,7 @@ if ($data && confirm_sesskey()) {
         $plagiarismsettings[$field] = $value;
     }
 
-    if (empty($plagiarismsettings->plagiarismsearch_student_show_reports)) {
+    if (empty($plagiarismsettings['plagiarismsearch_student_show_reports'])) {
         $plagiarismsettings['plagiarismsearch_student_show_percentage'] = 0;
         plagiarismsearch_config::set_settings('plagiarismsearch_student_show_percentage', 0);
 

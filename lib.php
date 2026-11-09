@@ -48,6 +48,14 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      * @var array
      */
     protected static $cachereviewlinks = [];
+
+    /**
+     * Cache submit links
+     *
+     * @var array
+     */
+    protected static $cachesubmitlinks = [];
+
     /**
      * Cache is student
      *
@@ -97,6 +105,21 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
         }
 
         return !empty(static::$cachereviewlinks[$cmid]);
+    }
+
+    /**
+     * Check if the user is able to submit links (and cache the result)
+     *
+     * @param int $cmid
+     * @return bool
+     */
+    public static function has_capability_submit_links($cmid) {
+        if (!isset(static::$cachesubmitlinks[$cmid])) {
+            static::$cachesubmitlinks[$cmid] =
+                    static::has_capability_for_coursemodule('plagiarism/plagiarismsearch:submitlinks', $cmid);
+        }
+
+        return !empty(static::$cachesubmitlinks[$cmid]);
     }
 
     /**
@@ -233,6 +256,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      * @return bool True if the submit link should be displayed, false otherwise.
      */
     public static function has_show_submit_link($cmid = null) {
+        if (!static::has_capability_submit_links($cmid)) {
+            return false;
+        }
+
         $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_MANUAL_CHECK);
         if (static::is_student($cmid)) {
             return $manualsubmit &&
@@ -250,6 +277,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      * @return bool True if the resubmit link should be displayed, false otherwise.
      */
     public static function has_show_resubmit_link($cmid = null, $userid = null, $filehash = null) {
+        if (!static::has_capability_submit_links($cmid)) {
+            return false;
+        }
+
         $manualsubmit = plagiarismsearch_config::get_config_or_settings($cmid, plagiarismsearch_config::FIELD_MANUAL_CHECK);
         $isstudent = static::is_student($cmid);
 
@@ -608,6 +639,13 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public function save_form_elements($data) {
         $cmid = $data->coursemodule;
+
+        // Save only when get_form_elements_module() has added the fields to the form.
+        $modulename = isset($data->modulename) ? 'mod_' . $data->modulename : '';
+        if ($modulename != 'mod_assign' || !static::has_capability_configure_course($cmid)) {
+            return;
+        }
+
         $enabled = plagiarismsearch_config::FIELD_ENABLED;
 
         $fields = plagiarismsearch_config::fields();
@@ -687,7 +725,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     public function cron() {
         global $CFG;
 
-        $running = get_config('plagiarism_plagiarismsearch', 'plagiarismsearch_cronrunning');
+        $running = get_config('plagiarism_plagiarismsearch', 'plagiarismsearch_cron_running');
 
         if ($running && $running > time()) {
             mtrace("Plagiarismsearch cron still running");

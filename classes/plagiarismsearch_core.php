@@ -267,7 +267,7 @@ class plagiarismsearch_core extends plagiarismsearch_base {
      */
     public static function redirect_url($coursemodule, $context) {
         global $CFG;
-        $isstudent = plagiarism_plugin_plagiarismsearch::is_student($context->id);
+        $isstudent = plagiarism_plugin_plagiarismsearch::is_student($coursemodule->id);
 
         if ($coursemodule->modname == 'assignment') {
             $redirect = new moodle_url('/mod/assignment/submissions.php', ['id' => $coursemodule->id]);
