@@ -4,7 +4,6 @@ build:
       environment:
         php:
           version: 8.2
-          composer_version: 2
       tests:
         override:
           - php-scrutinizer-run
