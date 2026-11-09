@@ -74,8 +74,11 @@ if ($file->get_userid() != $userid) {
 }
 
 // Send file.
-$msg = plagiarismsearch_core::send_file($file, $cmid,
-        ['force' => $force, 'submit' => 'manual', 'storage_subject_id' => $cm->course]);
+$msg = plagiarismsearch_core::send_file(
+    $file,
+    $cmid,
+    ['force' => $force, 'submit' => 'manual', 'storage_subject_id' => $cm->course]
+);
 
 // Safe back redirect.
 $redirect = plagiarismsearch_core::redirect_url($cm, $context);

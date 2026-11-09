@@ -27,7 +27,6 @@
  * Reports class for plagiarismsearch
  */
 class plagiarismsearch_reports extends plagiarismsearch_table {
-
     // phpcs:disable moodle.Commenting.MissingDocblock.Constant
     const STATUS_NOT_PAID = -13;
     const STATUS_SERVER_CORE_ERROR = -12;
@@ -91,7 +90,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * @return string
      */
     public static function table_name() {
-        // Moodle error: 'name is too long. Limit is 28 chars.'!
+        // Short name, because Moodle limits table names to 28 characters.
         return 'plagiarism_ps_reports';
     }
 
@@ -145,7 +144,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
         $statuses[] = static::STATUS_CHECKED;
         $conditions['status'] = $statuses;
 
-        list($where, $params) = static::build_conditions($conditions);
+        [$where, $params] = static::build_conditions($conditions);
 
         if (!$where) {
             return null;
@@ -165,7 +164,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * @throws dml_exception
      */
     public static function get_one_top($conditions) {
-        list($where, $params) = static::build_conditions($conditions);
+        [$where, $params] = static::build_conditions($conditions);
 
         return static::db()->get_record_sql("SELECT * FROM {" . static::table_name() . "}"
                 . ($where ? " WHERE " . $where : '')
@@ -182,7 +181,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * @throws dml_exception
      */
     public static function get_processing_reports($ttl = 300, $limit = 50) {
-        list($where, $status) = static::db()->get_in_or_equal(static::get_processing_statuses());
+        [$where, $status] = static::db()->get_in_or_equal(static::get_processing_statuses());
 
         return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
                 . " WHERE modified_at < ? AND status " . $where
@@ -199,7 +198,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      * @throws dml_exception
      */
     public static function get_error_reports($ttl = 43200, $limit = 50) {
-        list($where, $status) = static::db()->get_in_or_equal(static::get_error_statuses());
+        [$where, $status] = static::db()->get_in_or_equal(static::get_error_statuses());
 
         return static::db()->get_records_sql("SELECT * FROM {" . static::table_name() . "}"
                 . " WHERE rid > 0 AND modified_at < ? AND status " . $where
@@ -462,5 +461,4 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
 
         return $baseurl . '/reports/' . $report->rid . '?' . $urlquery . '#lang=' . $language . '&main';
     }
-
 }

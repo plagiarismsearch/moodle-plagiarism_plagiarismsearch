@@ -27,7 +27,6 @@
  * Core class for plagiarismsearch
  */
 class plagiarismsearch_core extends plagiarismsearch_base {
-
     /**
      * Get sender ID
      *
@@ -86,7 +85,6 @@ class plagiarismsearch_core extends plagiarismsearch_base {
                 $values = static::fill_report_values($page->data);
                 $msg = get_string('submit_ok', 'plagiarism_plagiarismsearch', $filename);
             } else {
-
                 $apierror = get_string('api_error', 'plagiarism_plagiarismsearch');
                 $errormessage = (!empty($page->message) ? $page->message : '');
                 $values['status'] = plagiarismsearch_reports::STATUS_ERROR;
@@ -179,7 +177,6 @@ class plagiarismsearch_core extends plagiarismsearch_base {
         }
 
         if ($page->status && !empty($page->data)) {
-
             $msg = static::translate('status_ok');
 
             foreach ($page->data as $report) {
@@ -293,5 +290,4 @@ class plagiarismsearch_core extends plagiarismsearch_base {
     public static function get_text_hash($text) {
         return md5(strip_tags($text));
     }
-
 }

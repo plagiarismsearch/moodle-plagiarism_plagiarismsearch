@@ -106,5 +106,4 @@ class plagiarismsearch_base {
         }
         return $mixed;
     }
-
 }

@@ -318,5 +318,4 @@ class plagiarismsearch_api extends plagiarismsearch_base {
     public function get_text() {
         return $this->text;
     }
-
 }

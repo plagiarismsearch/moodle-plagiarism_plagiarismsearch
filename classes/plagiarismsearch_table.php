@@ -27,7 +27,6 @@
  * Table class for plagiarismsearch
  */
 class plagiarismsearch_table extends plagiarismsearch_base {
-
     /**
      * Get database
      *
@@ -149,7 +148,6 @@ class plagiarismsearch_table extends plagiarismsearch_base {
             return null;
         }
         return static::db()->delete_records(static::table_name(), $conditions);
-
     }
 
     /**
@@ -169,7 +167,7 @@ class plagiarismsearch_table extends plagiarismsearch_base {
                 if ($value === null) {
                     $where[] = $key . ' = NULL';
                 } else if (is_array($value)) {
-                    list($w, $p) = static::db()->get_in_or_equal($value);
+                    [$w, $p] = static::db()->get_in_or_equal($value);
                     $where[] = $key . ' ' . $w;
                     $params = array_merge($params, $p);
                 } else {
@@ -184,5 +182,4 @@ class plagiarismsearch_table extends plagiarismsearch_base {
                 $params,
         ];
     }
-
 }

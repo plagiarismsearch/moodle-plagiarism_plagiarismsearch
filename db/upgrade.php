@@ -41,7 +41,6 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2021042109) {
-
         $table = new xmldb_table('plagiarism_plagiarismsearchr');
 
         $field = new xmldb_field('rfileid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, '0', 'rid');
@@ -94,7 +93,6 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024081601) {
-
         $table = new xmldb_table('plagiarism_ps_reports');
 
         $field = new xmldb_field('ai_rate', XMLDB_TYPE_NUMBER, '5,2', null, null, null, null, 'plagiarism');
@@ -112,7 +110,6 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
     }
 
     if ($oldversion < 2025090401) {
-
         $table = new xmldb_table('plagiarism_ps_reports');
 
         $field = new xmldb_field('rcommentkey', XMLDB_TYPE_CHAR, '64', XMLDB_UNSIGNED, null, null, null, 'rkey');

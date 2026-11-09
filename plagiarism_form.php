@@ -22,6 +22,7 @@
  * @copyright  @2017 PlagiarismSearch.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -31,7 +32,6 @@ require_once($CFG->dirroot . '/lib/formslib.php');
  * plagiarism_setup_form
  */
 class plagiarism_setup_form extends moodleform {
-
     /**
      * Define the form
      */
@@ -169,5 +169,4 @@ class plagiarism_setup_form extends moodleform {
     protected function translate($value, $module = 'plagiarism_plagiarismsearch') {
         return plagiarismsearch_base::translate($value, $module);
     }
-
 }

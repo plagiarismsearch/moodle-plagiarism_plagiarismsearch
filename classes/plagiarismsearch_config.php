@@ -27,7 +27,6 @@
  * Class representing the configuration for the PlagiarismSearch plugin.
  */
 class plagiarismsearch_config extends plagiarismsearch_table {
-
     /**
      * Prefix used for configuration keys.
      */
@@ -450,5 +449,4 @@ class plagiarismsearch_config extends plagiarismsearch_table {
     public static function get_default_valid_parsed_text_urls() {
         return "docs.google.com/\ndrive.google.com/";
     }
-
 }

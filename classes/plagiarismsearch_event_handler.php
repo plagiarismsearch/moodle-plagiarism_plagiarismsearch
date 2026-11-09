@@ -27,7 +27,6 @@
  * Event handler class for plagiarismsearch
  */
 class plagiarismsearch_event_handler extends plagiarismsearch_base {
-
     /**
      * @var core\event\base
      */
@@ -156,8 +155,11 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
             return;
         }
 
-        plagiarismsearch_core::send_file($file, $this->cmid(),
-                ['submit' => 'auto', 'storage_subject_id' => $this->courceid()]);
+        plagiarismsearch_core::send_file(
+            $file,
+            $this->cmid(),
+            ['submit' => 'auto', 'storage_subject_id' => $this->courceid()]
+        );
     }
 
     /**
@@ -168,8 +170,12 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
     protected function handle_online_text() {
         $content = $this->get_onlinetext_content();
         if ($content) {
-            plagiarismsearch_core::send_text($content, $this->cmid(), $this->userid(),
-                    ['submit' => 'auto', 'storage_subject_id' => $this->courceid()]);
+            plagiarismsearch_core::send_text(
+                $content,
+                $this->cmid(),
+                $this->userid(),
+                ['submit' => 'auto', 'storage_subject_id' => $this->courceid()]
+            );
         }
     }
 
@@ -202,5 +208,4 @@ class plagiarismsearch_event_handler extends plagiarismsearch_base {
         $eventdata = $this->event->get_data();
         return in_array($eventdata['eventname'], $this->allowedevents);
     }
-
 }

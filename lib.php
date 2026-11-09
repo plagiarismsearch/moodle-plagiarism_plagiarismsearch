@@ -34,7 +34,6 @@ require_once($CFG->dirroot . '/plagiarism/plagiarismsearch/classes/map.php');
  * Plagiarism plugin for PlagiarismSearch.
  */
 class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
-
     /**
      * Cache view links
      *
@@ -228,8 +227,12 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      * @return bool True if any report link should be displayed, false otherwise.
      */
     public static function has_show_reports_review_link($cmid = null) {
-        if (!plagiarismsearch_config::get_config_or_settings($cmid,
-                plagiarismsearch_config::FIELD_SHOW_REVIEW_LINK)) {
+        if (
+            !plagiarismsearch_config::get_config_or_settings(
+                $cmid,
+                plagiarismsearch_config::FIELD_SHOW_REVIEW_LINK
+            )
+        ) {
             return false;
         }
         return static::has_capability_review_links($cmid) || is_siteadmin();
@@ -243,8 +246,10 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
      */
     public static function has_show_reports_percentage($cmid = null) {
         if (static::is_student($cmid)) {
-            return (bool) plagiarismsearch_config::get_config_or_settings($cmid,
-                    plagiarismsearch_config::FIELD_STUDENT_SHOW_PERCENTAGE);
+            return (bool) plagiarismsearch_config::get_config_or_settings(
+                $cmid,
+                plagiarismsearch_config::FIELD_STUDENT_SHOW_PERCENTAGE
+            );
         }
         return true;
     }
@@ -424,11 +429,12 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         if (plagiarismsearch_reports::is_checked($report)) {
             if ($this->has_show_reports_percentage($cmid)) {
-                $result .= html_writer::tag('span', $this->translate('plagiarism') . ':&nbsp;' .
-                        html_writer::tag('span', round($report->plagiarism, 2) . '%', [
-                                        'class' => plagiarismsearch_reports::get_color_class($report)]
-                        ), ['title' => $this->translate('link_title')]
-                );
+                $percentage = html_writer::tag('span', round($report->plagiarism, 2) . '%', [
+                        'class' => plagiarismsearch_reports::get_color_class($report),
+                ]);
+                $result .= html_writer::tag('span', $this->translate('plagiarism') . ':&nbsp;' . $percentage, [
+                        'title' => $this->translate('link_title'),
+                ]);
 
                 if (plagiarismsearch_reports::is_checked_ai($report)) {
                     $aititle = $this->translate('ai_rate') . ': ' .
@@ -437,11 +443,12 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                             round($report->ai_probability, 2) . '%';
 
                     $result .= html_writer::empty_tag('br');
-                    $result .= html_writer::tag('span', $this->translate('ai') . ':&nbsp;' .
-                            html_writer::tag('span', round($report->ai_rate, 2) . '%', [
-                                            'class' => plagiarismsearch_reports::get_ai_color_class($report)]
-                            ), ['title' => $aititle]
-                    );
+                    $airate = html_writer::tag('span', round($report->ai_rate, 2) . '%', [
+                            'class' => plagiarismsearch_reports::get_ai_color_class($report),
+                    ]);
+                    $result .= html_writer::tag('span', $this->translate('ai') . ':&nbsp;' . $airate, [
+                            'title' => $aititle,
+                    ]);
                 }
             }
             if ($this->has_show_reports_pdf_link($cmid)) {
@@ -450,8 +457,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('pdf_report'), [
                                     'target' => '_blank',
-                            ]
-                    );
+                            ]);
                 }
             }
             if ($this->has_show_reports_html_link($cmid)) {
@@ -460,8 +466,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('html_report'), [
                                     'target' => '_blank',
-                            ]
-                    );
+                            ]);
                 }
             }
             if ($this->has_show_reports_review_link($cmid)) {
@@ -470,8 +475,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
                     $result .= html_writer::empty_tag('br');
                     $result .= html_writer::link($link, $this->translate('review_report'), [
                                     'target' => '_blank',
-                            ]
-                    );
+                            ]);
                 }
             }
         } else if (plagiarismsearch_reports::is_processing($report)) {
@@ -698,7 +702,7 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
 
         if ($this->is_enabled($cmid) && !empty($disclosure)) {
             $outputhtml .= $OUTPUT->box_start('generalbox boxaligncenter', 'intro');
-            $formatoptions = new stdClass;
+            $formatoptions = new stdClass();
             $formatoptions->noclean = true;
             $outputhtml .= format_text($disclosure, FORMAT_MOODLE, $formatoptions);
             $outputhtml .= $OUTPUT->box_end();
@@ -787,7 +791,6 @@ class plagiarism_plugin_plagiarismsearch extends plagiarism_plugin {
     public function update_status($course, $cm) {
         // Called at top of submissions/grading pages - allows printing of admin style links or updating status.
     }
-
 }
 
 /**
@@ -804,9 +807,9 @@ function plagiarism_plagiarismsearch_coursemodule_standard_elements($formwrapper
     $modulename = $formwrapper->get_current()->modulename;
 
     $psplugin->get_form_elements_module(
-            $mform,
-            $context,
-            isset($modulename) ? 'mod_' . $modulename : ''
+        $mform,
+        $context,
+        isset($modulename) ? 'mod_' . $modulename : ''
     );
 }
 

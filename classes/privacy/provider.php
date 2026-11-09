@@ -32,10 +32,9 @@ use core_privacy\local\request\{writer, helper, contextlist, approved_contextlis
  * Privacy subsystem for plagiarism_plagiarismsearch.
  */
 class provider implements
+    \core_plagiarism\privacy\plagiarism_provider,
     \core_privacy\local\metadata\provider,
-    \core_privacy\local\request\core_userlist_provider,
-    \core_plagiarism\privacy\plagiarism_provider {
-
+    \core_privacy\local\request\core_userlist_provider {
     /**
      * Return the fields which contain personal data.
      *
