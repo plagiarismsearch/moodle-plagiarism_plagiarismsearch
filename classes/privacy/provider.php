@@ -43,7 +43,7 @@ class provider implements
      */
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
-            'plagiarism_ps_reports',
+            'plagiarism_plagiarismsearchr',
             [
                     'userid' => 'privacy:metadata:plagiarism_ps_reports:userid',
                     'senderid' => 'privacy:metadata:plagiarism_ps_reports:senderid',
@@ -88,7 +88,7 @@ class provider implements
      */
     public static function get_contexts_for_userid($userid): contextlist {
         $contextlist = new contextlist();
-        $sql = "SELECT DISTINCT cmid FROM {plagiarism_ps_reports} WHERE userid = :userid";
+        $sql = "SELECT DISTINCT cmid FROM {plagiarism_plagiarismsearchr} WHERE userid = :userid";
         $params = [
                 'userid' => $userid,
         ];
@@ -118,7 +118,7 @@ class provider implements
 
         $sql = "SELECT id, userid, senderid, cmid, rid, rfileid, rserverurl, rkey, plagiarism, ai_rate, ai_probability,
                 status, url, filehash, filename, fileid, log, created_at, modified_at
-                FROM {plagiarism_ps_reports}
+                FROM {plagiarism_plagiarismsearchr}
                 WHERE userid = :userid AND cmid = :cmid";
 
         $submissions = $DB->get_records_sql($sql, $params);
@@ -147,7 +147,7 @@ class provider implements
             return;
         }
         // Delete all submissions.
-        $DB->delete_records('plagiarism_ps_reports', ['cmid' => $context->instanceid]);
+        $DB->delete_records('plagiarism_plagiarismsearchr', ['cmid' => $context->instanceid]);
     }
 
     /**
@@ -159,7 +159,7 @@ class provider implements
     public static function delete_plagiarism_for_user(int $userid, \context $context) {
         global $DB;
 
-        $DB->delete_records('plagiarism_ps_reports', ['userid' => $userid, 'cmid' => $context->instanceid]);
+        $DB->delete_records('plagiarism_plagiarismsearchr', ['userid' => $userid, 'cmid' => $context->instanceid]);
     }
 
     /**
@@ -175,7 +175,7 @@ class provider implements
         $params = [
                 'cmid' => $context->instanceid,
         ];
-        $sql = "SELECT DISTINCT userid FROM {plagiarism_ps_reports} WHERE cmid = :cmid";
+        $sql = "SELECT DISTINCT userid FROM {plagiarism_plagiarismsearchr} WHERE cmid = :cmid";
         $userlist->add_from_sql('userid', $sql, $params);
     }
 
@@ -191,7 +191,7 @@ class provider implements
             return;
         }
         $userid = $contextlist->get_user()->id;
-        $userdatadocs = $DB->get_records('plagiarism_ps_reports', ['userid' => $userid]);
+        $userdatadocs = $DB->get_records('plagiarism_plagiarismsearchr', ['userid' => $userid]);
         foreach ($userdatadocs as $udd) {
             $context = \context_module::instance($udd->cmid);
             writer::with_context($context)->export_data([], (object) $udd);
@@ -217,7 +217,7 @@ class provider implements
         $inparams['cmid'] = $context->instanceid;
 
         $DB->delete_records_select(
-            'plagiarism_ps_reports',
+            'plagiarism_plagiarismsearchr',
             "cmid = :cmid AND userid $insql",
             $inparams
         );

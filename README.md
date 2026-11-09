@@ -42,3 +42,47 @@ Site administrators always have it. To allow only some teachers to submit docume
    To give it across a whole category, assign it at category level: *Category > Assign roles*.
 
 Now teachers with the extra role can submit and resubmit documents, and all other teachers can't.
+
+
+## Database table names (upgrade to 1.1.31)
+
+Moodle requires plugin table names to start with the component name. Starting with version 1.1.31 (`2026110902`),
+the plugin tables are renamed back:
+
+| Old name (1.1.x before 1.1.31) | New name                       |
+|--------------------------------|--------------------------------|
+| `plagiarism_ps_reports`        | `plagiarism_plagiarismsearchr` |
+| `plagiarism_ps_config`         | `plagiarism_plagiarismsearchc` |
+
+The rename runs automatically during the normal Moodle upgrade (*Site administration > Notifications*
+or `php admin/cli/upgrade.php`). Each table is renamed only if the old one exists, so the step is safe to run again.
+No data is changed or lost.
+
+### Manual fallback (MySQL / MariaDB)
+
+If the upgrade stops with an error on this step (for example, the database user has no `ALTER` privilege,
+or a table with the new name already exists), rename the tables by hand and then run the upgrade again.
+
+1. Back up the database.
+2. Check which tables exist. Replace `mdl_` with your `$CFG->prefix` from `config.php`:
+   ```sql
+   SHOW TABLES LIKE 'mdl\_plagiarism\_ps\_%';
+   SHOW TABLES LIKE 'mdl\_plagiarism\_plagiarismsearch%';
+   ```
+3. If a new-name table already exists and is empty (for example, it was left over from a failed install), drop it first:
+   ```sql
+   SELECT COUNT(*) FROM mdl_plagiarism_plagiarismsearchr;
+   SELECT COUNT(*) FROM mdl_plagiarism_plagiarismsearchc;
+   -- Only if the count is 0:
+   DROP TABLE mdl_plagiarism_plagiarismsearchr;
+   DROP TABLE mdl_plagiarism_plagiarismsearchc;
+   ```
+4. Rename the tables:
+   ```sql
+   RENAME TABLE
+       mdl_plagiarism_ps_reports TO mdl_plagiarism_plagiarismsearchr,
+       mdl_plagiarism_ps_config  TO mdl_plagiarism_plagiarismsearchc;
+   ```
+5. Run the upgrade again (*Site administration > Notifications* or `php admin/cli/upgrade.php`).
+   The step finds that the old tables no longer exist, skips the rename, and finishes the upgrade.
+6. Purge caches: *Site administration > Development > Purge all caches* or `php admin/cli/purge_caches.php`.

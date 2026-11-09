@@ -121,5 +121,21 @@ function xmldb_plagiarism_plagiarismsearch_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2025090401, 'plagiarism', 'plagiarismsearch');
     }
 
+    if ($oldversion < 2026110902) {
+        // Table names must start with the component name (28 characters limit before Moodle 4.3).
+        $report = new xmldb_table('plagiarism_ps_reports');
+        if ($dbman->table_exists($report)) {
+            $dbman->rename_table($report, 'plagiarism_plagiarismsearchr');
+        }
+
+        $config = new xmldb_table('plagiarism_ps_config');
+        if ($dbman->table_exists($config)) {
+            $dbman->rename_table($config, 'plagiarism_plagiarismsearchc');
+        }
+
+        // Savepoint reached.
+        upgrade_plugin_savepoint(true, 2026110902, 'plagiarism', 'plagiarismsearch');
+    }
+
     return true;
 }

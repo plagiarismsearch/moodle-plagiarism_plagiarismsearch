@@ -91,7 +91,7 @@ class plagiarismsearch_reports extends plagiarismsearch_table {
      */
     public static function table_name() {
         // Short name, because Moodle limits table names to 28 characters.
-        return 'plagiarism_ps_reports';
+        return 'plagiarism_plagiarismsearchr';
     }
 
     /**

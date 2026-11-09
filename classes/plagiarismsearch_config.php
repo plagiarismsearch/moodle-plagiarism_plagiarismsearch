@@ -129,7 +129,7 @@ class plagiarismsearch_config extends plagiarismsearch_table {
      * @return string
      */
     public static function table_name() {
-        return 'plagiarism_ps_config';
+        return 'plagiarism_plagiarismsearchc';
     }
 
     /**

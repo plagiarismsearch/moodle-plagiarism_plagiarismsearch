@@ -90,10 +90,7 @@ jobs:
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phpdoc --max-warnings 0
 
-        # Moodle error: 'name is too long. Limit is 28 chars.'!
-        # `plagiarism_ps_reports` failed to find table prefixes plagiarism_plagiarismsearch
       - name: Validating
-        continue-on-error: true # This step will show errors but will not fail
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci validate
 
